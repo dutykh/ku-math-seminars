@@ -1,6 +1,6 @@
 /**
  * Type definitions for KU Math Seminars YAML schema
- * Author: Dr. Deny Dutykh (Khalifa University of Science and Technology, Abu Dhabi, UAE)
+ * Author: Dr. Denys Dutykh (Khalifa University of Science and Technology, Abu Dhabi, UAE)
  */
 
 export type WeekStatus = "open" | "holiday" | "break" | "exams" | "cancelled";
@@ -18,6 +18,7 @@ export interface SeriesMeta {
   code: string;
   label: string;
   organisedBy?: string;
+  organisedByUrl?: string;
 }
 
 export interface SeminarLinkMap {
@@ -36,6 +37,7 @@ export interface Seminar {
   end?: string;  // ISO 8601 timestamp with offset
   location: string;
   abstract?: string; // Markdown supported
+  biography?: string; // Speaker biography (Markdown supported)
   links?: SeminarLinkMap;
   tags?: string[];
 }

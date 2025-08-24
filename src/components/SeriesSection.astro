@@ -1,0 +1,79 @@
+---
+/**
+ * SeriesSection component for KU Math Seminars
+ * Author: Dr. Denys Dutykh (Khalifa University of Science and Technology, Abu Dhabi, UAE)
+ */
+
+import type { Seminar, SeriesMeta } from '../lib/types';
+import SeminarCard from './SeminarCard.astro';
+
+export interface Props {
+  seriesCode: string;
+  seriesInfo: {
+    series: SeriesMeta | null;
+    seminars: Seminar[];
+  };
+  timezone: string;
+  showTimeline?: boolean;
+}
+
+const { seriesCode, seriesInfo, timezone, showTimeline = false } = Astro.props;
+const { series, seminars } = seriesInfo;
+
+// Return null if no seminars (component won't render)
+if (seminars.length === 0) {
+  return null;
+}
+
+// Sort seminars by start time server-side
+const sortedSeminars = [...seminars].sort((a, b) => 
+  new Date(a.start).getTime() - new Date(b.start).getTime()
+);
+---
+
+<section class="series-section">
+  <!-- Series header card - sophisticated design -->
+  <div class="mb-12 flex justify-center">
+    <div class="relative bg-gradient-to-br from-ku-primary/10 via-surface to-ku-accent/5 border border-ku-primary/20 rounded-2xl p-8 shadow-large max-w-3xl text-center overflow-hidden backdrop-blur-sm">
+      <!-- Background pattern -->
+      <div class="absolute inset-0 bg-gradient-to-r from-ku-primary/5 to-ku-accent/5 rounded-2xl"></div>
+      <div class="absolute top-0 right-0 w-32 h-32 bg-ku-accent/10 rounded-full blur-2xl transform translate-x-16 -translate-y-16"></div>
+      <div class="absolute bottom-0 left-0 w-24 h-24 bg-ku-primary/10 rounded-full blur-xl transform -translate-x-8 translate-y-8"></div>
+      
+      <!-- Content -->
+      <div class="relative z-10">
+        <h2 class="text-3xl font-bold gradient-text mb-3">
+          {series?.label || seriesCode.toUpperCase()}
+        </h2>
+        {series?.organisedBy && (
+          <p class="text-foreground-secondary font-semibold text-lg bg-surface-elevated/60 px-6 py-2 rounded-full border border-border-subtle/50 inline-block backdrop-blur-sm">
+            Organized by: {series.organisedByUrl ? (
+              <a 
+                href={series.organisedByUrl} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                class="text-ku-primary hover:text-ku-accent transition-colors duration-300 underline decoration-ku-primary/30 hover:decoration-ku-accent/50 underline-offset-2"
+              >
+                {series.organisedBy}
+              </a>
+            ) : (
+              series.organisedBy
+            )}
+          </p>
+        )}
+      </div>
+    </div>
+  </div>
+  
+  <!-- Seminars -->
+  <div class={`space-y-6 ${showTimeline ? 'relative timeline-visual ml-4' : ''}`}>
+    {sortedSeminars.map((seminar, index) => (
+      <SeminarCard
+        seminar={seminar}
+        timezone={timezone}
+        showTimeline={showTimeline}
+        index={index}
+      />
+    ))}
+  </div>
+</section>

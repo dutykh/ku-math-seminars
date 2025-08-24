@@ -1,0 +1,279 @@
+---
+/**
+ * SeminarCard component for KU Math Seminars
+ * Author: Dr. Denys Dutykh (Khalifa University of Science and Technology, Abu Dhabi, UAE)
+ */
+
+import type { Seminar } from '../lib/types';
+import { formatTimeRange, getTimePosition } from '../lib/time';
+import ExternalLink from './icons/ExternalLink.astro';
+import FileText from './icons/FileText.astro';
+import Video from './icons/Video.astro';
+import ChevronRight from './icons/ChevronRight.astro';
+import MapPin from './icons/MapPin.astro';
+import Clock from './icons/Clock.astro';
+
+export interface Props {
+  seminar: Seminar;
+  timezone: string;
+  showTimeline?: boolean;
+  index: number;
+}
+
+const { seminar, timezone, showTimeline = false, index } = Astro.props;
+const timeRange = formatTimeRange(seminar.start, seminar.end, timezone);
+const timelinePosition = showTimeline ? getTimePosition(seminar.start, timezone) : 0;
+
+// Process markdown to HTML server-side (using simple markdown parser)
+function parseMarkdown(text: string | undefined): string {
+  if (!text) return '';
+  
+  let html = text
+    // Bold **text**
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    // Italic *text*
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    // Code `text`
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
+    // Links [text](url)
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
+    // Line breaks
+    .replace(/\n\s*\n/g, '</p><p>')
+    .replace(/\n/g, '<br>');
+  
+  // Wrap in paragraphs if not already
+  if (!html.includes('<p>')) {
+    html = '<p>' + html + '</p>';
+  }
+  
+  return html;
+}
+
+// Sanitize HTML (basic sanitization)
+function sanitizeHTML(html: string): string {
+  // This is a simplified version - in production, use a proper sanitizer
+  return html
+    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+    .replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, '')
+    .replace(/on\w+\s*=\s*"[^"]*"/gi, '')
+    .replace(/on\w+\s*=\s*'[^']*'/gi, '');
+}
+
+const abstractHtml = sanitizeHTML(parseMarkdown(seminar.abstract));
+const biographyHtml = seminar.biography ? sanitizeHTML(parseMarkdown(seminar.biography)) : '';
+
+const cardId = `seminar-card-${index}`;
+const abstractId = `abstract-${index}`;
+const biographyId = `biography-${index}`;
+---
+
+<div 
+  class={`
+    seminar-card relative bg-gradient-to-br from-surface via-background-subtle to-ku-secondary/8 
+    border-2 border-ku-secondary/30 dark:border-ku-secondary/40 rounded-2xl p-8 shadow-large
+    transition-all duration-500 hover:shadow-xl hover:border-ku-accent/50 dark:hover:border-ku-accent/60
+    hover:-translate-y-2 group backdrop-blur-sm overflow-hidden
+    dark:bg-gradient-to-br dark:from-surface dark:via-surface-elevated dark:to-ku-secondary/12
+    ${showTimeline ? 'ml-8 relative' : ''}
+  `}
+  style={showTimeline ? `margin-top: ${timelinePosition * 400}px; margin-bottom: 2rem;` : undefined}
+  data-card-id={cardId}
+>
+  <!-- Background decorative elements -->
+  <div class="absolute inset-0 bg-gradient-to-r from-ku-secondary/5 via-transparent to-ku-accent/8 rounded-2xl"></div>
+  <div class="absolute top-0 left-0 w-20 h-20 bg-ku-secondary/15 rounded-full blur-xl transform -translate-x-4 -translate-y-4 group-hover:scale-150 transition-transform duration-700"></div>
+  <div class="absolute bottom-0 right-0 w-16 h-16 bg-ku-accent/10 rounded-full blur-lg transform translate-x-2 translate-y-2 group-hover:scale-125 transition-transform duration-500"></div>
+  <div class="absolute top-1/2 right-0 w-2 h-32 bg-gradient-to-b from-ku-primary/20 to-ku-accent/20 transform translate-x-1 group-hover:translate-x-0 transition-transform duration-300"></div>
+  
+  <!-- Content container -->
+  <div class="relative z-10">
+    <!-- Timeline dot -->
+    {showTimeline && (
+      <div 
+        class="absolute -left-8 w-5 h-5 bg-gradient-to-br from-ku-primary to-ku-accent rounded-full border-3 border-background shadow-large transition-all duration-500 group-hover:scale-150 group-hover:shadow-xl z-20"
+        style="top: 2rem;"
+      />
+    )}
+  
+    <!-- Speaker info -->
+    <div class="mb-6">
+      <div class="flex flex-wrap items-baseline justify-center gap-3 mb-3">
+        <h3 class="text-xl font-bold gradient-text speaker">
+          {seminar.speaker}
+        </h3>
+        {seminar.affiliation && (
+          <span class="text-sm text-foreground-secondary font-semibold bg-gradient-to-r from-ku-secondary/15 to-ku-accent/10 px-4 py-2 rounded-full border border-ku-secondary/20 backdrop-blur-sm">
+            {seminar.affiliation}
+          </span>
+        )}
+      </div>
+      
+      <h4 class="text-2xl font-bold bg-gradient-to-r from-foreground via-ku-primary to-foreground bg-clip-text text-transparent leading-tight mb-1 text-center group-hover:from-ku-primary group-hover:to-ku-accent transition-all duration-500">
+        {seminar.title}
+      </h4>
+    </div>
+  
+    <!-- Meta information -->
+    <div class="flex flex-col sm:flex-row sm:items-center gap-4 mb-6 text-sm justify-center">
+      <div class="flex items-center gap-2 text-foreground-secondary bg-gradient-to-r from-ku-primary/8 to-ku-secondary/8 px-5 py-3 rounded-xl border border-ku-primary/15 backdrop-blur-sm group-hover:from-ku-primary/12 group-hover:to-ku-secondary/12 transition-all duration-300">
+        <Clock size={16} class="text-ku-accent" />
+        <span class="font-semibold">{timeRange}</span>
+      </div>
+      <div class="flex items-center gap-2 text-foreground-secondary bg-gradient-to-r from-ku-accent/8 to-ku-secondary/8 px-5 py-3 rounded-xl border border-ku-accent/15 backdrop-blur-sm group-hover:from-ku-accent/12 group-hover:to-ku-secondary/12 transition-all duration-300">
+        <MapPin size={16} class="text-ku-primary" />
+        <span class="font-semibold">{seminar.location}</span>
+      </div>
+    </div>
+  
+    <!-- Tags -->
+    {seminar.tags && seminar.tags.length > 0 && (
+      <div class="flex flex-wrap gap-2 mb-6 justify-center">
+        {seminar.tags.map((tag) => (
+          <span class="inline-flex items-center px-4 py-2 rounded-full text-xs font-bold bg-gradient-to-r from-ku-accent/20 via-ku-secondary/15 to-ku-primary/20 text-ku-primary border border-ku-accent/25 hover:from-ku-accent/30 hover:to-ku-primary/30 transition-all duration-300 backdrop-blur-sm shadow-medium hover:shadow-large">
+            {tag}
+          </span>
+        ))}
+      </div>
+    )}
+  
+    <!-- Links -->
+    {seminar.links && Object.keys(seminar.links).length > 0 && (
+      <div class="flex flex-wrap gap-3 mb-6 seminar-links justify-center">
+        {seminar.links.speaker && (
+          <a
+            href={seminar.links.speaker}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-ku-primary bg-gradient-to-r from-ku-primary/8 to-ku-primary/12 hover:from-ku-primary/15 hover:to-ku-primary/20 border border-ku-primary/25 rounded-xl hover:border-ku-primary/40 transition-all duration-300 shadow-medium hover:shadow-large backdrop-blur-sm transform hover:scale-105"
+          >
+            <ExternalLink size={16} />
+            Speaker page
+          </a>
+        )}
+        {seminar.links.zoom && (
+          <a
+            href={seminar.links.zoom}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-ku-accent bg-gradient-to-r from-ku-accent/8 to-ku-accent/12 hover:from-ku-accent/15 hover:to-ku-accent/20 border border-ku-accent/25 rounded-xl hover:border-ku-accent/40 transition-all duration-300 shadow-medium hover:shadow-large backdrop-blur-sm transform hover:scale-105"
+          >
+            <Video size={16} />
+            Join Teams
+          </a>
+        )}
+        {seminar.links.slides && (
+          <a
+            href={seminar.links.slides}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-ku-secondary bg-gradient-to-r from-ku-secondary/8 to-ku-secondary/12 hover:from-ku-secondary/15 hover:to-ku-secondary/20 border border-ku-secondary/25 rounded-xl hover:border-ku-secondary/40 transition-all duration-300 shadow-medium hover:shadow-large backdrop-blur-sm transform hover:scale-105"
+          >
+            <FileText size={16} />
+            Slides
+          </a>
+        )}
+        {seminar.links.video && (
+          <a
+            href={seminar.links.video}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-ku-primary bg-gradient-to-r from-ku-primary/8 to-ku-primary/12 hover:from-ku-primary/15 hover:to-ku-primary/20 border border-ku-primary/25 rounded-xl hover:border-ku-primary/40 transition-all duration-300 shadow-medium hover:shadow-large backdrop-blur-sm transform hover:scale-105"
+          >
+            <Video size={16} />
+            Recording
+          </a>
+        )}
+      </div>
+    )}
+  
+    <!-- Abstract -->
+    {seminar.abstract && (
+      <details class="group/abstract" data-abstract-id={abstractId}>
+        <summary class="flex items-center justify-center gap-2 cursor-pointer text-sm font-bold text-ku-primary hover:text-ku-accent transition-all duration-300 no-print px-4 py-3 rounded-xl hover:bg-ku-primary/8 border border-ku-primary/20 hover:border-ku-primary/30 backdrop-blur-sm shadow-medium hover:shadow-large transform hover:scale-105">
+          <span class="chevron-icon transition-transform duration-300">
+            <ChevronRight size={16} />
+          </span>
+          Abstract
+        </summary>
+        
+        <div class="abstract-content mt-6 text-sm text-foreground leading-relaxed transition-all duration-500 overflow-hidden bg-gradient-to-br from-background-subtle/80 via-surface/60 to-ku-secondary/5 rounded-xl p-6 border border-ku-secondary/20 backdrop-blur-sm shadow-large">
+          <div class="prose prose-sm max-w-none prose-strong:text-ku-primary prose-p:mb-3 prose-ul:mb-3 prose-li:mb-1" set:html={abstractHtml} />
+        </div>
+      </details>
+    )}
+    
+    <!-- Speaker Biography (if field exists) -->
+    {biographyHtml && (
+      <details class="group/biography mt-4" data-biography-id={biographyId}>
+        <summary class="flex items-center justify-center gap-2 cursor-pointer text-sm font-bold text-ku-accent hover:text-ku-primary transition-all duration-300 no-print px-4 py-3 rounded-xl hover:bg-ku-accent/8 border border-ku-accent/20 hover:border-ku-accent/30 backdrop-blur-sm shadow-medium hover:shadow-large transform hover:scale-105">
+          <span class="chevron-icon transition-transform duration-300">
+            <ChevronRight size={16} />
+          </span>
+          Speaker Biography
+        </summary>
+        
+        <div class="biography-content mt-6 text-sm text-foreground leading-relaxed transition-all duration-500 overflow-hidden bg-gradient-to-br from-ku-accent/5 via-surface/60 to-ku-primary/5 rounded-xl p-6 border border-ku-accent/20 backdrop-blur-sm shadow-large">
+          <div class="prose prose-sm max-w-none prose-strong:text-ku-accent prose-p:mb-3 prose-ul:mb-3 prose-li:mb-1" set:html={biographyHtml} />
+        </div>
+      </details>
+    )}
+  </div>
+</div>
+
+<script>
+  // Handle expand/collapse for abstracts and biographies
+  document.addEventListener('DOMContentLoaded', () => {
+    const details = document.querySelectorAll('details[data-abstract-id], details[data-biography-id]');
+    
+    details.forEach((detail) => {
+      const summary = detail.querySelector('summary');
+      const chevron = summary?.querySelector('.chevron-icon');
+      
+      if (summary && chevron) {
+        // Update chevron rotation on open/close
+        const updateChevron = () => {
+          const detailsElement = detail as HTMLDetailsElement;
+          const chevronElement = chevron as HTMLElement;
+          if (detailsElement.open) {
+            chevronElement.style.transform = 'rotate(90deg)';
+          } else {
+            chevronElement.style.transform = 'rotate(0deg)';
+          }
+        };
+        
+        // Initialize chevron state
+        updateChevron();
+        
+        // Listen for toggle events
+        detail.addEventListener('toggle', updateChevron);
+        
+        // Handle keyboard navigation
+        summary.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            const detailsElement = detail as HTMLDetailsElement;
+            detailsElement.open = !detailsElement.open;
+          }
+        });
+      }
+    });
+    
+    // Print handling - expand all details for printing
+    window.addEventListener('beforeprint', () => {
+      details.forEach((detail) => {
+        const detailsElement = detail as HTMLDetailsElement;
+        detail.setAttribute('data-was-open', detailsElement.open.toString());
+        detailsElement.open = true;
+      });
+    });
+    
+    window.addEventListener('afterprint', () => {
+      details.forEach((detail) => {
+        const detailsElement = detail as HTMLDetailsElement;
+        const wasOpen = detail.getAttribute('data-was-open') === 'true';
+        detailsElement.open = wasOpen;
+        detail.removeAttribute('data-was-open');
+      });
+    });
+  });
+</script>

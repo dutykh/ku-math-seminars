@@ -2,7 +2,7 @@
 
 A minimal, static website for displaying the weekly programme of Mathematics Department seminars at Khalifa University.
 
-**Author:** Dr. Deny Dutykh (Khalifa University of Science and Technology, Abu Dhabi, UAE)  
+**Author:** Dr. Denys Dutykh (Khalifa University of Science and Technology, Abu Dhabi, UAE)  
 **License:** GNU General Public License v3.0
 
 ## Overview

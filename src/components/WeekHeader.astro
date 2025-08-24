@@ -1,0 +1,124 @@
+---
+/**
+ * WeekHeader component for KU Math Seminars
+ * Author: Dr. Denys Dutykh (Khalifa University of Science and Technology, Abu Dhabi, UAE)
+ */
+
+import type { WeekData } from '../lib/types';
+import { formatWeekRange } from '../lib/time';
+import Button from './ui/Button.astro';
+import Moon from './icons/Moon.astro';
+import Sun from './icons/Sun.astro';
+import Printer from './icons/Printer.astro';
+
+export interface Props {
+  weekData: WeekData;
+}
+
+const { weekData } = Astro.props;
+const { week } = weekData;
+const weekRange = formatWeekRange(week.start, week.end, week.isoWeek, week.timezone || 'Asia/Dubai');
+---
+
+<header class="bg-gradient-to-r from-ku-primary/15 via-surface/95 to-ku-accent/15 backdrop-blur-lg border-b-2 border-ku-primary/25 print-header sticky top-0 z-50 shadow-large">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-3 items-center py-8 gap-4">
+      <!-- Left side - Logo -->
+      <div class="flex justify-start">
+        <a 
+          href="https://www.ku.ac.ae/" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="group"
+        >
+          <div class="p-4 bg-gradient-to-br from-ku-primary/20 to-ku-accent/15 rounded-2xl border-2 border-ku-primary/30 shadow-large group-hover:shadow-xl group-hover:border-ku-accent/50 transition-all duration-300 group-hover:scale-105">
+            <img 
+              src="/assets/KUlogo.png" 
+              alt="Khalifa University" 
+              class="h-16 w-auto"
+            />
+          </div>
+        </a>
+      </div>
+      
+      <!-- Center - University name and department -->
+      <div class="text-center">
+        <h1 class="text-5xl font-bold mb-2 drop-shadow-sm">
+          <a 
+            href="https://www.ku.ac.ae/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="bg-gradient-to-r from-ku-primary via-ku-accent to-ku-primary bg-clip-text text-transparent hover:from-ku-accent hover:via-ku-primary hover:to-ku-accent transition-all duration-300"
+          >
+            Khalifa University
+          </a>
+        </h1>
+        <p class="text-xl text-ku-primary font-bold mb-1 drop-shadow-sm">
+          <a 
+            href="https://www.ku.ac.ae/academics/college-of-computing-and-mathematical-sciences/department/department-of-mathematics/"
+            target="_blank"
+            rel="noopener noreferrer" 
+            class="hover:text-ku-accent transition-colors duration-300"
+          >
+            Mathematics Department
+          </a>
+        </p>
+        <p class="text-base text-ku-secondary font-semibold">
+          Weekly Seminars Schedule
+        </p>
+      </div>
+      
+      <!-- Right side - Controls only -->
+      <div class="flex justify-end items-center space-x-2 no-print">
+        <Button
+          variant="outline"
+          size="sm"
+          id="theme-toggle"
+          ariaLabel="Toggle theme"
+          class="theme-toggle"
+        >
+          <span class="dark:hidden"><Moon size={16} /></span>
+          <span class="hidden dark:block"><Sun size={16} /></span>
+        </Button>
+        
+        <Button
+          variant="outline"
+          size="sm"
+          onclick="window.print()"
+          ariaLabel="Print or save as PDF"
+          class="print-button"
+        >
+          <Printer size={16} class="mr-2" />
+          Print / PDF
+        </Button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Simplified sub-header with week information -->
+  <div class="bg-background-subtle/80 border-t border-border-subtle relative">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 relative z-10">
+      <div class="text-center">
+        <h2 class="text-lg font-semibold text-ku-primary mb-1">
+          {weekRange}
+        </h2>
+        <div class="flex items-center justify-center gap-2 text-sm text-foreground-secondary">
+          <span class="font-medium">Current seminar schedule • Abu Dhabi (GST)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Theme toggle functionality
+  const themeToggle = document.getElementById('theme-toggle');
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const html = document.documentElement;
+      html.classList.toggle('dark');
+      const isDark = html.classList.contains('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+  }
+</script>

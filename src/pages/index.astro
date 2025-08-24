@@ -1,557 +1,239 @@
 ---
 /**
  * KU Math Seminars - Main Page
- * Author: Dr. Deny Dutykh (Khalifa University of Science and Technology, Abu Dhabi, UAE)
+ * Author: Dr. Denys Dutykh (Khalifa University of Science and Technology, Abu Dhabi, UAE)
  * License: GNU General Public License v3.0
  */
 import type { WeekData } from "../lib/types";
 import '../index.css';
+import WeekHeader from '../components/WeekHeader.astro';
+import SeriesSection from '../components/SeriesSection.astro';
+import Globe from '../components/icons/Globe.astro';
+import Mail from '../components/icons/Mail.astro';
+import Astro from '../components/icons/Astro.astro';
+import yaml from 'yaml';
+import fs from 'fs';
+import path from 'path';
+
+// Load the week data at build time
+const yamlPath = path.join(process.cwd(), 'public', 'data', 'week.yml');
+const yamlContent = fs.readFileSync(yamlPath, 'utf8');
+const weekData = yaml.parse(yamlContent) as WeekData;
+
+// Group seminars by series
+const seriesList = Array.isArray(weekData.series) ? weekData.series : [];
+const knownSeries = new Map(seriesList.map(s => [s.code, s]));
+const groupedSeminars = new Map();
+
+(weekData.seminars || []).forEach(seminar => {
+  if (!groupedSeminars.has(seminar.series)) {
+    groupedSeminars.set(seminar.series, []);
+  }
+  groupedSeminars.get(seminar.series).push(seminar);
+});
+
+// Find unknown series codes and sort them
+const unknownCodes = Array.from(
+  new Set((weekData.seminars || []).map(s => s.series))
+).filter(code => !knownSeries.has(code)).sort();
+
+// Create complete series order
+const allSeries = [
+  ...seriesList,
+  ...unknownCodes.map(code => ({ code, label: code.toUpperCase() }))
+];
+
+const timezone = weekData.week.timezone || 'Asia/Dubai';
 ---
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Weekly mathematics seminars at Khalifa University" />
-    <title>Khalifa University Mathematics — Weekly Seminars</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weekly Seminars - Mathematics Department, Khalifa University</title>
+    <meta name="description" content="Current week's seminar schedule for the Mathematics Department at Khalifa University" />
+    <meta name="author" content="Mathematics Department, Khalifa University" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="Weekly Seminars - Mathematics Department, Khalifa University" />
+    <meta property="og:description" content="Current week's seminar schedule for the Mathematics Department at Khalifa University" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://math.ku.ac.ae/seminars/" />
+    <meta property="og:image" content="/assets/og-image.png" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:site_name" content="KU Mathematics Seminars" />
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@KhalifaUni" />
+    <meta name="twitter:title" content="Weekly Seminars - Mathematics Department, Khalifa University" />
+    <meta name="twitter:description" content="Current week's seminar schedule for the Mathematics Department at Khalifa University" />
+    <meta name="twitter:image" content="/assets/og-image.png" />
+    
+    <!-- Additional Meta Tags -->
+    <meta name="keywords" content="mathematics, seminars, Khalifa University, Abu Dhabi, research, talks" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://math.ku.ac.ae/seminars/" />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
+    
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Print Styles -->
     <link rel="stylesheet" href="/styles/print.css" media="print">
   </head>
   <body class="min-h-screen bg-background text-foreground font-sans antialiased">
+    <!-- Week Header Component -->
+    <WeekHeader weekData={weekData} />
+    
     <div class="container max-w-4xl mx-auto px-6 py-8 md:px-8 lg:px-12">
-      <!-- Header with gradient background -->
-      <header class="relative mb-12 pb-8 border-b border-border-subtle">
-        <div class="gradient-bg-subtle absolute inset-0 rounded-2xl opacity-50"></div>
-        <div class="relative z-10 space-y-6">
-          <!-- Logo and University Name -->
-          <div class="flex items-center space-x-4">
-            <img src="/assets/KUlogo.png" alt="Khalifa University" class="h-12 w-auto" />
-            <div class="flex-1">
-              <h1 class="text-3xl font-bold gradient-text mb-2">Mathematics Department</h1>
-              <p class="text-xl text-foreground-secondary font-medium">Weekly Seminars</p>
-            </div>
-          </div>
-          
-          <!-- Week Range and Status -->
-          <div class="space-y-4">
-            <div id="week-range" class="text-muted text-sm font-medium tracking-wide uppercase"></div>
-            <div id="banner" class="hidden bg-status-break/10 border border-status-break/30 rounded-xl px-4 py-3 text-sm text-status-break font-medium"></div>
-          </div>
-          
-          <!-- Action Buttons -->
-          <div class="flex flex-wrap gap-3">
-            <button 
-              onclick="window.print()" 
-              class="inline-flex items-center px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-medium text-sm shadow-subtle"
-            >
-              📄 Print / Save PDF
-            </button>
-            <button 
-              id="dark-mode-toggle" 
-              class="inline-flex items-center px-4 py-2 bg-surface-elevated border border-border rounded-lg hover:bg-surface-elevated/80 transition-colors font-medium text-sm shadow-subtle"
-            >
-              🌙 Dark Mode
-            </button>
-          </div>
-        </div>
-      </header>
+      <!-- Week Range and Status Banner -->
+      <div class="mb-8">
+        <div id="week-range" class="hidden"></div>
+        <div id="banner" class="hidden bg-status-break/10 border border-status-break/30 rounded-xl px-4 py-3 text-sm text-status-break font-medium"></div>
+      </div>
 
       <!-- Main Content -->
       <main id="content" aria-live="polite" class="space-y-8">
-        <div class="text-center py-12 text-muted animate-fade-in">
-          <div class="w-8 h-8 mx-auto mb-4 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
-          <p class="text-lg font-medium animate-bounce-subtle">Loading weekly seminar data...</p>
-        </div>
+        {weekData.seminars && weekData.seminars.length > 0 ? (
+          allSeries.map(seriesMeta => {
+            const seminars = groupedSeminars.get(seriesMeta.code) || [];
+            if (!seminars.length) return null;
+            
+            return (
+              <SeriesSection
+                seriesCode={seriesMeta.code}
+                seriesInfo={{
+                  series: seriesMeta,
+                  seminars: seminars
+                }}
+                timezone={timezone}
+                showTimeline={false}
+              />
+            );
+          })
+        ) : (
+          <div class="card-elevated rounded-2xl p-8 text-center">
+            <div class="text-6xl mb-4">📅</div>
+            <h3 class="text-xl font-semibold text-foreground mb-2">No seminars scheduled</h3>
+            <p class="text-muted">Check back next week for upcoming events.</p>
+          </div>
+        )}
       </main>
     </div>
 
-    <!-- Template for Series Sections -->
-    <template id="tpl-series">
-      <section class="series-section mb-12">
-        <div class="relative mb-6">
-          <h2 class="series-title text-2xl font-bold text-foreground mb-2"></h2>
-          <div class="w-16 h-1 bg-gradient-to-r from-ku-primary to-ku-accent rounded-full"></div>
-        </div>
-        <div class="series-items space-y-6"></div>
-      </section>
-    </template>
-
-    <!-- Template for Seminar Cards -->
-    <template id="tpl-card">
-      <article class="card-elevated rounded-2xl p-6 hover:shadow-large transition-all duration-300 group animate-fade-in-up">
-        <!-- Speaker & Affiliation -->
-        <div class="speaker text-lg font-semibold text-foreground mb-2 group-hover:text-primary transition-colors"></div>
-        
-        <!-- Title -->
-        <h3 class="title text-xl font-bold text-foreground mb-4 leading-tight"></h3>
-        
-        <!-- Time & Location -->
-        <div class="meta flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-4">
-          <div class="flex items-center gap-2">
-            <svg class="w-4 h-4 text-ku-primary" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
-            </svg>
-            <span class="time-location font-medium"></span>
+    <!-- Footer -->
+    <footer class="mt-16 bg-gradient-to-r from-ku-primary/5 via-background-subtle/80 to-ku-accent/5 border-t-2 border-ku-primary/20 backdrop-blur-sm">
+      <div class="container max-w-4xl mx-auto px-6 py-12 md:px-8 lg:px-12">
+        <div class="flex flex-col items-center text-center space-y-8">
+          <!-- Main content -->
+          <div class="space-y-6">
+            <h3 class="text-xl font-bold text-foreground bg-gradient-to-r from-ku-primary to-ku-accent bg-clip-text text-transparent">
+              Website Created by
+            </h3>
+            
+            <!-- Creator info - perfectly centered -->
+            <div class="flex flex-col items-center space-y-4">
+              <!-- Name and department on separate centered lines -->
+              <div class="flex items-center justify-center gap-3">
+                <a 
+                  href="https://www.denys-dutykh.com/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-2 text-foreground font-bold text-lg hover:text-ku-primary transition-colors duration-300 group"
+                >
+                  <Globe size={20} class="text-ku-accent group-hover:text-ku-primary transition-colors duration-300" />
+                  Dr. Denys Dutykh
+                </a>
+              </div>
+              
+              <p class="text-foreground-secondary font-semibold">
+                Mathematics Department
+              </p>
+              
+              <!-- Contact email - centered -->
+              <div class="flex items-center justify-center gap-2">
+                <span class="text-foreground-secondary text-sm">Contact:</span>
+                <a 
+                  href="mailto:denys.dutykh@ku.ac.ae" 
+                  class="inline-flex items-center gap-2 text-ku-primary hover:text-ku-accent transition-colors duration-300 font-medium group"
+                >
+                  <Mail size={16} class="text-ku-primary group-hover:text-ku-accent transition-colors duration-300" />
+                  denys.dutykh@ku.ac.ae
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Elegant divider -->
+          <div class="flex items-center justify-center w-full">
+            <div class="h-px bg-gradient-to-r from-transparent via-ku-secondary/50 to-transparent w-32"></div>
+            <div class="mx-4 w-2 h-2 rounded-full bg-ku-accent/30"></div>
+            <div class="h-px bg-gradient-to-r from-transparent via-ku-secondary/50 to-transparent w-32"></div>
+          </div>
+          
+          <!-- Bottom section - perfectly centered -->
+          <div class="flex flex-col items-center space-y-3">
+            <!-- Copyright and university -->
+            <div class="flex items-center justify-center gap-2 text-sm text-muted">
+              <span>© 2025</span>
+              <a 
+                href="https://www.ku.ac.ae/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                class="text-ku-primary hover:text-ku-accent transition-colors duration-300 font-medium"
+              >
+                Khalifa University
+              </a>
+              <span class="text-muted-foreground">•</span>
+              <span class="text-muted-foreground">Abu Dhabi, UAE</span>
+            </div>
+            
+            <!-- Technical credits with Astro logo -->
+            <div class="flex items-center justify-center gap-4 text-xs text-muted-foreground">
+              <div class="flex items-center gap-2">
+                <span>Built with</span>
+                <a 
+                  href="https://astro.build/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-1.5 text-ku-accent hover:text-ku-primary transition-colors duration-300 font-medium group"
+                >
+                  <Astro size={16} class="group-hover:scale-110 transition-transform duration-300" />
+                  Astro
+                </a>
+              </div>
+              
+              <span>•</span>
+              
+              <div class="flex items-center gap-1">
+                <span>Licensed under</span>
+                <a 
+                  href="https://www.gnu.org/licenses/gpl-3.0.html" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  class="text-ku-primary hover:text-ku-accent transition-colors duration-300 font-medium"
+                >
+                  GPL v3.0
+                </a>
+              </div>
+            </div>
           </div>
         </div>
-        
-        <!-- Links -->
-        <div class="links flex flex-wrap gap-3 mb-4"></div>
-        
-        <!-- Abstract -->
-        <details class="abs mt-6 group/abstract">
-          <summary class="cursor-pointer text-ku-primary hover:text-ku-accent font-medium py-2 px-4 rounded-lg hover:bg-surface-elevated transition-all flex items-center gap-2 select-none">
-            <svg class="w-4 h-4 transform transition-transform duration-300 group-open/abstract:rotate-90" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-            </svg>
-            Abstract
-          </summary>
-          <div class="abs-body mt-4 pt-4 border-t border-border-subtle prose prose-sm max-w-none text-foreground-secondary leading-relaxed animate-accordion-down"></div>
-        </details>
-      </article>
-    </template>
+      </div>
+    </footer>
 
     <script is:inline>
-      // Inline YAML parser - handles our specific schema
-      const parseYAML = (text) => {
-        // Helper function to parse values - must be defined first
-        const parseValue = (value) => {
-          if (!value) return null;
-          if (value === 'true') return true;
-          if (value === 'false') return false;
-          if (!isNaN(value) && !isNaN(parseFloat(value))) return parseFloat(value);
-          return value.replace(/^["']|["']$/g, ''); // Remove quotes
-        };
-        
-        const lines = text.split('\n');
-        const result = {};
-        let currentObject = null;
-        let currentArray = null;
-        let multilineKey = null;
-        
-        for (let i = 0; i < lines.length; i++) {
-          let line = lines[i];
-          const originalLine = line;
-          
-          // Remove comments
-          if (line.includes('#')) {
-            line = line.substring(0, line.indexOf('#'));
-          }
-          
-          if (!line.trim()) continue;
-          
-          const indent = line.length - line.trimStart().length;
-          line = line.trim();
-          
-          // Handle multiline strings (after |)
-          if (multilineKey && indent > 2) {
-            if (currentArray && currentArray.length > 0) {
-              const lastItem = currentArray[currentArray.length - 1];
-              if (lastItem[multilineKey] === undefined) lastItem[multilineKey] = '';
-              lastItem[multilineKey] += (lastItem[multilineKey] ? '\n' : '') + line;
-            }
-            continue;
-          } else {
-            multilineKey = null;
-          }
-          
-          if (line.includes(':')) {
-            const colonIndex = line.indexOf(':');
-            const key = line.substring(0, colonIndex).trim();
-            const value = line.substring(colonIndex + 1).trim();
-            
-            if (indent === 0) {
-              // Top level sections (week, series, seminars)
-              currentObject = result[key] = value ? parseValue(value) : (key === 'series' || key === 'seminars' ? [] : {});
-              currentArray = Array.isArray(currentObject) ? currentObject : null;
-            } else if (indent === 2) {
-              if (line.startsWith('- ')) {
-                // Array item start
-                const item = {};
-                const itemKey = key.substring(1).trim(); // Remove dash
-                const itemValue = value;
-                item[itemKey] = parseValue(itemValue);
-                if (currentArray) currentArray.push(item);
-                currentObject = item;
-              } else {
-                // Regular property
-                if (currentObject) {
-                  if (value === '|') {
-                    multilineKey = key;
-                    currentObject[key] = '';
-                  } else {
-                    currentObject[key] = parseValue(value);
-                  }
-                }
-              }
-            } else if (indent === 4) {
-              // Properties within array items or nested objects
-              if (currentObject) {
-                if (value === '|') {
-                  multilineKey = key;
-                  currentObject[key] = '';
-                } else if (key === 'links' && !value) {
-                  currentObject[key] = {};
-                } else {
-                  currentObject[key] = parseValue(value);
-                }
-              }
-            } else if (indent === 6) {
-              // Links or nested properties
-              if (currentObject && currentObject.links) {
-                currentObject.links[key] = parseValue(value);
-              }
-            }
-          }
-        }
-        
-        return result;
-      };
-
-      // Simple Markdown parser for abstracts
-      const parseMarkdown = (text) => {
-        if (!text) return '';
-        
-        // Convert markdown to HTML
-        let html = text
-          // Bold **text**
-          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-          // Italic *text*
-          .replace(/\*(.*?)\*/g, '<em>$1</em>')
-          // Code `text`
-          .replace(/`([^`]+)`/g, '<code>$1</code>')
-          // Links [text](url)
-          .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
-          // Line breaks
-          .replace(/\n\s*\n/g, '</p><p>')
-          .replace(/\n/g, '<br>');
-        
-        // Wrap in paragraphs if not already
-        if (!html.includes('<p>')) {
-          html = '<p>' + html + '</p>';
-        }
-        
-        return html;
-      };
-
-      // Simple HTML sanitizer - remove potentially dangerous elements and attributes
-      const sanitizeHTML = (html) => {
-        // Create a temporary div to parse HTML
-        const temp = document.createElement('div');
-        temp.innerHTML = html;
-        
-        // Allowed tags
-        const allowedTags = ['p', 'br', 'strong', 'b', 'em', 'i', 'code', 'a', 'ul', 'ol', 'li'];
-        
-        // Remove disallowed tags
-        const allElements = temp.getElementsByTagName('*');
-        for (let i = allElements.length - 1; i >= 0; i--) {
-          const element = allElements[i];
-          if (!allowedTags.includes(element.tagName.toLowerCase())) {
-            element.parentNode.removeChild(element);
-          } else if (element.tagName.toLowerCase() === 'a') {
-            // Sanitize links
-            const href = element.getAttribute('href');
-            if (href && (href.startsWith('http://') || href.startsWith('https://'))) {
-              element.setAttribute('target', '_blank');
-              element.setAttribute('rel', 'noopener noreferrer');
-            } else {
-              element.removeAttribute('href');
-            }
-            // Remove all other attributes from links
-            const attrs = Array.from(element.attributes);
-            attrs.forEach(attr => {
-              if (!['href', 'target', 'rel'].includes(attr.name)) {
-                element.removeAttribute(attr.name);
-              }
-            });
-          } else {
-            // Remove all attributes from other elements
-            const attrs = Array.from(element.attributes);
-            attrs.forEach(attr => element.removeAttribute(attr.name));
-          }
-        }
-        
-        return temp.innerHTML;
-      };
-
-      // Format week range with proper timezone
-      const formatWeekRange = (week) => {
-        const tz = week.timezone || 'Asia/Dubai';
-        const start = new Date(week.start + 'T00:00:00');
-        const end = new Date(week.end + 'T00:00:00');
-        
-        const startStr = start.toLocaleDateString('en-GB', { 
-          day: '2-digit', 
-          month: 'short'
-        });
-        const endStr = end.toLocaleDateString('en-GB', { 
-          day: '2-digit', 
-          month: 'short', 
-          year: 'numeric'
-        });
-        
-        return `Week ${week.isoWeek}, ${startStr}–${endStr} (${tz})`;
-      };
-
-      // Format time with timezone
-      const formatTime = (dateStr, timezone) => {
-        const date = new Date(dateStr);
-        return date.toLocaleString('en-GB', {
-          timeZone: timezone,
-          weekday: 'long',
-          hour: '2-digit',
-          minute: '2-digit'
-        });
-      };
-
-      // Load YAML data with error handling
-      async function loadYaml() {
-        try {
-          const response = await fetch('/data/week.yml', { 
-            cache: 'no-store',
-            headers: { 'Cache-Control': 'no-cache' }
-          });
-          
-          if (!response.ok) {
-            throw new Error(`Failed to fetch YAML: ${response.status} ${response.statusText}`);
-          }
-          
-          const text = await response.text();
-          return parseYAML(text);
-        } catch (error) {
-          console.error('Error loading YAML:', error);
-          throw error;
-        }
-      }
-
-      // Render the complete page
-      function render(data) {
-        const content = document.getElementById('content');
-        const banner = document.getElementById('banner');
-        const weekRange = document.getElementById('week-range');
-        
-        // Clear content
-        content.innerHTML = '';
-        
-        // Set week range
-        weekRange.textContent = formatWeekRange(data.week);
-
-        // Handle status banner
-        if (data.week.status && data.week.status !== 'open') {
-          banner.classList.remove('hidden');
-          banner.classList.remove('bg-status-break/10', 'border-status-break/30', 'text-status-break');
-          banner.classList.remove('bg-status-holiday/10', 'border-status-holiday/30', 'text-status-holiday');
-          banner.classList.remove('bg-status-exams/10', 'border-status-exams/30', 'text-status-exams');
-          banner.classList.remove('bg-status-cancelled/10', 'border-status-cancelled/30', 'text-status-cancelled');
-          
-          const statusConfig = {
-            'holiday': {
-              message: '🏖️ University holiday. Seminars paused.',
-              classes: 'bg-status-holiday/10 border-status-holiday/30 text-status-holiday'
-            },
-            'break': {
-              message: '🌸 Spring break. Seminars paused.',
-              classes: 'bg-status-break/10 border-status-break/30 text-status-break'
-            },
-            'exams': {
-              message: '📚 Examination period.',
-              classes: 'bg-status-exams/10 border-status-exams/30 text-status-exams'
-            },
-            'cancelled': {
-              message: "❌ This week's seminars are cancelled.",
-              classes: 'bg-status-cancelled/10 border-status-cancelled/30 text-status-cancelled'
-            }
-          };
-          
-          const config = statusConfig[data.week.status] || {
-            message: '📢 Notice:',
-            classes: 'bg-status-break/10 border-status-break/30 text-status-break'
-          };
-          
-          const note = data.week.note ? ' ' + data.week.note : '';
-          banner.textContent = config.message + note;
-          banner.className = banner.className + ' ' + config.classes;
-        } else {
-          banner.classList.add('hidden');
-        }
-
-        // Build series mapping
-        const seriesList = Array.isArray(data.series) ? data.series : [];
-        const knownSeries = new Map(seriesList.map(s => [s.code, s]));
-        
-        // Find unknown series codes and sort them
-        const unknownCodes = Array.from(
-          new Set((data.seminars || []).map(s => s.series))
-        ).filter(code => !knownSeries.has(code)).sort();
-        
-        // Create complete series order
-        const allSeries = [
-          ...seriesList,
-          ...unknownCodes.map(code => ({ code, label: code.toUpperCase() }))
-        ];
-
-        // Group seminars by series
-        const groupedSeminars = new Map();
-        (data.seminars || []).forEach(seminar => {
-          if (!groupedSeminars.has(seminar.series)) {
-            groupedSeminars.set(seminar.series, []);
-          }
-          groupedSeminars.get(seminar.series).push(seminar);
-        });
-
-        // Get templates
-        const seriesTemplate = document.getElementById('tpl-series');
-        const cardTemplate = document.getElementById('tpl-card');
-        const timezone = data.week.timezone || 'Asia/Dubai';
-
-        // Render each series
-        allSeries.forEach(seriesMeta => {
-          const seminars = groupedSeminars.get(seriesMeta.code) || [];
-          
-          // Skip empty series (preferred behavior)
-          if (!seminars.length) return;
-          
-          // Clone series template
-          const sectionElement = seriesTemplate.content.cloneNode(true);
-          sectionElement.querySelector('.series-title').textContent = 
-            seriesMeta.label || seriesMeta.code.toUpperCase();
-          
-          const itemsContainer = sectionElement.querySelector('.series-items');
-
-          // Render each seminar
-          seminars.forEach(seminar => {
-            const cardElement = cardTemplate.content.cloneNode(true);
-            
-            // Speaker and affiliation
-            const speakerText = seminar.affiliation 
-              ? `${seminar.speaker}, ${seminar.affiliation}`
-              : seminar.speaker;
-            cardElement.querySelector('.speaker').textContent = speakerText;
-            
-            // Title
-            cardElement.querySelector('.title').textContent = seminar.title;
-            
-            // Time and location
-            const startTime = formatTime(seminar.start, timezone);
-            const endTime = seminar.end 
-              ? new Date(seminar.end).toLocaleTimeString('en-GB', {
-                  timeZone: timezone,
-                  hour: '2-digit',
-                  minute: '2-digit'
-                })
-              : '';
-            
-            const timeRange = endTime ? `${startTime} – ${endTime}` : startTime;
-            const metaText = `${timeRange} · ${seminar.location}`;
-            cardElement.querySelector('.time-location').textContent = metaText;
-            
-            // Links
-            const linksContainer = cardElement.querySelector('.links');
-            const addLink = (url, label, icon = '🔗') => {
-              if (url) {
-                const link = document.createElement('a');
-                link.href = url;
-                link.innerHTML = `${icon} ${label}`;
-                link.target = '_blank';
-                link.rel = 'noopener noreferrer';
-                link.className = 'inline-flex items-center gap-1 px-3 py-1 bg-ku-primary/10 text-ku-primary hover:bg-ku-primary hover:text-ku-primary-foreground rounded-lg text-sm font-medium transition-colors';
-                linksContainer.appendChild(link);
-              }
-            };
-            
-            if (seminar.links) {
-              addLink(seminar.links.speaker, 'Speaker', '👤');
-              addLink(seminar.links.slides, 'Slides', '📊');
-              addLink(seminar.links.zoom, 'Zoom', '📹');
-              addLink(seminar.links.video, 'Video', '🎥');
-            }
-            
-            // Abstract
-            const abstractDetails = cardElement.querySelector('.abs');
-            if (seminar.abstract) {
-              const markdownHtml = parseMarkdown(seminar.abstract);
-              const sanitizedHtml = sanitizeHTML(markdownHtml);
-              cardElement.querySelector('.abs-body').innerHTML = sanitizedHtml;
-            } else {
-              abstractDetails.style.display = 'none';
-            }
-            
-            itemsContainer.appendChild(cardElement);
-          });
-
-          content.appendChild(sectionElement);
-        });
-
-        // If no seminars at all, show appropriate message
-        if (!data.seminars || data.seminars.length === 0) {
-          content.innerHTML = '<div class="card-elevated rounded-2xl p-8 text-center"><div class="text-6xl mb-4">📅</div><h3 class="text-xl font-semibold text-foreground mb-2">No seminars scheduled</h3><p class="text-muted">Check back next week for upcoming events.</p></div>';
-        }
-      }
-
-      // Handle print functionality
-      let detailsElements = [];
-      let detailsStates = [];
-
-      function captureDetailsElements() {
-        detailsElements = Array.from(document.querySelectorAll('details'));
-      }
-
-      // Expand all abstracts before printing
-      window.addEventListener('beforeprint', () => {
-        if (!detailsElements.length) captureDetailsElements();
-        detailsStates = detailsElements.map(d => d.open);
-        detailsElements.forEach(d => { d.open = true; });
-      });
-
-      // Restore abstract states after printing
-      window.addEventListener('afterprint', () => {
-        detailsElements.forEach((d, i) => { d.open = detailsStates[i]; });
-      });
-
-      // Initialize on DOM load
-      window.addEventListener('DOMContentLoaded', captureDetailsElements);
-
-      // Load and render data
-      loadYaml()
-        .then(render)
-        .catch(error => {
-          console.error('Failed to load seminar data:', error);
-          const content = document.getElementById('content');
-          content.innerHTML = `
-            <div role="alert" class="bg-red-50 border border-red-200 rounded-2xl p-6 text-center animate-scale-in">
-              <div class="text-4xl mb-4 animate-bounce-subtle">⚠️</div>
-              <h3 class="text-lg font-semibold text-red-800 mb-2">Error Loading Data</h3>
-              <p class="text-red-600 mb-4">Please check back later or contact the administrator.</p>
-              <details class="text-left">
-                <summary class="cursor-pointer text-red-700 hover:text-red-800 font-medium transition-colors">Technical details</summary>
-                <pre class="mt-2 p-3 bg-red-100 rounded-lg text-xs text-red-800 overflow-auto animate-accordion-down">${error.message}</pre>
-              </details>
-            </div>
-          `;
-        });
-        
-      // Dark mode functionality
-      const darkModeToggle = document.getElementById('dark-mode-toggle');
+      // Initialize dark mode based on saved preference
       const html = document.documentElement;
-      
-      // Check for saved theme preference or default to light mode
       const savedTheme = localStorage.getItem('theme') || 'light';
       if (savedTheme === 'dark') {
         html.classList.add('dark');
-        darkModeToggle.innerHTML = '☀️ Light Mode';
       }
-      
-      // Toggle dark mode
-      darkModeToggle.addEventListener('click', () => {
-        html.classList.toggle('dark');
-        const isDark = html.classList.contains('dark');
-        
-        // Update button text and save preference
-        darkModeToggle.innerHTML = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
-        localStorage.setItem('theme', isDark ? 'dark' : 'light');
-      });
     </script>
   </body>
 </html>

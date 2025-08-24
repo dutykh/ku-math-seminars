@@ -65,6 +65,14 @@ All colors MUST be HSL.
     --grid-main-opacity: 0.25; /* Light theme main grid lines */
     --grid-sub-opacity: 0.12;  /* Light theme secondary lines */
     
+    /* Mathematical background system */
+    --math-grid-primary: var(--ku-primary) / 0.08;
+    --math-grid-secondary: var(--ku-secondary) / 0.05;
+    --math-grid-accent: var(--ku-accent) / 0.06;
+    --math-pattern-opacity: 0.04;
+    --math-depth-gradient: var(--ku-primary) / 0.03;
+    --golden-ratio: 1.618;
+    
     /* Transitions */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-quick: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
@@ -104,6 +112,13 @@ All colors MUST be HSL.
     
     --timeline-line: var(--ku-secondary) / 0.3;
     --timeline-dot: var(--ku-primary);
+    
+    /* Mathematical background system - dark theme */
+    --math-grid-primary: var(--ku-primary) / 0.12;
+    --math-grid-secondary: var(--ku-secondary) / 0.08;
+    --math-grid-accent: var(--ku-accent) / 0.10;
+    --math-pattern-opacity: 0.06;
+    --math-depth-gradient: var(--ku-primary) / 0.05;
   }
 }
 
@@ -118,6 +133,19 @@ All colors MUST be HSL.
     font-feature-settings: "rlig" 1, "calt" 1;
     line-height: 1.6;
     letter-spacing: -0.01em;
+    position: relative;
+  }
+  
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    background: var(--mathematical-background);
   }
 
   /* Enhanced Typography */
@@ -155,6 +183,14 @@ All colors MUST be HSL.
     body {
       background: white !important;
       color: black !important;
+    }
+    
+    body::before {
+      display: none !important;
+    }
+    
+    footer {
+      display: none !important;
     }
   }
 }
@@ -209,5 +245,56 @@ All colors MUST be HSL.
     background: hsl(var(--background) / 0.8);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
+  }
+
+  /* Mathematical Background System */
+  :root {
+    --mathematical-background: 
+      /* Depth gradient - atmospheric perspective */
+      radial-gradient(ellipse 120% 80% at 50% 0%, hsl(var(--math-depth-gradient)), transparent 70%),
+      /* 3D perspective grid - primary */
+      linear-gradient(0deg, hsl(var(--math-grid-primary)) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--math-grid-primary)) 1px, transparent 1px),
+      /* Secondary mathematical grid - smaller scale */
+      linear-gradient(0deg, hsl(var(--math-grid-secondary)) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--math-grid-secondary)) 1px, transparent 1px),
+      /* Geometric accent patterns */
+      radial-gradient(circle at 25% 25%, hsl(var(--math-grid-accent)) 2px, transparent 2px),
+      radial-gradient(circle at 75% 75%, hsl(var(--math-grid-accent)) 1px, transparent 1px),
+      /* Golden ratio fibonacci spiral hint */
+      radial-gradient(ellipse 200% 100% at 0% 50%, transparent 40%, hsl(var(--ku-accent) / var(--math-pattern-opacity)) 41%, transparent 42%),
+      radial-gradient(ellipse 100% 200% at 50% 0%, transparent 60%, hsl(var(--ku-primary) / var(--math-pattern-opacity)) 61%, transparent 62%),
+      /* Base gradient */
+      linear-gradient(135deg, 
+        hsl(var(--background)) 0%, 
+        hsl(var(--background-subtle)) 50%, 
+        hsl(var(--background)) 100%);
+    
+    --mathematical-background-size:
+      100% 100%,
+      80px 80px,
+      80px 80px,
+      20px 20px,
+      20px 20px,
+      120px 120px,
+      160px 160px,
+      100% 100%,
+      100% 100%,
+      100% 100%;
+    
+    --mathematical-background-position:
+      0 0,
+      0 0,
+      0 0,
+      0 0,
+      0 0,
+      0 0,
+      0 0,
+      0 0,
+      0 0,
+      0 0;
+    
+    background-size: var(--mathematical-background-size);
+    background-position: var(--mathematical-background-position);
   }
 }

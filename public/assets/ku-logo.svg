@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="60" viewBox="0 0 200 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- KU Logo Placeholder - Simplified geometric representation -->
+  <defs>
+    <linearGradient id="kuGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#003466;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#20B2AA;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- K letter -->
+  <g id="k-letter">
+    <path d="M 10 10 L 10 50 M 10 30 L 35 10 M 10 30 L 35 50" 
+          stroke="url(#kuGradient)" 
+          stroke-width="6" 
+          stroke-linecap="round" 
+          stroke-linejoin="round"
+          fill="none" />
+  </g>
+  
+  <!-- U letter -->
+  <g id="u-letter">
+    <path d="M 50 10 L 50 35 Q 50 50 65 50 Q 80 50 80 35 L 80 10" 
+          stroke="url(#kuGradient)" 
+          stroke-width="6" 
+          stroke-linecap="round" 
+          stroke-linejoin="round"
+          fill="none" />
+  </g>
+  
+  <!-- Text: KHALIFA -->
+  <text x="95" y="28" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#003466">
+    KHALIFA
+  </text>
+  
+  <!-- Text: UNIVERSITY -->
+  <text x="95" y="44" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="400" fill="#003466">
+    UNIVERSITY
+  </text>
+</svg>

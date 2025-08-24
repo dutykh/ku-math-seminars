@@ -1,0 +1,55 @@
+---
+/**
+ * Button component for KU Math Seminars
+ * Author: Dr. Denys Dutykh (Khalifa University of Science and Technology, Abu Dhabi, UAE)
+ */
+
+export interface Props {
+  variant?: 'primary' | 'outline' | 'ghost';
+  size?: 'sm' | 'md' | 'lg';
+  class?: string;
+  id?: string;
+  onclick?: string;
+  ariaLabel?: string;
+  type?: 'button' | 'submit' | 'reset';
+}
+
+const { 
+  variant = 'primary', 
+  size = 'md', 
+  class: className = '',
+  id,
+  onclick,
+  ariaLabel,
+  type = 'button'
+} = Astro.props;
+
+// Base styles
+const baseStyles = 'inline-flex items-center justify-center font-medium transition-all duration-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none';
+
+// Variant styles
+const variantStyles = {
+  primary: 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-subtle',
+  outline: 'border border-border bg-background hover:bg-surface-elevated hover:border-border-accent',
+  ghost: 'hover:bg-surface-elevated hover:text-accent'
+};
+
+// Size styles
+const sizeStyles = {
+  sm: 'h-8 px-3 text-sm gap-1.5',
+  md: 'h-10 px-4 text-base gap-2',
+  lg: 'h-12 px-6 text-lg gap-2.5'
+};
+
+const buttonClasses = `${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${className}`;
+---
+
+<button
+  type={type}
+  class={buttonClasses}
+  id={id}
+  onclick={onclick}
+  aria-label={ariaLabel}
+>
+  <slot />
+</button>

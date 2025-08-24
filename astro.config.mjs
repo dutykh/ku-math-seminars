@@ -13,5 +13,21 @@ export default defineConfig({
     tailwind({
       applyBaseStyles: false, // We'll handle base styles in our custom CSS
     })
-  ]
+  ],
+  vite: {
+    server: {
+      fs: {
+        strict: false
+      },
+      watch: {
+        ignored: [
+          '**/*.tmp*',
+          '**/.*',
+          'node_modules/**',
+          '**/.DS_Store',
+          '**/Thumbs.db'
+        ]
+      }
+    }
+  }
 });

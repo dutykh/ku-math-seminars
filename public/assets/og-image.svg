@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background gradient -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#003466;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#003466;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#20B2AA;stop-opacity:1" />
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" stroke-width="0.5" stroke-opacity="0.1"/>
+    </pattern>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bgGradient)"/>
+  
+  <!-- Grid overlay -->
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  
+  <!-- Content container -->
+  <g transform="translate(100, 100)">
+    <!-- University Name -->
+    <text x="0" y="40" font-family="Inter, system-ui, sans-serif" font-size="28" font-weight="500" fill="white" opacity="0.9">
+      KHALIFA UNIVERSITY
+    </text>
+    
+    <!-- Main Title -->
+    <text x="0" y="150" font-family="Inter, system-ui, sans-serif" font-size="72" font-weight="700" fill="white">
+      Mathematics
+    </text>
+    <text x="0" y="230" font-family="Inter, system-ui, sans-serif" font-size="72" font-weight="700" fill="white">
+      Department
+    </text>
+    
+    <!-- Subtitle -->
+    <text x="0" y="320" font-family="Inter, system-ui, sans-serif" font-size="36" font-weight="400" fill="white" opacity="0.95">
+      Weekly Seminars
+    </text>
+    
+    <!-- Decorative line -->
+    <rect x="0" y="360" width="120" height="4" fill="#20B2AA" rx="2"/>
+    
+    <!-- Location -->
+    <text x="0" y="440" font-family="Inter, system-ui, sans-serif" font-size="24" font-weight="400" fill="white" opacity="0.8">
+      Abu Dhabi, UAE
+    </text>
+  </g>
+  
+  <!-- Logo placeholder area (bottom right) -->
+  <g transform="translate(980, 480)">
+    <rect x="0" y="0" width="120" height="50" fill="white" fill-opacity="0.1" rx="8"/>
+    <text x="60" y="30" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="600" fill="white" text-anchor="middle" alignment-baseline="middle">
+      KU LOGO
+    </text>
+  </g>
+</svg>
