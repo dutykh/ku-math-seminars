@@ -1,0 +1,57 @@
+/**
+ * Print stylesheet for KU Math Seminars - A4 optimized
+ * Author: Dr. Deny Dutykh (Khalifa University of Science and Technology, Abu Dhabi, UAE)
+ */
+
+@page {
+  size: A4 portrait;
+  margin: 18mm;
+}
+
+@media print {
+  /* Hide interactive elements during print */
+  button, nav, .btn {
+    display: none !important;
+  }
+  
+  /* Ensure content flows properly */
+  body {
+    font-size: 12pt;
+    line-height: 1.4;
+  }
+  
+  /* Prevent awkward page breaks */
+  article.card {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  
+  h1, h2 {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+  
+  /* Make details elements readable in print */
+  details[open] > summary {
+    font-weight: 600;
+  }
+  
+  /* Show URLs after external links for paper reference */
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 90%;
+    color: #666;
+  }
+  
+  /* Optimize spacing for print */
+  .card {
+    margin: 6pt 0;
+    padding: 8pt;
+    border: 1pt solid #ddd;
+  }
+  
+  /* Ensure abstracts are visible */
+  .abs-body {
+    margin-top: 4pt;
+  }
+}

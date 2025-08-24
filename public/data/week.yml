@@ -1,0 +1,129 @@
+# KU Math Seminars - Week Data
+# Author: Dr. Deny Dutykh (Khalifa University of Science and Technology, Abu Dhabi, UAE)
+
+week:
+  isoWeek: 34
+  start: 2025-08-18
+  end: 2025-08-24
+  timezone: Asia/Dubai
+  status: open
+  note: ""
+
+series:
+  - code: ccms
+    label: CCMS Seminar
+    organisedBy: Centre for Computational and Mathematical Sciences
+  - code: math
+    label: Math Seminar
+    organisedBy: Mathematics Department
+  - code: fin
+    label: Financial Math Seminar
+    organisedBy: Mathematics Department
+  - code: grad
+    label: Graduate Math Seminar
+    organisedBy: Mathematics Department
+  - code: ug
+    label: Undergraduate Math Seminar
+    organisedBy: Mathematics Department
+
+seminars:
+  - series: ccms
+    speaker: Dr Jane Smith
+    affiliation: University of Oxford
+    title: Singular Limits in Dispersive Partial Differential Equations
+    start: 2025-08-20T12:00:00+04:00
+    end: 2025-08-20T13:00:00+04:00
+    location: Main Campus, Building A, Room 301
+    abstract: |
+      We study the behavior of **dispersive PDEs** in the singular limit where certain parameters become small. 
+      
+      Using matched asymptotic expansions and rigorous mathematical analysis, we establish convergence results 
+      for the nonlinear Schrödinger equation with rapidly varying coefficients. The main challenges include:
+      
+      - Handling oscillatory integrals in multiple scales
+      - Proving uniform bounds on the solution family
+      - Establishing convergence to the effective equation
+      
+      This work has applications to water wave theory and quantum mechanics.
+    links:
+      speaker: https://www.maths.ox.ac.uk/people/jane.smith
+      slides: https://example.com/slides.pdf
+      zoom: https://ku-zoom.example.com/j/123456789
+    tags: [PDE, Asymptotics, Water Waves]
+
+  - series: math
+    speaker: Prof Ahmed Hassan
+    affiliation: American University of Sharjah
+    title: Geometric Analysis on Riemannian Manifolds
+    start: 2025-08-21T14:00:00+04:00
+    end: 2025-08-21T15:00:00+04:00
+    location: Main Campus, Building B, Room 205
+    abstract: |
+      An introduction to modern techniques in geometric analysis, focusing on the interplay between 
+      differential geometry and partial differential equations on curved spaces.
+      
+      Topics covered:
+      1. Ricci flow and its applications
+      2. Minimal surfaces and mean curvature flow
+      3. Yamabe problem and conformal geometry
+    links:
+      speaker: https://www.aus.edu/faculty/ahmed-hassan
+    tags: [Differential Geometry, Geometric Analysis]
+
+  - series: fin
+    speaker: Dr Sarah Al-Rashid
+    affiliation: UAE Central Bank
+    title: Risk Management in Islamic Finance using Stochastic Methods
+    start: 2025-08-22T11:00:00+04:00
+    end: 2025-08-22T12:00:00+04:00
+    location: Main Campus, Building C, Room 150
+    abstract: |
+      Islamic finance presents unique challenges for risk management due to Sharia compliance requirements.
+      We present a comprehensive framework using advanced stochastic calculus techniques.
+      
+      Key contributions include novel approaches to:
+      - Sukuk pricing under uncertainty
+      - Profit-sharing investment accounts modeling
+      - Operational risk in Islamic banking
+    links:
+      slides: https://centralbank.ae/en/research/risk-management-slides.pdf
+    tags: [Islamic Finance, Stochastic Calculus, Risk Management]
+
+  - series: grad
+    speaker: Mohammad bin Khalid
+    affiliation: Khalifa University (PhD Student)
+    title: Machine Learning Applications in Computational Fluid Dynamics
+    start: 2025-08-23T16:00:00+04:00
+    end: 2025-08-23T17:00:00+04:00
+    location: Main Campus, Building A, Room 105
+    abstract: |
+      We explore the integration of deep learning techniques with traditional CFD solvers
+      to accelerate simulation of complex fluid flows.
+      
+      **Research objectives:**
+      - Develop physics-informed neural networks for flow prediction
+      - Reduce computational cost while maintaining accuracy
+      - Apply to real-world engineering problems in UAE industries
+      
+      This is preliminary work from my PhD thesis under supervision of Prof. Dutykh.
+    tags: [Machine Learning, CFD, Neural Networks]
+
+  - series: ug
+    speaker: Fatima Al-Zahra
+    affiliation: Khalifa University (Undergraduate)
+    title: "Exploring Fractals: From Mandelbrot Sets to Nature"
+    start: 2025-08-24T13:00:00+04:00
+    end: 2025-08-24T14:00:00+04:00
+    location: Main Campus, Building D, Room 220
+    abstract: |
+      A visual journey through the fascinating world of fractals, from mathematical definitions
+      to their appearances in nature and applications in computer graphics.
+      
+      We'll explore:
+      - Basic fractal geometry and dimension theory
+      - The famous Mandelbrot and Julia sets
+      - Fractals in coastlines, trees, and clouds
+      - Applications in art and digital media
+      
+      *This presentation includes interactive visualizations and is suitable for all levels.*
+    tags: [Fractals, Visualization, Applied Mathematics]
