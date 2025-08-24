@@ -10,7 +10,7 @@ import WeekHeader from '../components/WeekHeader.astro';
 import SeriesSection from '../components/SeriesSection.astro';
 import Globe from '../components/icons/Globe.astro';
 import Mail from '../components/icons/Mail.astro';
-import Astro from '../components/icons/Astro.astro';
+import AstroLogo from '../components/icons/AstroLogo.astro';
 import yaml from 'yaml';
 import fs from 'fs';
 import path from 'path';
@@ -152,7 +152,14 @@ const timezone = weekData.week.timezone || 'Asia/Dubai';
               </div>
               
               <p class="text-foreground-secondary font-semibold">
-                Mathematics Department
+                <a 
+                  href="https://www.ku.ac.ae/academics/college-of-computing-and-mathematical-sciences/department/department-of-mathematics/"
+                  target="_blank"
+                  rel="noopener noreferrer" 
+                  class="hover:text-ku-primary transition-colors duration-300"
+                >
+                  Mathematics Department
+                </a>
               </p>
               
               <!-- Contact email - centered -->
@@ -203,7 +210,7 @@ const timezone = weekData.week.timezone || 'Asia/Dubai';
                   rel="noopener noreferrer"
                   class="inline-flex items-center gap-1.5 text-ku-accent hover:text-ku-primary transition-colors duration-300 font-medium group"
                 >
-                  <Astro size={16} class="group-hover:scale-110 transition-transform duration-300" />
+                  <AstroLogo size={16} class="group-hover:scale-110 transition-transform duration-300" />
                   Astro
                 </a>
               </div>
@@ -234,6 +241,215 @@ const timezone = weekData.week.timezone || 'Asia/Dubai';
       if (savedTheme === 'dark') {
         html.classList.add('dark');
       }
+    </script>
+
+    <script is:inline>
+      // PDF Export functionality - using CDN version of jsPDF for browser compatibility
+      document.addEventListener('DOMContentLoaded', () => {
+        // Load jsPDF from CDN dynamically
+        if (!window.jsPDF) {
+          const script = document.createElement('script');
+          script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+          script.onload = initializePDFExport;
+          document.head.appendChild(script);
+        } else {
+          initializePDFExport();
+        }
+        
+        function initializePDFExport() {
+          const exportButton = document.getElementById('export-pdf-button');
+          if (exportButton) {
+            exportButton.addEventListener('click', async () => {
+              try {
+                console.log('=== PDF EXPORT DEBUG ===');
+                console.log('Global variable available:', typeof window.kuSeminarData !== 'undefined');
+                console.log('Global data:', window.kuSeminarData);
+                
+                // Use the global variable data
+                if (typeof window.kuSeminarData === 'undefined') {
+                  throw new Error('Seminar data not loaded. Please refresh the page and try again.');
+                }
+                
+                const completeWeekData = {
+                  week: window.kuSeminarData.week || { isoWeek: 1, start: '2025-01-01', end: '2025-01-07', timezone: 'Asia/Dubai' },
+                  seminars: window.kuSeminarData.seminars || [],
+                  series: window.kuSeminarData.series || []
+                };
+                
+                console.log('Using global data for PDF:', completeWeekData);
+                
+                // Generate and download PDF using inline PDF generation
+                generateSeminarPoster(completeWeekData);
+              } catch (error) {
+                console.error('Error generating PDF:', error);
+                alert('Error generating PDF: ' + error.message);
+              }
+            });
+          }
+        }
+        
+        // Inline PDF generation function (simplified version)
+        function generateSeminarPoster(weekData) {
+          console.log('Generating PDF with data:', weekData);
+          
+          // Validate weekData structure
+          if (!weekData || !weekData.week) {
+            throw new Error('Invalid week data structure');
+          }
+          
+          const { jsPDF } = window.jspdf;
+          const doc = new jsPDF({
+            orientation: 'portrait',
+            unit: 'mm',
+            format: 'a4'
+          });
+          
+          const pageWidth = doc.internal.pageSize.getWidth();
+          const margin = 15;
+          
+          // Header
+          doc.setFillColor(30, 58, 138); // KU Primary
+          doc.rect(0, 0, pageWidth, 50, 'F');
+          
+          doc.setTextColor(255, 255, 255);
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(24);
+          doc.text('KHALIFA UNIVERSITY', pageWidth / 2, 20, { align: 'center' });
+          
+          doc.setFontSize(16);
+          doc.text('Mathematics Department', pageWidth / 2, 30, { align: 'center' });
+          
+          doc.setFontSize(14);
+          doc.text('Weekly Seminars Schedule', pageWidth / 2, 40, { align: 'center' });
+          
+          // Week info with safe access
+          const week = weekData.week || {};
+          const isoWeek = week.isoWeek || 1;
+          const startDate = week.start || new Date().toISOString().split('T')[0];
+          const endDate = week.end || new Date().toISOString().split('T')[0];
+          
+          const weekRange = `Week ${isoWeek}, ${startDate}–${endDate}`;
+          doc.setTextColor(30, 58, 138);
+          doc.setFontSize(18);
+          doc.text(weekRange, pageWidth / 2, 60, { align: 'center' });
+          
+          let currentY = 80;
+          
+          // Safe access to seminars array
+          const seminars = weekData.seminars || [];
+          const series = weekData.series || [];
+          
+          if (seminars.length === 0) {
+            // No seminars message
+            doc.setTextColor(107, 114, 128);
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(14);
+            doc.text('No seminars scheduled for this week.', pageWidth / 2, currentY, { align: 'center' });
+          } else {
+            // Group seminars by series
+            const groupedSeminars = new Map();
+            seminars.forEach(seminar => {
+              const seriesCode = seminar.series || 'unknown';
+              if (!groupedSeminars.has(seriesCode)) {
+                groupedSeminars.set(seriesCode, []);
+              }
+              groupedSeminars.get(seriesCode).push(seminar);
+            });
+            
+            // Draw seminars
+            for (const [seriesCode, seriesSeminars] of groupedSeminars) {
+              const seriesInfo = series.find(s => s && s.code === seriesCode);
+              const seriesLabel = seriesInfo?.label || seriesCode.toUpperCase();
+              
+              // Series header
+              doc.setFillColor(5, 150, 105);
+              doc.rect(margin, currentY, pageWidth - 2 * margin, 12, 'F');
+              doc.setTextColor(255, 255, 255);
+              doc.setFont('helvetica', 'bold');
+              doc.setFontSize(14);
+              doc.text(seriesLabel, margin + 5, currentY + 8);
+              currentY += 20;
+              
+              // Draw each seminar
+              seriesSeminars.forEach(seminar => {
+                if (!seminar) return; // Skip null/undefined seminars
+                
+                const cardHeight = 35;
+                doc.setFillColor(249, 250, 251);
+                doc.rect(margin, currentY, pageWidth - 2 * margin, cardHeight, 'F');
+                doc.setDrawColor(229, 231, 235);
+                doc.rect(margin, currentY, pageWidth - 2 * margin, cardHeight, 'S');
+                
+                // Speaker
+                doc.setTextColor(31, 41, 55);
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(12);
+                doc.text(seminar.speaker || 'TBA', margin + 5, currentY + 8);
+                
+                // Title
+                doc.setTextColor(30, 58, 138);
+                doc.setFontSize(11);
+                const title = seminar.title || 'Title TBA';
+                const titleLines = doc.splitTextToSize(title, pageWidth - 30);
+                doc.text(titleLines.slice(0, 2), margin + 5, currentY + 15);
+                
+                // Time and location
+                doc.setTextColor(107, 114, 128);
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(9);
+                
+                let startTime = 'TBA';
+                if (seminar.start) {
+                  try {
+                    startTime = new Date(seminar.start).toLocaleTimeString('en-GB', { 
+                      hour: '2-digit', 
+                      minute: '2-digit',
+                      timeZone: week.timezone || 'Asia/Dubai'
+                    });
+                  } catch (e) {
+                    console.warn('Error formatting time:', e);
+                  }
+                }
+                
+                doc.text(`⏰ ${startTime}`, margin + 5, currentY + 25);
+                doc.text(`📍 ${seminar.location || 'TBA'}`, margin + 5, currentY + 30);
+                
+                currentY += cardHeight + 5;
+              });
+              
+              currentY += 8;
+            }
+          }
+          
+          // Footer
+          const footerY = doc.internal.pageSize.getHeight() - 25;
+          doc.setDrawColor(229, 231, 235);
+          doc.line(margin, footerY - 5, pageWidth - margin, footerY - 5);
+          
+          doc.setTextColor(107, 114, 128);
+          doc.setFont('helvetica', 'normal');
+          doc.setFontSize(9);
+          doc.text('For more information, visit: math.ku.ac.ae/seminars', pageWidth / 2, footerY + 5, { align: 'center' });
+          doc.text('Contact: denys.dutykh@ku.ac.ae', pageWidth / 2, footerY + 10, { align: 'center' });
+          
+          // Save PDF with safe filename generation
+          const safeIsoWeek = week.isoWeek || 1;
+          const currentYear = week.start ? new Date(week.start).getFullYear() : new Date().getFullYear();
+          const filename = `KU-Math-Seminars-Week-${safeIsoWeek}-${currentYear}.pdf`;
+          doc.save(filename);
+        }
+      });
+    </script>
+
+    <!-- Data for client-side PDF generation -->
+    <script is:inline define:vars={{ weekData }}>
+      // Global variable approach - using define:vars
+      window.kuSeminarData = {
+        week: weekData.week || {},
+        seminars: weekData.seminars || [],
+        series: weekData.series || []
+      };
+      console.log('Server-side data loaded:', window.kuSeminarData);
     </script>
   </body>
 </html>

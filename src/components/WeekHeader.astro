@@ -84,12 +84,12 @@ const weekRange = formatWeekRange(week.start, week.end, week.isoWeek, week.timez
         <Button
           variant="outline"
           size="sm"
-          onclick="window.print()"
-          ariaLabel="Print or save as PDF"
-          class="print-button"
+          id="export-pdf-button"
+          ariaLabel="Export PDF poster"
+          class="export-pdf-button"
         >
           <Printer size={16} class="mr-2" />
-          Print / PDF
+          Export PDF
         </Button>
       </div>
     </div>
