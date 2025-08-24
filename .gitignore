@@ -1,5 +1,9 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# Claude Code configuration
+@CLAUDE.md
+.claude/
+
 # dependencies
 /node_modules
 /.pnp
@@ -8,9 +12,9 @@
 # testing
 /coverage
 
-# next.js
-/.next/
-/out/
+# astro
+/.astro/
+/dist/
 
 # production
 /build
@@ -23,14 +27,19 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
 
 # local env files
 .env*.local
 .env
 
-# vercel
+# deployment
 .vercel
+.netlify/
+
+# VPS deployment artifacts
+/deploy/
+*.tar.gz
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts
