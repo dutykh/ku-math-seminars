@@ -4,10 +4,9 @@
  * Author: Dr. Denys Dutykh (Khalifa University of Science and Technology, Abu Dhabi, UAE)
  */
 
-import type { Seminar } from '../lib/types';
+import type { Seminar, SeminarStatus } from '../lib/types';
 import { formatTimeRange, getTimePosition } from '../lib/time';
 import ExternalLink from './icons/ExternalLink.astro';
-import FileText from './icons/FileText.astro';
 import Video from './icons/Video.astro';
 import ChevronRight from './icons/ChevronRight.astro';
 import MapPin from './icons/MapPin.astro';
@@ -23,6 +22,39 @@ export interface Props {
 const { seminar, timezone, showTimeline = false, index } = Astro.props;
 const timeRange = formatTimeRange(seminar.start, seminar.end, timezone);
 const timelinePosition = showTimeline ? getTimePosition(seminar.start, timezone) : 0;
+
+// Handle seminar status (defaults to confirmed)
+const status: SeminarStatus = seminar.status || 'confirmed';
+
+// Status styling configuration
+const statusConfig = {
+  confirmed: {
+    badge: '',
+    badgeClass: '',
+    cardClass: '',
+    titlePrefix: ''
+  },
+  cancelled: {
+    badge: 'CANCELLED',
+    badgeClass: 'bg-gradient-to-r from-red-500/20 to-red-600/20 text-red-700 dark:text-red-400 border-red-500/30',
+    cardClass: 'opacity-75',
+    titlePrefix: '[CANCELLED] '
+  },
+  postponed: {
+    badge: 'POSTPONED',
+    badgeClass: 'bg-gradient-to-r from-amber-500/20 to-amber-600/20 text-amber-700 dark:text-amber-400 border-amber-500/30',
+    cardClass: '',
+    titlePrefix: '[POSTPONED] '
+  },
+  tentative: {
+    badge: 'TENTATIVE',
+    badgeClass: 'bg-gradient-to-r from-blue-500/20 to-blue-600/20 text-blue-700 dark:text-blue-400 border-blue-500/30',
+    cardClass: 'border-dashed',
+    titlePrefix: '[TENTATIVE] '
+  }
+};
+
+const currentStatus = statusConfig[status];
 
 // Process markdown to HTML server-side (using simple markdown parser)
 function parseMarkdown(text: string | undefined): string {
@@ -75,6 +107,7 @@ const biographyId = `biography-${index}`;
     hover:-translate-y-2 group backdrop-blur-sm overflow-hidden
     dark:bg-gradient-to-br dark:from-surface dark:via-surface-elevated dark:to-ku-secondary/12
     ${showTimeline ? 'ml-8 relative' : ''}
+    ${currentStatus.cardClass}
   `}
   style={showTimeline ? `margin-top: ${timelinePosition * 400}px; margin-bottom: 2rem;` : undefined}
   data-card-id={cardId}
@@ -97,19 +130,41 @@ const biographyId = `biography-${index}`;
   
     <!-- Speaker info -->
     <div class="mb-6">
+      <!-- Status badge -->
+      {currentStatus.badge && (
+        <div class="flex justify-center mb-4">
+          <span class={`inline-flex items-center px-4 py-2 rounded-full text-xs font-bold border ${currentStatus.badgeClass}`}>
+            {currentStatus.badge}
+          </span>
+        </div>
+      )}
+      
       <div class="flex flex-wrap items-baseline justify-center gap-3 mb-3">
-        <h3 class="text-xl font-bold gradient-text speaker">
+        <h3 class={`text-xl font-bold gradient-text speaker ${status === 'cancelled' ? 'line-through decoration-2' : ''}`}>
           {seminar.speaker}
         </h3>
         {seminar.affiliation && (
-          <span class="text-sm text-foreground-secondary font-semibold bg-gradient-to-r from-ku-secondary/15 to-ku-accent/10 px-4 py-2 rounded-full border border-ku-secondary/20 backdrop-blur-sm">
-            {seminar.affiliation}
-          </span>
+          seminar.affiliationUrl ? (
+            <a
+              href={seminar.affiliationUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 text-sm text-foreground-secondary font-semibold bg-gradient-to-r from-ku-secondary/15 to-ku-accent/10 px-4 py-2 rounded-full border border-ku-secondary/20 backdrop-blur-sm hover:from-ku-secondary/20 hover:to-ku-accent/15 hover:border-ku-secondary/30 transition-all duration-300 transform hover:scale-105"
+              title={`Visit ${seminar.affiliation} website`}
+            >
+              {seminar.affiliation}
+              <ExternalLink size={12} />
+            </a>
+          ) : (
+            <span class="text-sm text-foreground-secondary font-semibold bg-gradient-to-r from-ku-secondary/15 to-ku-accent/10 px-4 py-2 rounded-full border border-ku-secondary/20 backdrop-blur-sm">
+              {seminar.affiliation}
+            </span>
+          )
         )}
       </div>
       
-      <h4 class="text-2xl font-bold bg-gradient-to-r from-foreground via-ku-primary to-foreground bg-clip-text text-transparent leading-tight mb-1 text-center group-hover:from-ku-primary group-hover:to-ku-accent transition-all duration-500">
-        {seminar.title}
+      <h4 class={`text-2xl font-bold bg-gradient-to-r from-foreground via-ku-primary to-foreground bg-clip-text text-transparent leading-tight mb-1 text-center group-hover:from-ku-primary group-hover:to-ku-accent transition-all duration-500 ${status === 'cancelled' ? 'line-through decoration-2' : ''}`}>
+        {currentStatus.titlePrefix}{seminar.title}
       </h4>
     </div>
   
@@ -159,17 +214,6 @@ const biographyId = `biography-${index}`;
           >
             <Video size={16} />
             Join Teams
-          </a>
-        )}
-        {seminar.links.slides && (
-          <a
-            href={seminar.links.slides}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-ku-secondary bg-gradient-to-r from-ku-secondary/8 to-ku-secondary/12 hover:from-ku-secondary/15 hover:to-ku-secondary/20 border border-ku-secondary/25 rounded-xl hover:border-ku-secondary/40 transition-all duration-300 shadow-medium hover:shadow-large backdrop-blur-sm transform hover:scale-105"
-          >
-            <FileText size={16} />
-            Slides
           </a>
         )}
         {seminar.links.video && (

@@ -64,8 +64,8 @@ pnpm preview
 ```yaml
 week:
   isoWeek: 34              # ISO week number
-  start: 2025-08-18        # Week start date (YYYY-MM-DD)
-  end: 2025-08-24          # Week end date
+  start: August 18, 2025   # Week start date (Month DD, YYYY)
+  end: August 24, 2025     # Week end date (Month DD, YYYY)
   timezone: Asia/Dubai     # IANA timezone
   status: open             # open|holiday|break|exams|cancelled
   note: ""                 # Optional status message
@@ -80,6 +80,7 @@ seminars:
     speaker: Dr Jane Smith
     affiliation: University X
     title: Talk Title
+    status: confirmed      # Optional: confirmed|cancelled|postponed|tentative
     start: 2025-08-20T12:00:00+04:00  # ISO 8601 with timezone
     end: 2025-08-20T13:00:00+04:00    # Optional
     location: Building A, Room 301
@@ -94,8 +95,17 @@ seminars:
 
 ## Features
 
-### Status Banners
-The site automatically displays appropriate banners for:
+### Seminar Status Handling
+Individual seminars can have status indicators:
+- `confirmed` (default) - Normal display
+- `cancelled` - Shows with [CANCELLED] prefix, strike-through text, and red accent
+- `postponed` - Shows with [POSTPONED] prefix and orange accent
+- `tentative` - Shows with [TENTATIVE] prefix, dashed border, and blue accent
+
+To skip a seminar series entirely for a week, simply omit it from the seminars list.
+
+### Week Status Banners
+The site automatically displays appropriate banners for the entire week:
 - `holiday` - University holiday
 - `break` - Spring/summer break
 - `exams` - Examination period

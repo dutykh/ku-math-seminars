@@ -5,10 +5,12 @@
 
 export type WeekStatus = "open" | "holiday" | "break" | "exams" | "cancelled";
 
+export type SeminarStatus = "confirmed" | "cancelled" | "postponed" | "tentative";
+
 export interface WeekInfo {
   isoWeek: number;
-  start: string; // YYYY-MM-DD
-  end: string;   // YYYY-MM-DD
+  start: string; // Month DD, YYYY (e.g., "August 18, 2025")
+  end: string;   // Month DD, YYYY (e.g., "August 24, 2025")
   timezone?: string; // IANA timezone, defaults to Asia/Dubai
   status: WeekStatus;
   note?: string; // optional status note
@@ -32,6 +34,7 @@ export interface Seminar {
   series: string;
   speaker: string;
   affiliation?: string;
+  affiliationUrl?: string; // Optional URL for the speaker's university/organization
   title: string;
   start: string; // ISO 8601 timestamp with offset
   end?: string;  // ISO 8601 timestamp with offset
@@ -40,6 +43,7 @@ export interface Seminar {
   biography?: string; // Speaker biography (Markdown supported)
   links?: SeminarLinkMap;
   tags?: string[];
+  status?: SeminarStatus; // Optional, defaults to "confirmed"
 }
 
 export interface WeekData {

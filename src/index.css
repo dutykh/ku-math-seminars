@@ -40,12 +40,18 @@ All colors MUST be HSL.
     --accent: var(--ku-accent);
     --accent-foreground: 0 0% 100%;
     
-    /* Status colors - softer palette */
+    /* Week status colors - softer palette */
     --status-open: 142 65% 45%;      /* Sage green */
     --status-holiday: 261 75% 62%;   /* Soft purple */
     --status-break: 35 85% 55%;      /* Warm amber */
     --status-exams: 358 75% 58%;     /* Soft red */
     --status-cancelled: 207 8% 48%;  /* Muted gray */
+    
+    /* Seminar status colors */
+    --seminar-confirmed: 142 65% 45%;    /* Green - confirmed */
+    --seminar-cancelled: 358 75% 58%;    /* Red - cancelled */
+    --seminar-postponed: 35 85% 55%;     /* Amber - postponed */
+    --seminar-tentative: 207 40% 55%;    /* Blue-gray - tentative */
     
     /* Shadow system */
     --shadow-subtle: 0 1px 3px 0 hsl(207 20% 12% / 0.05);

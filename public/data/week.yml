@@ -1,10 +1,18 @@
 # KU Math Seminars - Week Data
 # Author: Dr. Denys Dutykh (Khalifa University of Science and Technology, Abu Dhabi, UAE)
+#
+# Seminar Status Options:
+# - confirmed (default): The seminar is confirmed and will take place as scheduled
+# - cancelled: The seminar has been cancelled
+# - postponed: The seminar has been postponed to a later date
+# - tentative: The seminar is tentatively scheduled but not yet confirmed
+#
+# Note: To skip a seminar series entirely for a week, simply omit it from the seminars list
 
 week:
   isoWeek: 34
-  start: 2025-08-18
-  end: 2025-08-24
+  start: August 18, 2025
+  end: August 24, 2025
   timezone: Asia/Dubai
   status: open
   note: ""
@@ -35,7 +43,9 @@ seminars:
   - series: ccms
     speaker: Dr Jane Smith
     affiliation: University of Oxford
+    affiliationUrl: https://www.ox.ac.uk/
     title: Singular Limits in Dispersive Partial Differential Equations
+    status: confirmed  # Optional field, defaults to "confirmed" if not specified
     start: 2025-08-20T12:00:00+04:00
     end: 2025-08-20T13:00:00+04:00
     location: Main Campus, Building A, Room 301
@@ -76,6 +86,7 @@ seminars:
   - series: math
     speaker: Prof Ahmed Hassan
     affiliation: American University of Sharjah
+    affiliationUrl: https://www.aus.edu/
     title: Geometric Analysis on Riemannian Manifolds
     start: 2025-08-21T14:00:00+04:00
     end: 2025-08-21T15:00:00+04:00
@@ -116,7 +127,9 @@ seminars:
   - series: fin
     speaker: Dr Sarah Al-Rashid
     affiliation: UAE Central Bank
+    affiliationUrl: https://centralbank.ae/
     title: Risk Management in Islamic Finance using Stochastic Methods
+    status: postponed  # Example: This seminar has been postponed
     start: 2025-08-22T11:00:00+04:00
     end: 2025-08-22T12:00:00+04:00
     location: Main Campus, Building C, Room 150
@@ -158,6 +171,7 @@ seminars:
   - series: grad
     speaker: Mohammad bin Khalid
     affiliation: Khalifa University (PhD Student)
+    affiliationUrl: https://www.ku.ac.ae/
     title: Machine Learning Applications in Computational Fluid Dynamics
     start: 2025-08-23T16:00:00+04:00
     end: 2025-08-23T17:00:00+04:00
@@ -177,7 +191,9 @@ seminars:
   - series: ug
     speaker: Fatima Al-Zahra
     affiliation: Khalifa University (Undergraduate)
+    affiliationUrl: https://www.ku.ac.ae/
     title: "Exploring Fractals: From Mandelbrot Sets to Nature"
+    status: tentative  # Example: Not yet confirmed, may change
     start: 2025-08-24T13:00:00+04:00
     end: 2025-08-24T14:00:00+04:00
     location: Main Campus, Building D, Room 220

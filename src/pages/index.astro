@@ -44,39 +44,195 @@ const allSeries = [
 ];
 
 const timezone = weekData.week.timezone || 'Asia/Dubai';
+
+// Generate dynamic SEO content
+const seminarCount = weekData.seminars?.length || 0;
+const weekNumber = weekData.week.isoWeek || 1;
+const currentYear = weekData.week.start ? new Date(weekData.week.start).getFullYear() : new Date().getFullYear();
+
+// Dynamic title and description
+const dynamicTitle = seminarCount > 0 
+  ? `Week ${weekNumber} Seminars (${seminarCount} events) - Mathematics Department, Khalifa University`
+  : `Week ${weekNumber} - Mathematics Department, Khalifa University`;
+
+const featuredSpeakers = weekData.seminars?.slice(0, 3).map(s => s.speaker).join(', ') || '';
+const dynamicDescription = seminarCount > 0
+  ? `Join us for ${seminarCount} mathematics seminars in Week ${weekNumber}, ${currentYear}. Featured speakers: ${featuredSpeakers}. Abu Dhabi, UAE.`
+  : `Mathematics Department seminars for Week ${weekNumber}, ${currentYear} at Khalifa University, Abu Dhabi, UAE.`;
+
+// Academic keywords based on current seminars
+const seminarKeywords = weekData.seminars?.map(s => s.tags || []).flat().join(', ') || '';
+const dynamicKeywords = `mathematics, seminars, Khalifa University, Abu Dhabi, research, talks, academic events, ${seminarKeywords}`.replace(/,\s*,/g, ',').replace(/,\s*$/, '');
+
+// Build structured data object for JSON-LD
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://www.ku.ac.ae/#organization",
+      "name": "Khalifa University",
+      "url": "https://www.ku.ac.ae/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.events.denys-dutykh.com/assets/KUlogo.png"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Abu Dhabi",
+        "addressCountry": "UAE"
+      },
+      "department": {
+        "@type": "Organization",
+        "name": "Mathematics Department",
+        "parentOrganization": {
+          "@id": "https://www.ku.ac.ae/#organization"
+        }
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://www.events.denys-dutykh.com/#website",
+      "url": "https://www.events.denys-dutykh.com/",
+      "name": "KU Mathematics Seminars",
+      "description": dynamicDescription,
+      "publisher": {
+        "@id": "https://www.ku.ac.ae/#organization"
+      },
+      "inLanguage": "en-US"
+    },
+    {
+      "@type": "CollectionPage",
+      "@id": "https://www.events.denys-dutykh.com/#webpage",
+      "url": "https://www.events.denys-dutykh.com/",
+      "name": dynamicTitle,
+      "description": dynamicDescription,
+      "isPartOf": {
+        "@id": "https://www.events.denys-dutykh.com/#website"
+      },
+      "about": {
+        "@type": "Thing",
+        "name": "Mathematics Seminars"
+      },
+      "mainEntity": (weekData.seminars || []).map((seminar, index) => ({
+        "@type": "Event",
+        "@id": `https://www.events.denys-dutykh.com/#event${index}`,
+        "name": seminar.title,
+        "description": seminar.abstract ? `${seminar.abstract.substring(0, 200).replace(/"/g, '\\"')}...` : 'Mathematics seminar',
+        "startDate": seminar.start,
+        ...(seminar.end && { "endDate": seminar.end }),
+        "eventStatus": seminar.status === 'cancelled' ? 'https://schema.org/EventCancelled' : 
+                      seminar.status === 'postponed' ? 'https://schema.org/EventPostponed' : 
+                      seminar.status === 'tentative' ? 'https://schema.org/EventScheduled' : 
+                      'https://schema.org/EventScheduled',
+        "eventAttendanceMode": "https://schema.org/MixedEventAttendanceMode",
+        "location": {
+          "@type": "Place",
+          "name": seminar.location,
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Abu Dhabi",
+            "addressCountry": "UAE"
+          }
+        },
+        "organizer": {
+          "@id": "https://www.ku.ac.ae/#organization"
+        },
+        "performer": {
+          "@type": "Person",
+          "name": seminar.speaker,
+          ...(seminar.affiliation && { "affiliation": seminar.affiliation }),
+          ...(seminar.affiliationUrl && { "url": seminar.affiliationUrl }),
+          "jobTitle": "Researcher"
+        },
+        ...(seminar.tags && { "keywords": seminar.tags.join(', ') }),
+        "isAccessibleForFree": true,
+        "audience": {
+          "@type": "EducationalAudience",
+          "educationalRole": "student, faculty, researcher"
+        }
+      }))
+    }
+  ]
+};
 ---
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Weekly Seminars - Mathematics Department, Khalifa University</title>
-    <meta name="description" content="Current week's seminar schedule for the Mathematics Department at Khalifa University" />
+    <title>{dynamicTitle}</title>
+    <meta name="description" content={dynamicDescription} />
     <meta name="author" content="Mathematics Department, Khalifa University" />
     
     <!-- Open Graph / Facebook -->
-    <meta property="og:title" content="Weekly Seminars - Mathematics Department, Khalifa University" />
-    <meta property="og:description" content="Current week's seminar schedule for the Mathematics Department at Khalifa University" />
+    <meta property="og:title" content={dynamicTitle} />
+    <meta property="og:description" content={dynamicDescription} />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://math.ku.ac.ae/seminars/" />
-    <meta property="og:image" content="/assets/og-image.png" />
+    <meta property="og:url" content="https://www.events.denys-dutykh.com/" />
+    <meta property="og:image" content="https://www.events.denys-dutykh.com/assets/og-image.svg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/svg+xml" />
     <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="ar_AE" />
     <meta property="og:site_name" content="KU Mathematics Seminars" />
+    <meta property="og:updated_time" content={new Date().toISOString()} />
     
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@KhalifaUni" />
-    <meta name="twitter:title" content="Weekly Seminars - Mathematics Department, Khalifa University" />
-    <meta name="twitter:description" content="Current week's seminar schedule for the Mathematics Department at Khalifa University" />
-    <meta name="twitter:image" content="/assets/og-image.png" />
+    <meta name="twitter:title" content={dynamicTitle} />
+    <meta name="twitter:description" content={dynamicDescription} />
+    <meta name="twitter:image" content="https://www.events.denys-dutykh.com/assets/og-image.svg" />
     
     <!-- Additional Meta Tags -->
-    <meta name="keywords" content="mathematics, seminars, Khalifa University, Abu Dhabi, research, talks" />
+    <meta name="keywords" content={dynamicKeywords} />
     <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://math.ku.ac.ae/seminars/" />
+    <meta name="googlebot" content="index, follow" />
+    <meta name="bingbot" content="index, follow" />
+    <link rel="canonical" href="https://www.events.denys-dutykh.com/" />
+    
+    <!-- Academic Meta Tags -->
+    <meta name="DC.title" content={dynamicTitle} />
+    <meta name="DC.description" content={dynamicDescription} />
+    <meta name="DC.creator" content="Mathematics Department, Khalifa University" />
+    <meta name="DC.subject" content="Mathematics, Seminars, Research, Academic Events" />
+    <meta name="DC.type" content="Event" />
+    <meta name="DC.format" content="text/html" />
+    <meta name="DC.language" content="en" />
+    <meta name="DC.coverage" content="Abu Dhabi, UAE" />
+    <meta name="DC.rights" content="© Khalifa University" />
+    
+    <!-- Educational Meta Tags -->
+    <meta name="audience" content="researchers, faculty, students, academics" />
+    <meta name="content-language" content="en-US" />
+    <meta name="distribution" content="global" />
+    <meta name="rating" content="general" />
+    <meta name="revisit-after" content="1 days" />
+    
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="AE-AZ" />
+    <meta name="geo.placename" content="Abu Dhabi, UAE" />
+    <meta name="geo.position" content="24.4539;54.3773" />
+    <meta name="ICBM" content="24.4539, 54.3773" />
     
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#1e3a8a" />
+    
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(structuredData)}></script>
+
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/assets/og-image.svg" as="image" />
+    <link rel="preload" href="/assets/KUlogo.png" as="image" />
+    <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="//fonts.gstatic.com" />
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com" />
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -85,12 +241,22 @@ const timezone = weekData.week.timezone || 'Asia/Dubai';
     
     <!-- Print Styles -->
     <link rel="stylesheet" href="/styles/print.css" media="print">
+    
+    <!-- Performance hints -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="address=no">
   </head>
   <body class="min-h-screen bg-background text-foreground font-sans antialiased">
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-ku-primary text-white px-4 py-2 rounded">
+      Skip to main content
+    </a>
+    
     <!-- Week Header Component -->
     <WeekHeader weekData={weekData} />
     
-    <div class="container max-w-4xl mx-auto px-6 py-8 md:px-8 lg:px-12">
+    <main id="main-content" class="container max-w-4xl mx-auto px-6 py-8 md:px-8 lg:px-12" role="main">
       <!-- Week Range and Status Banner -->
       <div class="mb-8">
         <div id="week-range" class="hidden"></div>
@@ -98,22 +264,35 @@ const timezone = weekData.week.timezone || 'Asia/Dubai';
       </div>
 
       <!-- Main Content -->
-      <main id="content" aria-live="polite" class="space-y-8">
+      <main id="content" aria-live="polite" class="space-y-12">
         {weekData.seminars && weekData.seminars.length > 0 ? (
-          allSeries.map(seriesMeta => {
+          allSeries.map((seriesMeta, index) => {
             const seminars = groupedSeminars.get(seriesMeta.code) || [];
             if (!seminars.length) return null;
             
             return (
-              <SeriesSection
-                seriesCode={seriesMeta.code}
-                seriesInfo={{
-                  series: seriesMeta,
-                  seminars: seminars
-                }}
-                timezone={timezone}
-                showTimeline={false}
-              />
+              <div>
+                {index > 0 && (
+                  <div class="flex items-center justify-center my-8">
+                    <div class="flex-grow h-px bg-gradient-to-r from-transparent via-ku-secondary/30 to-transparent"></div>
+                    <div class="mx-6 flex items-center space-x-3">
+                      <div class="w-2 h-2 rounded-full bg-ku-accent/40"></div>
+                      <div class="w-1 h-1 rounded-full bg-ku-accent/60"></div>
+                      <div class="w-2 h-2 rounded-full bg-ku-accent/40"></div>
+                    </div>
+                    <div class="flex-grow h-px bg-gradient-to-r from-transparent via-ku-secondary/30 to-transparent"></div>
+                  </div>
+                )}
+                <SeriesSection
+                  seriesCode={seriesMeta.code}
+                  seriesInfo={{
+                    series: seriesMeta,
+                    seminars: seminars
+                  }}
+                  timezone={timezone}
+                  showTimeline={false}
+                />
+              </div>
             );
           })
         ) : (
@@ -124,7 +303,7 @@ const timezone = weekData.week.timezone || 'Asia/Dubai';
           </div>
         )}
       </main>
-    </div>
+    </main>
 
     <!-- Footer -->
     <footer class="mt-16 bg-gradient-to-r from-ku-primary/5 via-background-subtle/80 to-ku-accent/5 border-t-2 border-ku-primary/20 backdrop-blur-sm">
@@ -256,6 +435,443 @@ const timezone = weekData.week.timezone || 'Asia/Dubai';
           initializePDFExport();
         }
         
+        // Helper function to create overview page with table format
+        async function createOverviewPage(doc, seminars, series, pageWidth, margin) {
+          let currentY = 80;
+          
+          // Title
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(12);
+          doc.setTextColor(30, 58, 138);
+          doc.text('WEEKLY SEMINARS OVERVIEW', pageWidth / 2, currentY, { align: 'center' });
+          currentY += 20;
+          
+          // Table headers
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(10);
+          doc.setTextColor(30, 58, 138);
+          
+          // Improved column layout with better spacing and left padding
+          const leftPadding = 5; // Add padding inside the table border
+          // Adjusted column widths to fit within page boundaries (A4 width = 210mm, margins = 30mm total)
+          const colWidths = [25, 22, 32, 50, 30]; // Date&Time, Series, Speaker, Title, Location - Total: 159mm
+          const colSpacing = 2; // Add 2mm spacing between columns (4 gaps = 8mm)
+          // Calculate column positions with spacing between columns
+          const colX = [
+            margin + leftPadding,                    // Date & Time starts at margin + padding
+            margin + leftPadding + colWidths[0] + colSpacing,     // Series starts after Date & Time + spacing
+            margin + leftPadding + colWidths[0] + colSpacing + colWidths[1] + colSpacing,  // Speaker 
+            margin + leftPadding + colWidths[0] + colSpacing + colWidths[1] + colSpacing + colWidths[2] + colSpacing,  // Title
+            margin + leftPadding + colWidths[0] + colSpacing + colWidths[1] + colSpacing + colWidths[2] + colSpacing + colWidths[3] + colSpacing  // Location
+          ];
+          
+          // Center headers properly within their actual column areas
+          doc.text('Date & Time', colX[0] + colWidths[0]/2, currentY, { align: 'center' });
+          doc.text('Series', colX[1] + colWidths[1]/2, currentY, { align: 'center' });
+          doc.text('Speaker', colX[2] + colWidths[2]/2, currentY, { align: 'center' });
+          doc.text('Title', colX[3] + colWidths[3]/2, currentY, { align: 'center' });
+          doc.text('Location', colX[4] + colWidths[4]/2, currentY, { align: 'center' });
+          
+          // Header underline
+          doc.setDrawColor(30, 58, 138);
+          doc.setLineWidth(0.5);
+          doc.line(margin, currentY + 2, pageWidth - margin, currentY + 2);
+          currentY += 15; // More space after header line
+          
+          // Store initial Y position for vertical lines
+          const tableStartY = currentY;
+          
+          // Sort seminars by start time
+          const sortedSeminars = [...seminars].sort((a, b) => 
+            new Date(a.start || '').getTime() - new Date(b.start || '').getTime()
+          );
+          
+          // Seminar rows
+          doc.setFont('helvetica', 'normal');
+          doc.setFontSize(8);
+          doc.setTextColor(31, 41, 55);
+          
+          // Get page height once at the start
+          const pageHeight = doc.internal.pageSize.getHeight();
+          
+          // Debug: Log the page dimensions and starting position
+          console.log('Page dimensions:', { pageWidth, pageHeight, currentY, totalSeminars: sortedSeminars.length });
+          
+          for (const seminar of sortedSeminars) {
+            // Check if we're approaching the bottom of the page
+            if (currentY > pageHeight - 50) break; // Use actual page height, not width
+            
+            const startDate = new Date(seminar.start || '');
+            const endDate = seminar.end ? new Date(seminar.end) : null;
+            
+            const dateStr = startDate.toLocaleDateString('en-GB', { 
+              weekday: 'short', month: 'short', day: 'numeric'
+            });
+            const startTimeStr = startDate.toLocaleTimeString('en-GB', { 
+              hour: '2-digit', minute: '2-digit'
+            });
+            const endTimeStr = endDate ? endDate.toLocaleTimeString('en-GB', { 
+              hour: '2-digit', minute: '2-digit'
+            }) : '';
+            
+            // Create time range string
+            const timeStr = endTimeStr ? `${startTimeStr} – ${endTimeStr}` : startTimeStr;
+            
+            const seriesInfo = series.find(s => s && s.code === seminar.series);
+            const seriesLabel = seriesInfo?.label || seminar.series?.toUpperCase() || '';
+            
+            const status = seminar.status || 'confirmed';
+            const statusPrefix = status !== 'confirmed' ? `[${status.toUpperCase()}] ` : '';
+            
+            // Use text wrapping for better formatting
+            const dateTime = `${dateStr}\n${timeStr}`;
+            const speaker = seminar.speaker || 'TBA';
+            const fullTitle = statusPrefix + (seminar.title || 'TBA');
+            const location = seminar.location || 'TBA';
+            
+            // Split text to fit within column widths
+            const speakerLines = doc.splitTextToSize(speaker, colWidths[2]);
+            const titleLines = doc.splitTextToSize(fullTitle, colWidths[3]);
+            const locationLines = doc.splitTextToSize(location, colWidths[4]);
+            const seriesLines = doc.splitTextToSize(seriesLabel, colWidths[1]);
+            
+            // Calculate row height based on the tallest content
+            const maxLines = Math.max(
+              2, // Date & Time always takes 2 lines
+              speakerLines.length,
+              titleLines.length,
+              locationLines.length,
+              seriesLines.length
+            );
+            
+            // Check if we have enough space for this row - use proper page height
+            const spaceNeeded = currentY + (maxLines * 5) + 15;
+            const spaceAvailable = pageHeight - 40;
+            
+            console.log(`Seminar ${seminar.speaker}: currentY=${currentY}, maxLines=${maxLines}, spaceNeeded=${spaceNeeded}, spaceAvailable=${spaceAvailable}`);
+            
+            if (spaceNeeded > spaceAvailable) {
+              console.log(`Breaking at seminar ${seminar.speaker} due to space constraints`);
+              break; // Footer note needs space too
+            }
+            
+            // Draw the content
+            doc.text(dateTime, colX[0], currentY);
+            
+            // Series
+            for (let i = 0; i < seriesLines.length; i++) {
+              doc.text(seriesLines[i], colX[1], currentY + (i * 5));
+            }
+            
+            // Speaker
+            for (let i = 0; i < speakerLines.length; i++) {
+              doc.text(speakerLines[i], colX[2], currentY + (i * 5));
+            }
+            
+            // Title
+            for (let i = 0; i < titleLines.length; i++) {
+              doc.text(titleLines[i], colX[3], currentY + (i * 5));
+            }
+            
+            // Location
+            for (let i = 0; i < locationLines.length; i++) {
+              doc.text(locationLines[i], colX[4], currentY + (i * 5));
+            }
+            
+            currentY += (maxLines * 5) + 7; // Add spacing between rows (no separator lines)
+          }
+          
+          // Draw vertical grid lines for table structure
+          const tableEndY = currentY - 2;
+          doc.setDrawColor(229, 231, 235);
+          doc.setLineWidth(0.2);
+          
+          // Vertical lines between columns
+          for (let i = 1; i < colX.length; i++) {
+            doc.line(colX[i] - 2, tableStartY - 5, colX[i] - 2, tableEndY);
+          }
+          
+          // Table border with stronger bottom line
+          doc.setDrawColor(30, 58, 138);
+          doc.setLineWidth(0.3);
+          doc.line(margin, tableStartY - 5, pageWidth - margin, tableStartY - 5); // Top border
+          doc.line(margin, tableStartY - 5, margin, tableEndY); // Left border
+          doc.line(pageWidth - margin, tableStartY - 5, pageWidth - margin, tableEndY); // Right border
+          
+          // Bottom border - make it more prominent
+          doc.setLineWidth(0.5); // Slightly thicker for visibility
+          doc.line(margin, tableEndY, pageWidth - margin, tableEndY); // Bottom border
+          
+          // Footer note
+          currentY += 15;
+          doc.setFont('helvetica', 'italic');
+          doc.setFontSize(9);
+          doc.setTextColor(107, 114, 128);
+          doc.text('Detailed information for each seminar follows on subsequent pages.', pageWidth / 2, currentY, { align: 'center' });
+          
+          // Add main footer with website and contact info
+          addPageFooter(doc, pageWidth, 1);
+        }
+        
+        // Helper function to create detailed seminar page
+        async function createSeminarDetailPage(doc, seminar, series, week, pageWidth, margin, pageNum) {
+          // Add header for detail page
+          await addPageHeader(doc, week, pageWidth);
+          
+          let currentY = 80;
+          
+          // Series label
+          const seriesInfo = series.find(s => s && s.code === seminar.series);
+          const seriesLabel = seriesInfo?.label || seminar.series?.toUpperCase() || '';
+          
+          doc.setFont('helvetica', 'bold');
+          doc.setFillColor(5, 150, 105);
+          doc.rect(margin, currentY, pageWidth - 2 * margin, 12, 'F');
+          doc.setTextColor(255, 255, 255);
+          doc.setFontSize(14);
+          doc.text(seriesLabel, pageWidth / 2, currentY + 8, { align: 'center' });
+          currentY += 25;
+          
+          // Status badge if not confirmed
+          const status = seminar.status || 'confirmed';
+          if (status !== 'confirmed') {
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(12);
+            let statusColor = [107, 114, 128];
+            if (status === 'cancelled') statusColor = [220, 38, 38];
+            else if (status === 'postponed') statusColor = [217, 119, 6];
+            else if (status === 'tentative') statusColor = [37, 99, 235];
+            
+            doc.setTextColor(statusColor[0], statusColor[1], statusColor[2]);
+            doc.text(`[${status.toUpperCase()}]`, pageWidth / 2, currentY, { align: 'center' });
+            currentY += 15;
+          }
+          
+          // Speaker name
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(18);
+          doc.setTextColor(31, 41, 55);
+          doc.text(seminar.speaker || 'TBA', pageWidth / 2, currentY, { align: 'center' });
+          currentY += 12;
+          
+          // Affiliation
+          if (seminar.affiliation) {
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(12);
+            doc.setTextColor(107, 114, 128);
+            doc.text(`(${seminar.affiliation})`, pageWidth / 2, currentY, { align: 'center' });
+            currentY += 15;
+          } else {
+            currentY += 10;
+          }
+          
+          // Title
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(16);
+          doc.setTextColor(30, 58, 138);
+          const titleLines = doc.splitTextToSize(seminar.title || 'Title TBA', pageWidth - 2 * margin - 20);
+          for (let i = 0; i < titleLines.length; i++) {
+            doc.text(titleLines[i], pageWidth / 2, currentY + (i * 8), { align: 'center' });
+          }
+          currentY += titleLines.length * 8 + 15;
+          
+          // Time and location
+          doc.setFont('helvetica', 'normal');
+          doc.setFontSize(12);
+          doc.setTextColor(75, 85, 99);
+          
+          if (seminar.start) {
+            const startDate = new Date(seminar.start);
+            const dateStr = startDate.toLocaleDateString('en-GB', { 
+              weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+            });
+            const startTime = startDate.toLocaleTimeString('en-GB', { 
+              hour: '2-digit', minute: '2-digit', hour12: true
+            });
+            const endTime = seminar.end ? new Date(seminar.end).toLocaleTimeString('en-GB', { 
+              hour: '2-digit', minute: '2-digit', hour12: true
+            }) : '';
+            const timeRange = endTime ? `${startTime} – ${endTime}` : startTime;
+            
+            doc.text(`Date: ${dateStr}`, pageWidth / 2, currentY, { align: 'center' });
+            currentY += 8;
+            doc.text(`Time: ${timeRange}`, pageWidth / 2, currentY, { align: 'center' });
+            currentY += 8;
+          }
+          
+          doc.text(`Location: ${seminar.location || 'TBA'}`, pageWidth / 2, currentY, { align: 'center' });
+          currentY += 20;
+          
+          // Abstract
+          if (seminar.abstract) {
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(14);
+            doc.setTextColor(30, 58, 138);
+            doc.text('ABSTRACT', pageWidth / 2, currentY, { align: 'center' });
+            currentY += 12;
+            
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(10);
+            doc.setTextColor(31, 41, 55);
+            
+            const abstractText = seminar.abstract.replace(/\*\*(.*?)\*\*/g, '$1').replace(/\*(.*?)\*/g, '$1');
+            const abstractLines = doc.splitTextToSize(abstractText, pageWidth - 2 * margin);
+            
+            for (let i = 0; i < abstractLines.length; i++) {
+              const pageHeight = doc.internal.pageSize.getHeight();
+              if (currentY > pageHeight - 50) break; // Use page height, not width, and leave space for footer
+              doc.text(abstractLines[i], margin, currentY);
+              currentY += 5;
+            }
+          }
+          
+          // Add footer with website, contact info, and page number
+          addPageFooter(doc, pageWidth, pageNum);
+        }
+        
+        // Helper function to add page header
+        async function addPageHeader(doc, week, pageWidth) {
+          const headerHeight = 65;
+          const margin = 15;
+          
+          // Clean blue header background with subtle gradient effect
+          doc.setFillColor(30, 58, 138); // KU Primary blue
+          doc.rect(0, 0, pageWidth, headerHeight, 'F');
+          
+          // Optional: Add subtle gradient effect by drawing a lighter rectangle at top
+          doc.setFillColor(45, 73, 153); // Slightly lighter blue
+          doc.rect(0, 0, pageWidth, 2, 'F'); // Thin light stripe at top
+          
+          // Logo section (left side) - final optimized size
+          const logoSection = {
+            x: margin,
+            y: 20,
+            width: 22,
+            height: 22
+          };
+          
+          // Try to add the KU logo with proper sizing
+          try {
+            const img = new Image();
+            img.crossOrigin = 'anonymous';
+            
+            await new Promise((resolve) => {
+              img.onload = () => {
+                try {
+                  // Calculate logo dimensions to fit nicely in logo section
+                  const maxSize = 15;
+                  const aspectRatio = img.width / img.height;
+                  let logoWidth = maxSize;
+                  let logoHeight = maxSize;
+                  
+                  if (aspectRatio > 1) {
+                    logoHeight = maxSize;
+                    logoWidth = logoHeight * aspectRatio;
+                  } else {
+                    logoWidth = maxSize;
+                    logoHeight = logoWidth / aspectRatio;
+                  }
+                  
+                  // Center logo within logo section
+                  const logoX = logoSection.x + (logoSection.width - logoWidth) / 2;
+                  const logoY = logoSection.y + (logoSection.height - logoHeight) / 2;
+                  
+                  // Add white background rectangle for better logo visibility
+                  const padding = 2;
+                  doc.setFillColor(255, 255, 255);
+                  doc.roundedRect(
+                    logoX - padding, 
+                    logoY - padding, 
+                    logoWidth + (padding * 2), 
+                    logoHeight + (padding * 2), 
+                    2, 2, 'F'
+                  );
+                  
+                  // Add the logo
+                  doc.addImage(img, 'PNG', logoX, logoY, logoWidth, logoHeight);
+                  resolve();
+                } catch (error) {
+                  console.warn('Could not add KU logo image, using fallback:', error);
+                  addFallbackLogo(doc, logoSection.x, logoSection.y, 15);
+                  resolve();
+                }
+              };
+              img.onerror = () => {
+                console.warn('Could not load KU logo image, using fallback');
+                addFallbackLogo(doc, logoSection.x, logoSection.y, 15);
+                resolve();
+              };
+              img.src = '/assets/KUlogo.png';
+            });
+            
+          } catch (error) {
+            console.warn('Could not add KU logo:', error);
+            addFallbackLogo(doc, logoSection.x, logoSection.y, 15);
+          }
+          
+          // Text section (right side) - properly calculated to avoid logo
+          const textStartX = 42; // Start text after logo area
+          const textAreaWidth = pageWidth - textStartX - 15; // Available width for text
+          const textCenterX = textStartX + (textAreaWidth / 2); // Center of available text area
+          
+          doc.setTextColor(255, 255, 255);
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(20);
+          doc.text('KHALIFA UNIVERSITY', textCenterX, 20, { align: 'center' });
+          
+          doc.setFontSize(14);
+          doc.text('Mathematics Department', textCenterX, 32, { align: 'center' });
+          
+          doc.setFontSize(12);
+          doc.text('Weekly Seminars Schedule', textCenterX, 44, { align: 'center' });
+          
+          // Week range with proper spacing around dash
+          const weekStartStr = week.start ? `${week.start}` : '';
+          const weekEndStr = week.end ? `${week.end}` : '';
+          const weekRangeText = `Week ${week.isoWeek}: ${weekStartStr} — ${weekEndStr}`;
+          
+          doc.setFontSize(10);
+          doc.setFont('helvetica', 'normal');
+          doc.text(weekRangeText, textCenterX, 56, { align: 'center' });
+        }
+        
+        // Fallback logo function
+        function addFallbackLogo(doc, logoX, logoY, logoSize) {
+          // Simple KU text without circle background
+          doc.setTextColor(255, 255, 255); // White text for better visibility on blue
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(20);
+          doc.text('KU', logoX + 5, logoY + logoSize/2 + 5);
+        }
+        
+        // Reusable footer function
+        function addPageFooter(doc, pageWidth, pageNum) {
+          const pageHeight = doc.internal.pageSize.getHeight();
+          const margin = 15;
+          
+          // Footer separator line
+          doc.setDrawColor(229, 231, 235);
+          doc.setLineWidth(0.3);
+          doc.line(margin, pageHeight - 25, pageWidth - margin, pageHeight - 25);
+          
+          // Footer content
+          doc.setTextColor(107, 114, 128);
+          doc.setFont('helvetica', 'normal');
+          doc.setFontSize(9);
+          
+          // Website info - centered
+          doc.text('For more information, visit: https://www.events.denys-dutykh.com', pageWidth / 2, pageHeight - 18, { align: 'center' });
+          
+          // Contact info - centered
+          doc.text('Contact: denys.dutykh@ku.ac.ae', pageWidth / 2, pageHeight - 10, { align: 'center' });
+          
+          // Page number - only for detail pages (pageNum > 1)
+          if (pageNum && pageNum > 1) {
+            doc.setFontSize(8);
+            doc.text(`Page ${pageNum}`, pageWidth - margin, pageHeight - 5, { align: 'right' });
+          }
+        }
+
         function initializePDFExport() {
           const exportButton = document.getElementById('export-pdf-button');
           if (exportButton) {
@@ -279,7 +895,7 @@ const timezone = weekData.week.timezone || 'Asia/Dubai';
                 console.log('Using global data for PDF:', completeWeekData);
                 
                 // Generate and download PDF using inline PDF generation
-                generateSeminarPoster(completeWeekData);
+                await generateSeminarPoster(completeWeekData);
               } catch (error) {
                 console.error('Error generating PDF:', error);
                 alert('Error generating PDF: ' + error.message);
@@ -289,7 +905,7 @@ const timezone = weekData.week.timezone || 'Asia/Dubai';
         }
         
         // Inline PDF generation function (simplified version)
-        function generateSeminarPoster(weekData) {
+        async function generateSeminarPoster(weekData) {
           console.log('Generating PDF with data:', weekData);
           
           // Validate weekData structure
@@ -307,31 +923,115 @@ const timezone = weekData.week.timezone || 'Asia/Dubai';
           const pageWidth = doc.internal.pageSize.getWidth();
           const margin = 15;
           
-          // Header
-          doc.setFillColor(30, 58, 138); // KU Primary
-          doc.rect(0, 0, pageWidth, 50, 'F');
+          // Header with improved professional design
+          const headerHeight = 65;
+          doc.setFillColor(30, 58, 138); // KU Primary blue
+          doc.rect(0, 0, pageWidth, headerHeight, 'F');
+          
+          // Optional: Add subtle gradient effect by drawing a lighter rectangle at top
+          doc.setFillColor(45, 73, 153); // Slightly lighter blue
+          doc.rect(0, 0, pageWidth, 2, 'F'); // Thin light stripe at top
+          
+          // Logo section (left side) - final optimized size
+          const logoSection = {
+            x: margin,
+            y: 20,
+            width: 22,
+            height: 22
+          };
+          
+          // KU logo
+          try {
+            const logoX = 15;
+            const logoY = 10;
+            const logoSize = 15;
+            
+            // Try to load and add the actual KU logo
+            const img = new Image();
+            img.crossOrigin = 'anonymous';
+            
+            await new Promise((resolve) => {
+              img.onload = () => {
+                try {
+                  // Calculate proper dimensions to maintain aspect ratio (no circle constraint)
+                  const aspectRatio = img.width / img.height;
+                  let logoWidth = logoSize;
+                  let logoHeight = logoSize;
+                  
+                  if (aspectRatio > 1) {
+                    // Landscape - limit by height
+                    logoHeight = logoSize;
+                    logoWidth = logoHeight * aspectRatio;
+                  } else {
+                    // Portrait or square - limit by width
+                    logoWidth = logoSize;
+                    logoHeight = logoWidth / aspectRatio;
+                  }
+                  
+                  // Center logo within logo section
+                  const centerX = logoSection.x + (logoSection.width - logoWidth) / 2;
+                  const centerY = logoSection.y + (logoSection.height - logoHeight) / 2;
+                  
+                  // Add white background rectangle for better logo visibility
+                  const padding = 2;
+                  doc.setFillColor(255, 255, 255);
+                  doc.roundedRect(
+                    centerX - padding, 
+                    centerY - padding, 
+                    logoWidth + (padding * 2), 
+                    logoHeight + (padding * 2), 
+                    2, 2, 'F'
+                  );
+                  
+                  // Add the actual KU logo image with proper aspect ratio
+                  doc.addImage(img, 'PNG', centerX, centerY, logoWidth, logoHeight);
+                  resolve();
+                } catch (error) {
+                  console.warn('Could not add KU logo image, using fallback:', error);
+                  // Fallback to simple design
+                  addFallbackLogo(doc, logoX, logoY, logoSize);
+                  resolve();
+                }
+              };
+              img.onerror = () => {
+                console.warn('Could not load KU logo image, using fallback');
+                addFallbackLogo(doc, logoX, logoY, logoSize);
+                resolve();
+              };
+              img.src = '/assets/KUlogo.png';
+            });
+            
+          } catch (error) {
+            console.warn('Could not add KU logo:', error);
+            addFallbackLogo(doc, 15, 10, 30);
+          }
+          
+          // University name and header text - shifted right to avoid logo overlap
+          const textStartX = 42; // Start text after logo area
+          const textAreaWidth = pageWidth - textStartX - 15; // Available width for text
+          const textCenterX = textStartX + (textAreaWidth / 2); // Center of available text area
           
           doc.setTextColor(255, 255, 255);
           doc.setFont('helvetica', 'bold');
-          doc.setFontSize(24);
-          doc.text('KHALIFA UNIVERSITY', pageWidth / 2, 20, { align: 'center' });
-          
-          doc.setFontSize(16);
-          doc.text('Mathematics Department', pageWidth / 2, 30, { align: 'center' });
+          doc.setFontSize(20);
+          doc.text('KHALIFA UNIVERSITY', textCenterX, 20, { align: 'center' });
           
           doc.setFontSize(14);
-          doc.text('Weekly Seminars Schedule', pageWidth / 2, 40, { align: 'center' });
+          doc.text('Mathematics Department', textCenterX, 32, { align: 'center' });
+          
+          doc.setFontSize(12);
+          doc.text('Weekly Seminars Schedule', textCenterX, 44, { align: 'center' });
           
           // Week info with safe access
           const week = weekData.week || {};
           const isoWeek = week.isoWeek || 1;
-          const startDate = week.start || new Date().toISOString().split('T')[0];
-          const endDate = week.end || new Date().toISOString().split('T')[0];
+          const startDate = week.start || 'January 1, 2025';
+          const endDate = week.end || 'January 7, 2025';
           
-          const weekRange = `Week ${isoWeek}, ${startDate}–${endDate}`;
-          doc.setTextColor(30, 58, 138);
-          doc.setFontSize(18);
-          doc.text(weekRange, pageWidth / 2, 60, { align: 'center' });
+          const weekRange = `Week ${isoWeek}: ${startDate} — ${endDate}`;
+          doc.setFontSize(10);
+          doc.setFont('helvetica', 'normal');
+          doc.text(weekRange, textCenterX, 56, { align: 'center' });
           
           let currentY = 80;
           
@@ -346,91 +1046,19 @@ const timezone = weekData.week.timezone || 'Asia/Dubai';
             doc.setFontSize(14);
             doc.text('No seminars scheduled for this week.', pageWidth / 2, currentY, { align: 'center' });
           } else {
-            // Group seminars by series
-            const groupedSeminars = new Map();
-            seminars.forEach(seminar => {
-              const seriesCode = seminar.series || 'unknown';
-              if (!groupedSeminars.has(seriesCode)) {
-                groupedSeminars.set(seriesCode, []);
-              }
-              groupedSeminars.get(seriesCode).push(seminar);
-            });
+            // PAGE 1: Create overview table
+            await createOverviewPage(doc, seminars, series, pageWidth, margin);
             
-            // Draw seminars
-            for (const [seriesCode, seriesSeminars] of groupedSeminars) {
-              const seriesInfo = series.find(s => s && s.code === seriesCode);
-              const seriesLabel = seriesInfo?.label || seriesCode.toUpperCase();
-              
-              // Series header
-              doc.setFillColor(5, 150, 105);
-              doc.rect(margin, currentY, pageWidth - 2 * margin, 12, 'F');
-              doc.setTextColor(255, 255, 255);
-              doc.setFont('helvetica', 'bold');
-              doc.setFontSize(14);
-              doc.text(seriesLabel, margin + 5, currentY + 8);
-              currentY += 20;
-              
-              // Draw each seminar
-              seriesSeminars.forEach(seminar => {
-                if (!seminar) return; // Skip null/undefined seminars
-                
-                const cardHeight = 35;
-                doc.setFillColor(249, 250, 251);
-                doc.rect(margin, currentY, pageWidth - 2 * margin, cardHeight, 'F');
-                doc.setDrawColor(229, 231, 235);
-                doc.rect(margin, currentY, pageWidth - 2 * margin, cardHeight, 'S');
-                
-                // Speaker
-                doc.setTextColor(31, 41, 55);
-                doc.setFont('helvetica', 'bold');
-                doc.setFontSize(12);
-                doc.text(seminar.speaker || 'TBA', margin + 5, currentY + 8);
-                
-                // Title
-                doc.setTextColor(30, 58, 138);
-                doc.setFontSize(11);
-                const title = seminar.title || 'Title TBA';
-                const titleLines = doc.splitTextToSize(title, pageWidth - 30);
-                doc.text(titleLines.slice(0, 2), margin + 5, currentY + 15);
-                
-                // Time and location
-                doc.setTextColor(107, 114, 128);
-                doc.setFont('helvetica', 'normal');
-                doc.setFontSize(9);
-                
-                let startTime = 'TBA';
-                if (seminar.start) {
-                  try {
-                    startTime = new Date(seminar.start).toLocaleTimeString('en-GB', { 
-                      hour: '2-digit', 
-                      minute: '2-digit',
-                      timeZone: week.timezone || 'Asia/Dubai'
-                    });
-                  } catch (e) {
-                    console.warn('Error formatting time:', e);
-                  }
-                }
-                
-                doc.text(`⏰ ${startTime}`, margin + 5, currentY + 25);
-                doc.text(`📍 ${seminar.location || 'TBA'}`, margin + 5, currentY + 30);
-                
-                currentY += cardHeight + 5;
-              });
-              
-              currentY += 8;
+            // PAGES 2+: Create detailed pages for each seminar
+            for (let i = 0; i < seminars.length; i++) {
+              const seminar = seminars[i];
+              if (seminar) {
+                // Add new page for each seminar
+                doc.addPage();
+                await createSeminarDetailPage(doc, seminar, series, week, pageWidth, margin, i + 2);
+              }
             }
           }
-          
-          // Footer
-          const footerY = doc.internal.pageSize.getHeight() - 25;
-          doc.setDrawColor(229, 231, 235);
-          doc.line(margin, footerY - 5, pageWidth - margin, footerY - 5);
-          
-          doc.setTextColor(107, 114, 128);
-          doc.setFont('helvetica', 'normal');
-          doc.setFontSize(9);
-          doc.text('For more information, visit: math.ku.ac.ae/seminars', pageWidth / 2, footerY + 5, { align: 'center' });
-          doc.text('Contact: denys.dutykh@ku.ac.ae', pageWidth / 2, footerY + 10, { align: 'center' });
           
           // Save PDF with safe filename generation
           const safeIsoWeek = week.isoWeek || 1;

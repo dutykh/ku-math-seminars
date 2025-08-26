@@ -4,7 +4,7 @@ import tailwind from '@astrojs/tailwind';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'http://localhost:4321',
+  site: 'https://www.events.denys-dutykh.com',
   output: 'static',
   build: {
     assets: 'assets'

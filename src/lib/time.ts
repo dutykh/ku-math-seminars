@@ -4,9 +4,39 @@
  */
 
 /**
+ * Parse a readable date string to Date object
+ * @param dateStr Date string in "Month DD, YYYY" format (e.g., "August 18, 2025")
+ * @returns Date object
+ */
+function parseReadableDate(dateStr: string): Date {
+  // Handle both new readable format and legacy ISO format for backward compatibility
+  if (dateStr.includes(',')) {
+    // New format: "August 18, 2025"
+    // Parse components for consistent behavior
+    const [monthDay, year] = dateStr.split(', ');
+    const [month, day] = monthDay.split(' ');
+    // Use ISO format for consistent parsing
+    const monthMap: Record<string, string> = {
+      'January': '01', 'February': '02', 'March': '03', 'April': '04',
+      'May': '05', 'June': '06', 'July': '07', 'August': '08',
+      'September': '09', 'October': '10', 'November': '11', 'December': '12'
+    };
+    const monthNum = monthMap[month];
+    if (!monthNum) {
+      throw new Error(`Invalid month in date string: ${dateStr}`);
+    }
+    const paddedDay = day.padStart(2, '0');
+    return new Date(`${year}-${monthNum}-${paddedDay}T00:00:00`);
+  } else {
+    // Legacy format: "2025-08-18"
+    return new Date(dateStr + 'T00:00:00');
+  }
+}
+
+/**
  * Format a week range with ISO week number
- * @param start Start date in YYYY-MM-DD format
- * @param end End date in YYYY-MM-DD format
+ * @param start Start date in "Month DD, YYYY" format
+ * @param end End date in "Month DD, YYYY" format
  * @param isoWeek ISO week number
  * @param timezone IANA timezone identifier
  * @returns Formatted week range string
@@ -17,8 +47,8 @@ export function formatWeekRange(
   isoWeek: number,
   timezone: string = 'Asia/Dubai'
 ): string {
-  const startDate = new Date(start + 'T00:00:00');
-  const endDate = new Date(end + 'T00:00:00');
+  const startDate = parseReadableDate(start);
+  const endDate = parseReadableDate(end);
   
   const options: Intl.DateTimeFormatOptions = {
     day: '2-digit',
@@ -36,7 +66,7 @@ export function formatWeekRange(
   // Get timezone abbreviation
   const tzAbbr = getTimezoneAbbreviation(timezone);
   
-  return `Week ${isoWeek}, ${startStr}–${endStr} (${tzAbbr})`;
+  return `Week ${isoWeek}: ${startStr} – ${endStr} (${tzAbbr})`;
 }
 
 /**
@@ -125,14 +155,17 @@ export function isToday(dateStr: string, timezone: string = 'Asia/Dubai'): boole
 /**
  * Check if a date is in the current week
  * @param dateStr Date string in any format
- * @param weekStart Start date of the week in YYYY-MM-DD format
- * @param weekEnd End date of the week in YYYY-MM-DD format
+ * @param weekStart Start date of the week in "Month DD, YYYY" format
+ * @param weekEnd End date of the week in "Month DD, YYYY" format
  * @returns True if the date is within the week range
  */
 export function isInWeek(dateStr: string, weekStart: string, weekEnd: string): boolean {
   const date = new Date(dateStr);
-  const start = new Date(weekStart + 'T00:00:00');
-  const end = new Date(weekEnd + 'T23:59:59');
+  const start = parseReadableDate(weekStart);
+  const end = parseReadableDate(weekEnd);
+  
+  // Set end to end of day
+  end.setHours(23, 59, 59, 999);
   
   return date >= start && date <= end;
 }
