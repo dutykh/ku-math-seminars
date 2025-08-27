@@ -14,13 +14,30 @@ This site displays the current week's mathematics seminars across multiple serie
 - Graduate Math Seminar
 - Undergraduate Math Seminar
 
+## Architecture
+
+- **Build-time data load**: `src/pages/index.astro` reads `public/data/week.yml` using Node `fs` and the `yaml` package, parses into `WeekData` (see `src/lib/types.ts`).
+- **Rendering**: Astro pages/components render static HTML with small interactive islands when needed. Main composition is in `index.astro` using components:
+  - `src/components/WeekHeader.astro` – week banner, theme controls.
+  - `src/components/SeriesSection.astro` – section per seminar series.
+  - `src/components/SeminarCard.astro` – individual seminar card with status, links, abstract/biography toggles.
+- **Styling**: Tailwind CSS via `@astrojs/tailwind` with custom design tokens and utilities defined in `tailwind.config.ts`. Global styles in `src/index.css`. Print stylesheet in `public/styles/print.css`.
+- **Time/formatting utilities**: `src/lib/time.ts` for week range, time ranges, timezone labels, timeline positions.
+- **PDF generation**: Two options
+  - Client-side export in `src/pages/index.astro` using jsPDF from CDN for a quick printable summary and detail pages.
+  - A typed generator `src/lib/pdfGenerator.ts` providing a class-based, multi-page A4 poster builder using `jspdf` (imported via ESM).
+- **SEO/metadata**: `index.astro` generates dynamic `<title>`, `<meta>` and JSON-LD structured data for Organization, WebSite, CollectionPage, and each Event.
+- **Build output**: Astro static build to `dist/` (see `astro.config.mjs`). Optional Express server (`server.js`) can serve the static output.
+
 ## Technical Stack
 
-- **Astro 5** - Static site generator with islands architecture
-- **TypeScript** - Type safety and better development experience
-- **YAML** - Runtime data fetching for immediate updates
-- **Lightweight CSS** - No external frameworks, optimized for performance
-- **Print-ready** - A4 PDF export with proper formatting
+- **Astro 5** – Static site generator, islands architecture.
+- **TypeScript** – Strict config via `astro/tsconfigs/strict`.
+- **YAML** – Content source in `public/data/week.yml` parsed with `yaml`.
+- **Tailwind CSS 3** – Integrated via `@astrojs/tailwind`; PostCSS + Autoprefixer.
+- **jsPDF** – PDF generation (ESM in `src/lib/pdfGenerator.ts` and CDN in `index.astro`).
+- **Express 5 (optional)** – Static server for `dist/` in `server.js`.
+- Tooling: **PostCSS**, **Autoprefixer**, **pnpm**.
 
 ## Local Development
 
@@ -126,36 +143,66 @@ The site automatically displays appropriate banners for the entire week:
 - ARIA live regions for dynamic updates
 
 ### Security
-- Markdown content sanitized with DOMPurify
-- External links use `rel="noopener noreferrer"`
-- No server-side code or database dependencies
+
+- Abstract/biography HTML is minimally sanitized in `SeminarCard.astro` (`sanitizeHTML()`), and links use `rel="noopener noreferrer"`.
+- No database or dynamic server required for the site. For stronger sanitization, consider integrating DOMPurify (package is available in dependencies) in the rendering path.
 
 ## Deployment
 
-This is a static site - upload the contents of `/dist/` to any web server:
+This is a static site. Deploy the contents of `dist/` to any static host (Nginx/Apache/Vercel/Netlify/etc.).
 
 ```bash
 # Build static files
 pnpm build
 
-# Contents of dist/ can be served by Apache, Nginx, etc.
+# Preview locally
+pnpm preview
+
+# Optional: serve dist/ with Express (useful on a bare VM)
+node server.js
 ```
 
 ## File Structure
 
-```
+```text
 ku-math-seminars/
 ├── src/
-│   ├── lib/types.ts          # TypeScript definitions
-│   └── pages/index.astro     # Main page
+│   ├── components/
+│   │   ├── WeekHeader.astro         # Week banner and controls
+│   │   ├── SeriesSection.astro      # Group per series
+│   │   ├── SeminarCard.astro        # Seminar card w/ status, abstract, links
+│   │   └── icons/                    # Icon components (Astro SVGs)
+│   ├── lib/
+│   │   ├── types.ts                 # YAML schema types (WeekData, Seminar, ...)
+│   │   ├── time.ts                  # Date/time formatting utilities
+│   │   └── pdfGenerator.ts          # Class-based jsPDF poster generator
+│   ├── pages/
+│   │   └── index.astro              # Main page, YAML load, SEO/JSON-LD
+│   └── index.css                    # Global styles (Tailwind layers, tokens)
 ├── public/
-│   ├── data/week.yml         # Seminar data (edit weekly)
-│   ├── assets/ku-logo.svg    # University logo
-│   └── styles/print.css      # Print stylesheet
-├── astro.config.mjs          # Astro configuration
-├── package.json              # Dependencies and scripts
-└── tsconfig.json             # TypeScript configuration
+│   ├── data/week.yml                # Weekly seminars data (edit weekly)
+│   ├── assets/                      # Logos, icons, favicons
+│   └── styles/print.css             # Print styles for A4 export
+├── astro.config.mjs                 # Astro config (+ Tailwind integration)
+├── tailwind.config.ts               # Tailwind theme, tokens, animations
+├── postcss.config.mjs               # PostCSS + Autoprefixer
+├── server.js                        # Optional Express static server for dist/
+├── package.json                     # Scripts and dependencies
+├── pnpm-lock.yaml                   # Lockfile
+└── tsconfig.json                    # TS configuration
 ```
+
+## Data Flow and Content Model
+
+- **Source**: `public/data/week.yml` holds `week`, optional `series[]`, and `seminars[]`.
+- **Types**: Defined in `src/lib/types.ts` with `WeekStatus` and `SeminarStatus` enums.
+- **Grouping**: `index.astro` groups seminars by `series` and renders known + unknown series in a stable order.
+- **Status handling**: Cards reflect `confirmed|cancelled|postponed|tentative` with distinct visuals.
+
+## SEO and Accessibility
+
+- **SEO**: Dynamic title/description, meta keywords, OG/Twitter cards, JSON-LD for Organization, Website, CollectionPage, and Events generated in `index.astro`.
+- **A11y**: Semantic structure, keyboard support for details/summary, skip links, high-contrast theme, ARIA live regions for dynamic updates.
 
 ## Troubleshooting
 
