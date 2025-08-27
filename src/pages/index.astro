@@ -750,60 +750,55 @@ const structuredData = {
             height: 22
           };
           
-          // Try to add the KU logo with proper sizing
+          // Try to add the KU logo with proper sizing (fetch -> dataURL for Chrome compatibility)
           try {
-            const img = new Image();
-            img.crossOrigin = 'anonymous';
-            
-            await new Promise((resolve) => {
-              img.onload = () => {
-                try {
-                  // Calculate logo dimensions to fit nicely in logo section
-                  const maxSize = 15;
-                  const aspectRatio = img.width / img.height;
-                  let logoWidth = maxSize;
-                  let logoHeight = maxSize;
-                  
-                  if (aspectRatio > 1) {
-                    logoHeight = maxSize;
-                    logoWidth = logoHeight * aspectRatio;
-                  } else {
-                    logoWidth = maxSize;
-                    logoHeight = logoWidth / aspectRatio;
-                  }
-                  
-                  // Center logo within logo section
-                  const logoX = logoSection.x + (logoSection.width - logoWidth) / 2;
-                  const logoY = logoSection.y + (logoSection.height - logoHeight) / 2;
-                  
-                  // Add white background rectangle for better logo visibility
-                  const padding = 2;
-                  doc.setFillColor(255, 255, 255);
-                  doc.roundedRect(
-                    logoX - padding, 
-                    logoY - padding, 
-                    logoWidth + (padding * 2), 
-                    logoHeight + (padding * 2), 
-                    2, 2, 'F'
-                  );
-                  
-                  // Add the logo
-                  doc.addImage(img, 'PNG', logoX, logoY, logoWidth, logoHeight);
-                  resolve();
-                } catch (error) {
-                  console.warn('Could not add KU logo image, using fallback:', error);
-                  addFallbackLogo(doc, logoSection.x, logoSection.y, 15);
-                  resolve();
-                }
-              };
-              img.onerror = () => {
-                console.warn('Could not load KU logo image, using fallback');
-                addFallbackLogo(doc, logoSection.x, logoSection.y, 15);
-                resolve();
-              };
-              img.src = '/assets/KUlogo.png';
+            const logoUrl = `${location.origin}/assets/KUlogo.png`;
+            const resp = await fetch(logoUrl, { cache: 'force-cache' });
+            if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+            const blob = await resp.blob();
+            const dataUrl = await new Promise((resolve) => {
+              const reader = new FileReader();
+              reader.onload = () => resolve(reader.result);
+              reader.readAsDataURL(blob);
             });
-            
+
+            // Create an Image to get natural dimensions for aspect ratio
+            const img = await new Promise((resolve, reject) => {
+              const i = new Image();
+              i.onload = () => resolve(i);
+              i.onerror = reject;
+              i.src = typeof dataUrl === 'string' ? dataUrl : String(dataUrl);
+            });
+
+            const naturalW = img && img.width ? img.width : 1;
+            const naturalH = img && img.height ? img.height : 1;
+            const maxSize = 15;
+            const aspectRatio = naturalW / naturalH;
+            let logoWidth = maxSize;
+            let logoHeight = maxSize;
+            if (aspectRatio > 1) {
+              logoHeight = maxSize;
+              logoWidth = logoHeight * aspectRatio;
+            } else {
+              logoWidth = maxSize;
+              logoHeight = logoWidth / aspectRatio;
+            }
+
+            const logoX = logoSection.x + (logoSection.width - logoWidth) / 2;
+            const logoY = logoSection.y + (logoSection.height - logoHeight) / 2;
+
+            // Add white background rectangle for better logo visibility
+            const padding = 2;
+            doc.setFillColor(255, 255, 255);
+            doc.roundedRect(
+              logoX - padding,
+              logoY - padding,
+              logoWidth + (padding * 2),
+              logoHeight + (padding * 2),
+              2, 2, 'F'
+            );
+
+            doc.addImage(typeof dataUrl === 'string' ? dataUrl : String(dataUrl), 'PNG', logoX, logoY, logoWidth, logoHeight);
           } catch (error) {
             console.warn('Could not add KU logo:', error);
             addFallbackLogo(doc, logoSection.x, logoSection.y, 15);
@@ -940,70 +935,60 @@ const structuredData = {
             height: 22
           };
           
-          // KU logo
+          // KU logo (fetch -> dataURL for Chrome compatibility)
           try {
-            const logoX = 15;
-            const logoY = 10;
             const logoSize = 15;
-            
-            // Try to load and add the actual KU logo
-            const img = new Image();
-            img.crossOrigin = 'anonymous';
-            
-            await new Promise((resolve) => {
-              img.onload = () => {
-                try {
-                  // Calculate proper dimensions to maintain aspect ratio (no circle constraint)
-                  const aspectRatio = img.width / img.height;
-                  let logoWidth = logoSize;
-                  let logoHeight = logoSize;
-                  
-                  if (aspectRatio > 1) {
-                    // Landscape - limit by height
-                    logoHeight = logoSize;
-                    logoWidth = logoHeight * aspectRatio;
-                  } else {
-                    // Portrait or square - limit by width
-                    logoWidth = logoSize;
-                    logoHeight = logoWidth / aspectRatio;
-                  }
-                  
-                  // Center logo within logo section
-                  const centerX = logoSection.x + (logoSection.width - logoWidth) / 2;
-                  const centerY = logoSection.y + (logoSection.height - logoHeight) / 2;
-                  
-                  // Add white background rectangle for better logo visibility
-                  const padding = 2;
-                  doc.setFillColor(255, 255, 255);
-                  doc.roundedRect(
-                    centerX - padding, 
-                    centerY - padding, 
-                    logoWidth + (padding * 2), 
-                    logoHeight + (padding * 2), 
-                    2, 2, 'F'
-                  );
-                  
-                  // Add the actual KU logo image with proper aspect ratio
-                  doc.addImage(img, 'PNG', centerX, centerY, logoWidth, logoHeight);
-                  resolve();
-                } catch (error) {
-                  console.warn('Could not add KU logo image, using fallback:', error);
-                  // Fallback to simple design
-                  addFallbackLogo(doc, logoX, logoY, logoSize);
-                  resolve();
-                }
-              };
-              img.onerror = () => {
-                console.warn('Could not load KU logo image, using fallback');
-                addFallbackLogo(doc, logoX, logoY, logoSize);
-                resolve();
-              };
-              img.src = '/assets/KUlogo.png';
+
+            const logoUrl = `${location.origin}/assets/KUlogo.png`;
+            const resp = await fetch(logoUrl, { cache: 'force-cache' });
+            if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+            const blob = await resp.blob();
+            const dataUrl = await new Promise((resolve) => {
+              const reader = new FileReader();
+              reader.onload = () => resolve(reader.result);
+              reader.readAsDataURL(blob);
             });
-            
+
+            // Use an Image to compute aspect ratio
+            const img = await new Promise((resolve, reject) => {
+              const i = new Image();
+              i.onload = () => resolve(i);
+              i.onerror = reject;
+              i.src = typeof dataUrl === 'string' ? dataUrl : String(dataUrl);
+            });
+
+            const naturalW = img && img.width ? img.width : 1;
+            const naturalH = img && img.height ? img.height : 1;
+            const aspectRatio = naturalW / naturalH;
+            let logoWidth = logoSize;
+            let logoHeight = logoSize;
+            if (aspectRatio > 1) {
+              // Landscape - limit by height
+              logoHeight = logoSize;
+              logoWidth = logoHeight * aspectRatio;
+            } else {
+              // Portrait or square - limit by width
+              logoWidth = logoSize;
+              logoHeight = logoWidth / aspectRatio;
+            }
+
+            const centerX = logoSection.x + (logoSection.width - logoWidth) / 2;
+            const centerY = logoSection.y + (logoSection.height - logoHeight) / 2;
+
+            const padding = 2;
+            doc.setFillColor(255, 255, 255);
+            doc.roundedRect(
+              centerX - padding,
+              centerY - padding,
+              logoWidth + (padding * 2),
+              logoHeight + (padding * 2),
+              2, 2, 'F'
+            );
+
+            doc.addImage(typeof dataUrl === 'string' ? dataUrl : String(dataUrl), 'PNG', centerX, centerY, logoWidth, logoHeight);
           } catch (error) {
             console.warn('Could not add KU logo:', error);
-            addFallbackLogo(doc, 15, 10, 30);
+            addFallbackLogo(doc, 15, 10, logoSize);
           }
           
           // University name and header text - shifted right to avoid logo overlap

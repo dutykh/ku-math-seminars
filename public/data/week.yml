@@ -46,8 +46,8 @@ seminars:
     affiliationUrl: https://www.ku.ac.ae/
     title: "Self-Supervised Learning: From Invariant Image Representations to World Models"
     status: confirmed  # Optional field, defaults to "confirmed" if not specified
-    start: 2025-08-21T15:00:00+04:00
-    end: 2025-08-21T16:00:00+04:00
+    start: 2025-09-04T15:00:00+04:00
+    end: 2025-09-04T16:00:00+04:00
     location: SAN Campus, Zarkuh Bldg, ADCO Auditorium
     abstract: |
       This seminar will begin with a brief overview of my research interests, with examples drawn in particular from applications in healthcare. I will then discuss recent progress in self-supervised learning and its growing ability to model and make sense of the real world. The talk will highlight the pioneering work of Quentin Garrido, a PhD student I co-supervise with Prof **Yann LeCun**. My goal is to provide an accessible and engaging introduction to central ideas such as self-supervised learning, generative models, and world models. While I will use a small amount of mathematics to illustrate connections between major families of self-supervised models, the focus will remain on a broad, intuitive understanding suitable for a diverse audience.

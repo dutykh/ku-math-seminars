@@ -77,13 +77,18 @@ export function formatWeekRange(
  */
 export function formatTime(dateStr: string, timezone: string = 'Asia/Dubai'): string {
   const date = new Date(dateStr);
-  
-  return date.toLocaleString('en-GB', {
+
+  // Build weekday and time separately to avoid locale-inserted comma
+  const weekday = date.toLocaleDateString('en-GB', {
     timeZone: timezone,
-    weekday: 'long',
+    weekday: 'long'
+  });
+  const time = date.toLocaleTimeString('en-GB', {
+    timeZone: timezone,
     hour: '2-digit',
     minute: '2-digit'
   });
+  return `${weekday} ${time}`;
 }
 
 /**
@@ -98,8 +103,26 @@ export function formatTimeRange(
   endStr?: string,
   timezone: string = 'Asia/Dubai'
 ): string {
-  const startTime = formatTime(startStr, timezone);
-  
+  const startDate = new Date(startStr);
+
+  // Date part: "September 4"
+  const datePart = startDate.toLocaleDateString('en-US', {
+    timeZone: timezone,
+    month: 'long',
+    day: 'numeric'
+  });
+  // Weekday part: "Thursday"
+  const weekdayPart = startDate.toLocaleDateString('en-GB', {
+    timeZone: timezone,
+    weekday: 'long'
+  });
+  // Time(s)
+  const startTime = startDate.toLocaleTimeString('en-GB', {
+    timeZone: timezone,
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+
   if (endStr) {
     const endDate = new Date(endStr);
     const endTime = endDate.toLocaleTimeString('en-GB', {
@@ -107,10 +130,10 @@ export function formatTimeRange(
       hour: '2-digit',
       minute: '2-digit'
     });
-    return `${startTime} – ${endTime}`;
+    return `${datePart}, ${weekdayPart}, ${startTime} – ${endTime}`;
   }
-  
-  return startTime;
+
+  return `${datePart}, ${weekdayPart}, ${startTime}`;
 }
 
 /**
