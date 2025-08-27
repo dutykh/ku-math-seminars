@@ -216,11 +216,10 @@ const structuredData = {
     <meta name="geo.position" content="24.4539;54.3773" />
     <meta name="ICBM" content="24.4539, 54.3773" />
     
-    <!-- Favicon -->
+    <!-- Favicon & icons -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
+    <!-- Use existing SVG touch icon to avoid 404; PNG variant not present in /assets -->
+    <link rel="apple-touch-icon" type="image/svg+xml" href="/assets/apple-touch-icon.svg" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#1e3a8a" />
     
@@ -228,7 +227,6 @@ const structuredData = {
     <script type="application/ld+json" is:inline set:html={JSON.stringify(structuredData)}></script>
 
     <!-- Preload critical resources -->
-    <link rel="preload" href="/assets/og-image.svg" as="image" />
     <link rel="preload" href="/assets/KUlogo.png" as="image" />
     <link rel="dns-prefetch" href="//fonts.googleapis.com" />
     <link rel="dns-prefetch" href="//fonts.gstatic.com" />

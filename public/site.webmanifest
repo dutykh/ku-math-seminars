@@ -4,19 +4,14 @@
   "description": "Weekly seminar schedule for the Mathematics Department at Khalifa University",
   "icons": [
     {
-      "src": "/assets/favicon-16x16.png",
-      "sizes": "16x16",
-      "type": "image/png"
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
     },
     {
-      "src": "/assets/favicon-32x32.png",
-      "sizes": "32x32",
-      "type": "image/png"
-    },
-    {
-      "src": "/assets/apple-touch-icon.png",
+      "src": "/assets/apple-touch-icon.svg",
       "sizes": "180x180",
-      "type": "image/png"
+      "type": "image/svg+xml"
     },
     {
       "src": "/assets/KUlogo.png",

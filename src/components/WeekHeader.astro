@@ -22,9 +22,9 @@ const weekRange = formatWeekRange(week.start, week.end, week.isoWeek, week.timez
 
 <header class="bg-gradient-to-r from-ku-primary/15 via-surface/95 to-ku-accent/15 backdrop-blur-lg border-b-2 border-ku-primary/25 print-header sticky top-0 z-50 shadow-large">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-3 items-center py-8 gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-3 items-center py-6 md:py-8 gap-4">
       <!-- Left side - Logo -->
-      <div class="flex justify-start">
+      <div class="flex justify-center md:justify-start">
         <a 
           href="https://www.ku.ac.ae/" 
           target="_blank" 
@@ -35,15 +35,15 @@ const weekRange = formatWeekRange(week.start, week.end, week.isoWeek, week.timez
             <img 
               src="/assets/KUlogo.png" 
               alt="Khalifa University" 
-              class="h-16 w-auto"
+              class="h-14 md:h-16 w-auto"
             />
           </div>
         </a>
       </div>
       
       <!-- Center - University name and department -->
-      <div class="text-center">
-        <h1 class="text-5xl font-bold mb-2 drop-shadow-sm">
+      <div class="text-center mt-2 md:mt-0">
+        <h1 class="text-4xl md:text-5xl font-bold mb-2 drop-shadow-sm">
           <a 
             href="https://www.ku.ac.ae/" 
             target="_blank" 
@@ -53,7 +53,7 @@ const weekRange = formatWeekRange(week.start, week.end, week.isoWeek, week.timez
             Khalifa University
           </a>
         </h1>
-        <p class="text-xl text-ku-primary font-bold mb-1 drop-shadow-sm">
+        <p class="text-lg md:text-xl text-ku-primary font-bold mb-1 drop-shadow-sm">
           <a 
             href="https://www.ku.ac.ae/academics/college-of-computing-and-mathematical-sciences/department/department-of-mathematics/"
             target="_blank"
@@ -63,13 +63,13 @@ const weekRange = formatWeekRange(week.start, week.end, week.isoWeek, week.timez
             Mathematics Department
           </a>
         </p>
-        <p class="text-base text-ku-secondary font-semibold">
+        <p class="text-sm md:text-base text-ku-secondary font-semibold">
           Weekly Seminars Schedule
         </p>
       </div>
       
       <!-- Right side - Controls only -->
-      <div class="flex justify-end items-center space-x-2 no-print">
+      <div class="flex justify-center md:justify-end items-center gap-2 mt-2 md:mt-0 no-print">
         <Button
           variant="outline"
           size="sm"
