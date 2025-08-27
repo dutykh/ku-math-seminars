@@ -205,9 +205,9 @@ const biographyId = `biography-${index}`;
             Speaker page
           </a>
         )}
-        {seminar.links.zoom && (
+        {(seminar.links.teams || seminar.links.zoom) && (
           <a
-            href={seminar.links.zoom}
+            href={seminar.links.teams || seminar.links.zoom}
             target="_blank"
             rel="noopener noreferrer"
             class="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-ku-accent bg-gradient-to-r from-ku-accent/8 to-ku-accent/12 hover:from-ku-accent/15 hover:to-ku-accent/20 border border-ku-accent/25 rounded-xl hover:border-ku-accent/40 transition-all duration-300 shadow-medium hover:shadow-large backdrop-blur-sm transform hover:scale-105"

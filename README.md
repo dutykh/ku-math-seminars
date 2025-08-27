@@ -8,7 +8,7 @@ A minimal, static website for displaying the weekly programme of Mathematics Dep
 ## Overview
 
 This site displays the current week's mathematics seminars across multiple series:
-- CCMS Seminar (Centre for Computational and Mathematical Sciences)
+- CCMS Seminar (College of Computing and Mathematical Sciences)
 - Math Seminar (General Mathematics Department)
 - Financial Math Seminar
 - Graduate Math Seminar
@@ -89,7 +89,7 @@ seminars:
     links:                 # All optional
       speaker: https://...
       slides: https://...
-      zoom: https://...
+      teams: https://...
     tags: [PDE, Analysis]  # Optional
 ```
 

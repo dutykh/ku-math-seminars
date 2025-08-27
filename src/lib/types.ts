@@ -26,6 +26,7 @@ export interface SeriesMeta {
 export interface SeminarLinkMap {
   speaker?: string;
   slides?: string;
+  teams?: string; // Preferred field for online meeting (Microsoft Teams)
   zoom?: string;
   video?: string;
 }

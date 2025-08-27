@@ -20,7 +20,7 @@ week:
 series:
   - code: ccms
     label: CCMS Seminar
-    organisedBy: Centre for Computational and Mathematical Sciences
+    organisedBy: College of Computing and Mathematical Sciences
     organisedByUrl: https://www.ku.ac.ae/college-of-computing-and-mathematical-sciences/
   - code: math
     label: Math Seminar
