@@ -6,6 +6,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "start": "astro preview --host 0.0.0.0 --port 3004 --allowed-hosts events.denys-dutykh.com,www.events.denys-dutykh.com",
     "check": "astro check",
     "astro": "astro"
   },
@@ -13,6 +14,7 @@
     "@astrojs/check": "^0.9.4",
     "astro": "^5.13.3",
     "dompurify": "^3.2.6",
+    "express": "^5.1.0",
     "jsdom": "^26.1.0",
     "jspdf": "^3.0.1",
     "marked": "^16.2.0",
