@@ -4,15 +4,18 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
+    "prebuild": "node scripts/gen-og.js",
     "build": "astro build",
     "preview": "astro preview",
     "start": "astro preview --host 0.0.0.0 --port 3004 --allowed-hosts events.denys-dutykh.com,www.events.denys-dutykh.com",
     "check": "astro check",
-    "astro": "astro"
+    "astro": "astro",
+    "prepare-og": "node scripts/gen-og.js"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
     "astro": "^5.13.3",
+    "sharp": "^0.33.4",
     "dompurify": "^3.2.6",
     "express": "^5.1.0",
     "jsdom": "^26.1.0",

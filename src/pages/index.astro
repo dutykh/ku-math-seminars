@@ -64,6 +64,10 @@ const dynamicDescription = seminarCount > 0
 const seminarKeywords = weekData.seminars?.map(s => s.tags || []).flat().join(', ') || '';
 const dynamicKeywords = `mathematics, seminars, Khalifa University, Abu Dhabi, research, talks, academic events, ${seminarKeywords}`.replace(/,\s*,/g, ',').replace(/,\s*$/, '');
 
+// Cache-busting token for OG images to force social scrapers to refresh
+const ogVersion = `${currentYear}-${weekNumber}`;
+const ogImageUrl = `https://www.events.denys-dutykh.com/assets/og-image.png?v=${ogVersion}`;
+
 // Build structured data object for JSON-LD
 const structuredData = {
   "@context": "https://schema.org",
@@ -76,6 +80,16 @@ const structuredData = {
       "logo": {
         "@type": "ImageObject",
         "url": "https://www.events.denys-dutykh.com/assets/KUlogo.png"
+      },
+      "sameAs": [
+        "https://en.wikipedia.org/wiki/Khalifa_University",
+        "https://x.com/KhalifaUni",
+        "https://www.linkedin.com/school/khalifa-university/"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "Academic Department",
+        "email": "denys.dutykh@ku.ac.ae"
       },
       "address": {
         "@type": "PostalAddress",
@@ -99,7 +113,13 @@ const structuredData = {
       "publisher": {
         "@id": "https://www.ku.ac.ae/#organization"
       },
-      "inLanguage": "en-US"
+      "inLanguage": "en-US",
+      "image": {
+        "@type": "ImageObject",
+        "url": ogImageUrl,
+        "width": 1200,
+        "height": 630
+      }
     },
     {
       "@type": "CollectionPage",
@@ -110,6 +130,7 @@ const structuredData = {
       "isPartOf": {
         "@id": "https://www.events.denys-dutykh.com/#website"
       },
+      "image": ogImageUrl,
       "about": {
         "@type": "Thing",
         "name": "Mathematics Seminars"
@@ -169,10 +190,11 @@ const structuredData = {
     <meta property="og:description" content={dynamicDescription} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://www.events.denys-dutykh.com/" />
-    <meta property="og:image" content="https://www.events.denys-dutykh.com/assets/og-image.svg" />
+    <meta property="og:image" content={ogImageUrl} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:type" content="image/svg+xml" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:alt" content="KU Mathematics Seminars weekly overview" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:locale:alternate" content="ar_AE" />
     <meta property="og:site_name" content="KU Mathematics Seminars" />
@@ -183,7 +205,8 @@ const structuredData = {
     <meta name="twitter:site" content="@KhalifaUni" />
     <meta name="twitter:title" content={dynamicTitle} />
     <meta name="twitter:description" content={dynamicDescription} />
-    <meta name="twitter:image" content="https://www.events.denys-dutykh.com/assets/og-image.svg" />
+    <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="twitter:image:alt" content="KU Mathematics Seminars weekly overview" />
     
     <!-- Additional Meta Tags -->
     <meta name="keywords" content={dynamicKeywords} />
@@ -221,6 +244,8 @@ const structuredData = {
     <!-- Use existing SVG touch icon to avoid 404; PNG variant not present in /assets -->
     <link rel="apple-touch-icon" type="image/svg+xml" href="/assets/apple-touch-icon.svg" />
     <link rel="manifest" href="/site.webmanifest" />
+    <!-- Hint primary page image for crawlers -->
+    <link rel="image_src" href={ogImageUrl} />
     <meta name="theme-color" content="#1e3a8a" />
     
     <!-- Structured Data (JSON-LD) -->

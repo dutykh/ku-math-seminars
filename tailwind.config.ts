@@ -1,3 +1,9 @@
+/**
+ * KU Math Seminars - Tailwind Configuration
+ * Author: Dr. Denys Dutykh (Khalifa University of Science and Technology, Abu Dhabi, UAE)
+ * License: GNU General Public License v3.0
+ */
+
 import type { Config } from "tailwindcss";
 
 export default {

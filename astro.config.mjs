@@ -1,3 +1,7 @@
+// KU Math Seminars - Astro Configuration
+// Author: Dr. Denys Dutykh (Khalifa University of Science and Technology, Abu Dhabi, UAE)
+// License: GNU General Public License v3.0
+
 // @ts-check
 import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';

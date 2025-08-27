@@ -1,3 +1,9 @@
+/*
+ * KU Math Seminars - Static Server
+ * Author: Dr. Denys Dutykh (Khalifa University of Science and Technology, Abu Dhabi, UAE)
+ * License: GNU General Public License v3.0
+ */
+
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';

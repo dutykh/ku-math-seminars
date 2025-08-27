@@ -1,3 +1,9 @@
+/*
+ * KU Math Seminars - Global Styles
+ * Author: Dr. Denys Dutykh (Khalifa University of Science and Technology, Abu Dhabi, UAE)
+ * License: GNU General Public License v3.0
+ */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
