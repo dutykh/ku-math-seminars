@@ -10,202 +10,53 @@
 # Note: To skip a seminar series entirely for a week, simply omit it from the seminars list
 
 week:
-  isoWeek: 34
-  start: August 18, 2025
-  end: August 24, 2025
+  isoWeek: 36
+  start: September 1, 2025
+  end: September 7, 2025
   timezone: Asia/Dubai
   status: open
   note: ""
 
 series:
   - code: ccms
-    label: CCMS Seminar
-    organisedBy: Centre for Computational and Mathematical Sciences
+    label: CCMS College Seminar
+    organisedBy: College of Computing and Mathematical Sciences
     organisedByUrl: https://www.ku.ac.ae/college-of-computing-and-mathematical-sciences/
   - code: math
-    label: Math Seminar
-    organisedBy: Mathematics Department
-    organisedByUrl: https://www.ku.ac.ae/academics/college-of-computing-and-mathematical-sciences/department/department-of-mathematics/
+    label: KU Math Seminar
+    organisedBy: Drs Denys Dutykh, Erkko Lehtonen, Yerkin Kitapbayev, and Julian Barreiro-Gomez
+    organisedByUrl: https://www.denys-dutykh.com/
   - code: fin
     label: Financial Math Seminar
     organisedBy: Mathematics Department
     organisedByUrl: https://www.ku.ac.ae/academics/college-of-computing-and-mathematical-sciences/department/department-of-mathematics/
   - code: grad
     label: Graduate Math Seminar
-    organisedBy: Mathematics Department
-    organisedByUrl: https://www.ku.ac.ae/academics/college-of-computing-and-mathematical-sciences/department/department-of-mathematics/
+    organisedBy: Prof Hadi Susanto
+    organisedByUrl: https://www.ku.ac.ae/college-people/hadi-susanto
   - code: ug
-    label: Undergraduate Math Seminar
-    organisedBy: Mathematics Department
-    organisedByUrl: https://www.ku.ac.ae/academics/college-of-computing-and-mathematical-sciences/department/department-of-mathematics/
+    label: Beyond Math Seminar
+    organisedBy: Ms. Nesma Khalil
+    organisedByUrl: https://www.ku.ac.ae/college-people/nesma-khalil/
 
 seminars:
-  - series: ccms
-    speaker: Dr Jane Smith
-    affiliation: University of Oxford
-    affiliationUrl: https://www.ox.ac.uk/
-    title: Singular Limits in Dispersive Partial Differential Equations
-    status: confirmed  # Optional field, defaults to "confirmed" if not specified
-    start: 2025-08-20T12:00:00+04:00
-    end: 2025-08-20T13:00:00+04:00
-    location: Main Campus, Building A, Room 301
-    abstract: |
-      We study the behavior of **dispersive PDEs** in the singular limit where certain parameters become small. 
-      
-      Using matched asymptotic expansions and rigorous mathematical analysis, we establish convergence results 
-      for the nonlinear Schrödinger equation with rapidly varying coefficients. The main challenges include:
-      
-      - Handling oscillatory integrals in multiple scales
-      - Proving uniform bounds on the solution family
-      - Establishing convergence to the effective equation
-      
-      This work has applications to water wave theory and quantum mechanics.
-    biography: |
-      **Dr Jane Smith** is a Professor of Mathematical Analysis at the University of Oxford, where she holds the 
-      prestigious **Whitehead Chair in Mathematics**. She completed her PhD in Applied Mathematics at Cambridge 
-      University in 2008 under the supervision of Prof. Sir Michael Berry.
-      
-      **Research Expertise:**
-      - Dispersive partial differential equations and wave phenomena
-      - Asymptotic analysis and matched expansions
-      - Mathematical water wave theory
-      - Quantum mechanical systems with classical limits
-      
-      Dr Smith has published over 65 peer-reviewed articles in top-tier journals including *Communications in Mathematical Physics*, 
-      *Archive for Rational Mechanics and Analysis*, and *Journal of Differential Equations*. She is the recipient of the 
-      **London Mathematical Society Whitehead Prize** (2018) and the **Philip Leverhulme Prize** in Mathematics (2019).
-      
-      She currently leads the EPSRC-funded project *"Multiscale Methods in Dispersive Wave Systems"* and serves as 
-      Associate Editor for the *Journal of Nonlinear Science*.
-    links:
-      speaker: https://www.maths.ox.ac.uk/people/jane.smith
-      slides: https://example.com/slides.pdf
-      zoom: https://ku-zoom.example.com/j/123456789
-    tags: [PDE, Asymptotics, Water Waves]
-
   - series: math
-    speaker: Prof Ahmed Hassan
-    affiliation: American University of Sharjah
-    affiliationUrl: https://www.aus.edu/
-    title: Geometric Analysis on Riemannian Manifolds
-    start: 2025-08-21T14:00:00+04:00
-    end: 2025-08-21T15:00:00+04:00
-    location: Main Campus, Building B, Room 205
-    abstract: |
-      An introduction to modern techniques in geometric analysis, focusing on the interplay between 
-      differential geometry and partial differential equations on curved spaces.
-      
-      Topics covered:
-      1. Ricci flow and its applications
-      2. Minimal surfaces and mean curvature flow
-      3. Yamabe problem and conformal geometry
-    biography: |
-      **Professor Ahmed Hassan** is a Distinguished Professor of Mathematics at the American University of Sharjah 
-      and holds a joint appointment with the **Institute for Advanced Study** in Princeton. He earned his PhD in 
-      Differential Geometry from Stanford University in 2005, where he worked under the mentorship of Prof. Richard Schoen.
-      
-      **Academic Journey:**
-      - Assistant Professor, MIT (2005-2010)
-      - Associate Professor, University of Chicago (2010-2015)  
-      - Professor, American University of Sharjah (2015-present)
-      
-      **Research Focus:**
-      - Ricci flow and geometric evolution equations
-      - Minimal surfaces and harmonic maps
-      - Conformal geometry and scalar curvature problems
-      - Applications of geometric analysis to general relativity
-      
-      Prof. Hassan has authored the influential monograph *"Geometric Flows and Their Applications"* (Springer, 2020) 
-      and has published extensively in *Inventiones Mathematicae*, *Duke Mathematical Journal*, and *Geometric and Functional Analysis*. 
-      
-      He was awarded the **Sheikh Zayed Excellence Award** for scientific research (2021) and serves on the editorial boards of 
-      *Calculus of Variations and PDEs* and the *Journal of Geometric Analysis*.
-    links:
-      speaker: https://www.aus.edu/faculty/ahmed-hassan
-    tags: [Differential Geometry, Geometric Analysis]
-
-  - series: fin
-    speaker: Dr Sarah Al-Rashid
-    affiliation: UAE Central Bank
-    affiliationUrl: https://centralbank.ae/
-    title: Risk Management in Islamic Finance using Stochastic Methods
-    status: postponed  # Example: This seminar has been postponed
-    start: 2025-08-22T11:00:00+04:00
-    end: 2025-08-22T12:00:00+04:00
-    location: Main Campus, Building C, Room 150
-    abstract: |
-      Islamic finance presents unique challenges for risk management due to Sharia compliance requirements.
-      We present a comprehensive framework using advanced stochastic calculus techniques.
-      
-      Key contributions include novel approaches to:
-      - Sukuk pricing under uncertainty
-      - Profit-sharing investment accounts modeling
-      - Operational risk in Islamic banking
-    biography: |
-      **Dr Sarah Al-Rashid** serves as **Senior Director of Financial Risk Management** at the UAE Central Bank, 
-      where she leads the Islamic Finance Regulation Division. She holds a PhD in Mathematical Finance from 
-      Imperial College London (2012) and is a certified **Financial Risk Manager (FRM)** and **Chartered Financial Analyst (CFA)**.
-      
-      **Professional Experience:**
-      - UAE Central Bank, Senior Director (2018-present)
-      - Dubai Islamic Bank, Chief Risk Officer (2015-2018)
-      - Abu Dhabi Islamic Bank, VP Risk Management (2012-2015)
-      
-      **Areas of Expertise:**
-      - Islamic finance principles and Sharia compliance
-      - Stochastic modeling for Sukuk and Islamic derivatives  
-      - Regulatory frameworks for Islamic banking
-      - Operational risk management in dual banking systems
-      
-      Dr Al-Rashid has been instrumental in developing the **UAE's Islamic Finance Regulatory Framework** and 
-      co-authored the central bank's guidelines on Islamic liquidity management. She has published research in 
-      the *Journal of Islamic Banking and Finance*, *Islamic Economic Studies*, and *Review of Financial Economics*.
-      
-      She serves as a board member of the **Islamic Financial Services Board (IFSB)** in Malaysia and is a frequent 
-      speaker at international Islamic finance conferences. In 2022, she received the **UAE Banking Excellence Award** 
-      for her contributions to Islamic finance regulation.
-    links:
-      slides: https://centralbank.ae/en/research/risk-management-slides.pdf
-    tags: [Islamic Finance, Stochastic Calculus, Risk Management]
-
-  - series: grad
-    speaker: Mohammad bin Khalid
-    affiliation: Khalifa University (PhD Student)
+    speaker: Prof Laurent Najman
+    affiliation: Khalifa University
     affiliationUrl: https://www.ku.ac.ae/
-    title: Machine Learning Applications in Computational Fluid Dynamics
-    start: 2025-08-23T16:00:00+04:00
-    end: 2025-08-23T17:00:00+04:00
-    location: Main Campus, Building A, Room 105
+    title: "Self-Supervised Learning: From Invariant Image Representations to World Models"
+    status: confirmed  # Optional field, defaults to "confirmed" if not specified
+    start: 2025-08-21T15:00:00+04:00
+    end: 2025-08-21T16:00:00+04:00
+    location: SAN Campus, Zarkuh Bldg, ADCO Auditorium
     abstract: |
-      We explore the integration of deep learning techniques with traditional CFD solvers
-      to accelerate simulation of complex fluid flows.
+      This seminar will begin with a brief overview of my research interests, with examples drawn in particular from applications in healthcare. I will then discuss recent progress in self-supervised learning and its growing ability to model and make sense of the real world. The talk will highlight the pioneering work of Quentin Garrido, a PhD student I co-supervise with Prof **Yann LeCun**. My goal is to provide an accessible and engaging introduction to central ideas such as self-supervised learning, generative models, and world models. While I will use a small amount of mathematics to illustrate connections between major families of self-supervised models, the focus will remain on a broad, intuitive understanding suitable for a diverse audience.
+    biography: |
+      Prof **Laurent Najman** received his Ph.D. in applied mathematics from Paris-Dauphine University in 1994 (with highest honors), and his Ingénieur degree from the École des Mines de Paris in 1991. After early research at Thomson-CSF on infrared image segmentation, he directed R&D at Animation Science, a start-up whose award-winning particle system technologies were widely recognized in computer graphics. He later worked as a Senior Scientist at OCÉ Print Logic Technologies on image analysis for scanning and printing.
       
-      **Research objectives:**
-      - Develop physics-informed neural networks for flow prediction
-      - Reduce computational cost while maintaining accuracy
-      - Apply to real-world engineering problems in UAE industries
+      From 2002 to 2025, he was Full Professor at ESIEE Paris, Université Gustave Eiffel, where he led the A3SI research team. He is now Professor of Mathematics at Khalifa University in the United Arab Emirates. In 2025, he was also elected President of AFRIF, the French branch of the International Association for Pattern Recognition.
       
-      This is preliminary work from my PhD thesis under supervision of Prof. Dutykh.
-    tags: [Machine Learning, CFD, Neural Networks]
-
-  - series: ug
-    speaker: Fatima Al-Zahra
-    affiliation: Khalifa University (Undergraduate)
-    affiliationUrl: https://www.ku.ac.ae/
-    title: "Exploring Fractals: From Mandelbrot Sets to Nature"
-    status: tentative  # Example: Not yet confirmed, may change
-    start: 2025-08-24T13:00:00+04:00
-    end: 2025-08-24T14:00:00+04:00
-    location: Main Campus, Building D, Room 220
-    abstract: |
-      A visual journey through the fascinating world of fractals, from mathematical definitions
-      to their appearances in nature and applications in computer graphics.
-      
-      We'll explore:
-      - Basic fractal geometry and dimension theory
-      - The famous Mandelbrot and Julia sets
-      - Fractals in coastlines, trees, and clouds
-      - Applications in art and digital media
-      
-      *This presentation includes interactive visualizations and is suitable for all levels.*
-    tags: [Fractals, Visualization, Applied Mathematics]
+      His research interests lie in data science, with a particular focus on the topology of discrete structures (graphs, hierarchies, simplicial complexes) through discrete mathematical morphology and optimization, with many applications in healthcare.
+    links:
+      speaker: https://www.laurentnajman.org/
+    tags: [Self-Supervised Learning, World Models, Generative Models, Computer Vision, Data Science]
