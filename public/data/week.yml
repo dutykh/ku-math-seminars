@@ -10,9 +10,9 @@
 # Note: To skip a seminar series entirely for a week, simply omit it from the seminars list
 
 week:
-  isoWeek: 36
-  start: September 1, 2025
-  end: September 7, 2025
+  isoWeek: 37
+  start: September 8, 2025
+  end: September 14, 2025
   timezone: Asia/Dubai
   status: open
   note: ""
@@ -36,28 +36,37 @@ series:
     organisedByUrl: https://www.ku.ac.ae/college-people/hadi-susanto
   - code: ug
     label: Beyond Math Seminar
-    organisedBy: Ms. Nesma Khalil
+    organisedBy: Ms Nesma Khalil
     organisedByUrl: https://www.ku.ac.ae/college-people/nesma-khalil/
 
 seminars:
   - series: math
-    speaker: Prof Laurent Najman
-    affiliation: Khalifa University
+    speaker: Dr Mohamed Soufiane Jouini
+    affiliation: Mathematics Department, Khalifa University
     affiliationUrl: https://www.ku.ac.ae/
-    title: "Self-Supervised Learning: From Invariant Image Representations to World Models"
+    title: "Image Processing and Machine Learning: Characterizing heterogeneity in porous media"
     status: confirmed  # Optional field, defaults to "confirmed" if not specified
-    start: 2025-09-04T15:00:00+04:00
-    end: 2025-09-04T16:00:00+04:00
+    start: 2025-09-11T15:00:00+04:00
+    end: 2025-09-11T16:00:00+04:00
     location: SAN Campus, Zarkuh Bldg, ADCO Auditorium
     abstract: |
-      This seminar will begin with a brief overview of my research interests, with examples drawn in particular from applications in healthcare. I will then discuss recent progress in self-supervised learning and its growing ability to model and make sense of the real world. The talk will highlight the pioneering work of Quentin Garrido, a PhD student I co-supervise with Prof **Yann LeCun**. My goal is to provide an accessible and engaging introduction to central ideas such as self-supervised learning, generative models, and world models. While I will use a small amount of mathematics to illustrate connections between major families of self-supervised models, the focus will remain on a broad, intuitive understanding suitable for a diverse audience.
+      This presentation focuses on heterogeneity in porous media and how it can be characterized using image processing and machine learning. In the first part, we explore the variation of pore sizes, shapes, and spatial arrangements in computed tomography (CT) images. Here, textural descriptors combined with supervised and unsupervised classification provide an automated way to differentiate reservoir rocks and link their structural features to physical properties. The second part examines micro-CT data across multiple length scales, showing how texture-based approaches can be used to upscale rock properties from the pore scale to the core scale. In the final part, we present a quantitative description of carbonate rock heterogeneity using multifractal theory, offering a rigorous framework to capture pore complexity and its implications for flow and transport processes.
     biography: |
-      Prof **Laurent Najman** received his Ph.D. in applied mathematics from Paris-Dauphine University in 1994 (with highest honors), and his Ingénieur degree from the École des Mines de Paris in 1991. After early research at Thomson-CSF on infrared image segmentation, he directed R&D at Animation Science, a start-up whose award-winning particle system technologies were widely recognized in computer graphics. He later worked as a Senior Scientist at OCÉ Print Logic Technologies on image analysis for scanning and printing.
-      
-      From 2002 to 2025, he was Full Professor at ESIEE Paris, Université Gustave Eiffel, where he led the A3SI research team. He is now Professor of Mathematics at Khalifa University in the United Arab Emirates. In 2025, he was also elected President of AFRIF, the French branch of the International Association for Pattern Recognition.
-      
-      His research interests lie in data science, with a particular focus on the topology of discrete structures (graphs, hierarchies, simplicial complexes) through discrete mathematical morphology and optimization, with many applications in healthcare.
+      Dr. Mohamed Soufiane Jouini received his Ph.D. in Signal and Image Processing from Bordeaux University, a Master of Science in Signal and Image Processing from the National Polytechnic Institute of Toulouse, and a Master's degree in Electrical Engineering from the same institution. Before transitioning to academia, Dr. Jouini gained substantial experience in research and development within industry, including roles at TOTAL E&P Research Centre in Pau, France, and SAGEM SÉCURITÉ (now IDEMIA) in Paris, France. In early 2010, he joined the Petroleum Institute (now part of Khalifa University) as a Research and Teaching Associate, where he focused on image-based digital rock physics projects. In 2014, he was appointed Assistant Professor in the Department of Mathematics at Khalifa University and has served as Associate Professor since 2020. Dr. Jouini's research focuses on image processing, digital rock physics, fractals, and machine learning. He applies advanced imaging and computational methods to model and predict physical properties in applications such as oil reservoir characterization, CO₂ sequestration, and water desalination. His work has earned notable recognition, including: The Oil & Gas Year Award (2016) in the "Partnership of the Year" category for a digital rock physics project on core sample analysis and the R&D Bright Finding & Integration Pen award from ADNOC R&D (2014) for best integration of research into industry.
     links:
-      speaker: https://www.laurentnajman.org/
+      speaker: https://www.ku.ac.ae/college-people/mohamed-soufiane-jouini
       teams: https://teams.microsoft.com/l/meetup-join/19%3ameeting_MWQzNjk2MDQtZjA4Ni00OWNkLWFhYjctYTZjZTE3MGJmOTZi%40thread.v2/0?context=%7b%22Tid%22%3a%2208fe1c0a-19f5-4f24-a662-fdd5dd460025%22%2c%22Oid%22%3a%22aba525f2-e024-4b7d-b19f-d522948dead5%22%7d
-    tags: [Self-Supervised Learning, World Models, Generative Models, Computer Vision, Data Science]
+    tags: [Image Processing, Machine Learning, Digital Rock Physics, Fractals, Porous Media]
+
+  - series: grad
+    speaker: Mr Ade Candra Bayu
+    affiliation: Mathematics Department, Khalifa University
+    affiliationUrl: https://www.ku.ac.ae/
+    title: "Scenario tree generation for multistage stochastic programming"
+    status: confirmed  # Optional field, defaults to "confirmed" if not specified
+    start: 2025-09-12T10:00:00+04:00
+    end: 2025-09-12T11:00:00+04:00
+    location: TBA
+    abstract: |
+      Multistage stochastic programming relies on the construction of scenario trees to represent uncertainty across decision stages. In this work, we develop a data-driven framework for scenario tree generation. The framework consists of two steps: scenario extraction from historical data and subsequent scenario reduction. The quality of the reduced scenario trees is assessed using a metric for probability space distance, for example, the Wasserstein distance. To demonstrate the effectiveness of the proposed approach, we apply it to a multistage portfolio selection problem, highlighting its ability to balance computational tractability with representational fidelity.
+    tags: [Stochastic Programming, Scenario Tree, Wasserstein Distance]

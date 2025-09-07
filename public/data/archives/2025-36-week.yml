@@ -1,0 +1,63 @@
+# KU Math Seminars - Week Data
+# Author: Dr. Denys Dutykh (Khalifa University of Science and Technology, Abu Dhabi, UAE)
+#
+# Seminar Status Options:
+# - confirmed (default): The seminar is confirmed and will take place as scheduled
+# - cancelled: The seminar has been cancelled
+# - postponed: The seminar has been postponed to a later date
+# - tentative: The seminar is tentatively scheduled but not yet confirmed
+#
+# Note: To skip a seminar series entirely for a week, simply omit it from the seminars list
+
+week:
+  isoWeek: 36
+  start: September 1, 2025
+  end: September 7, 2025
+  timezone: Asia/Dubai
+  status: open
+  note: ""
+
+series:
+  - code: ccms
+    label: CCMS College Seminar
+    organisedBy: College of Computing and Mathematical Sciences
+    organisedByUrl: https://www.ku.ac.ae/college-of-computing-and-mathematical-sciences/
+  - code: math
+    label: KU Math Seminar
+    organisedBy: Dr Denys Dutykh, Erkko Lehtonen, Yerkin Kitapbayev, and Julian Barreiro-Gomez
+    organisedByUrl: https://www.denys-dutykh.com/
+  - code: fin
+    label: Financial Math Seminar
+    organisedBy: Mathematics Department
+    organisedByUrl: https://www.ku.ac.ae/academics/college-of-computing-and-mathematical-sciences/department/department-of-mathematics/
+  - code: grad
+    label: Graduate Math Seminar
+    organisedBy: Prof Hadi Susanto
+    organisedByUrl: https://www.ku.ac.ae/college-people/hadi-susanto
+  - code: ug
+    label: Beyond Math Seminar
+    organisedBy: Ms. Nesma Khalil
+    organisedByUrl: https://www.ku.ac.ae/college-people/nesma-khalil/
+
+seminars:
+  - series: math
+    speaker: Prof Laurent Najman
+    affiliation: Khalifa University
+    affiliationUrl: https://www.ku.ac.ae/
+    title: "Self-Supervised Learning: From Invariant Image Representations to World Models"
+    status: confirmed  # Optional field, defaults to "confirmed" if not specified
+    start: 2025-09-04T15:00:00+04:00
+    end: 2025-09-04T16:00:00+04:00
+    location: SAN Campus, Zarkuh Bldg, ADCO Auditorium
+    abstract: |
+      This seminar will begin with a brief overview of my research interests, with examples drawn in particular from applications in healthcare. I will then discuss recent progress in self-supervised learning and its growing ability to model and make sense of the real world. The talk will highlight the pioneering work of Quentin Garrido, a PhD student I co-supervise with Prof **Yann LeCun**. My goal is to provide an accessible and engaging introduction to central ideas such as self-supervised learning, generative models, and world models. While I will use a small amount of mathematics to illustrate connections between major families of self-supervised models, the focus will remain on a broad, intuitive understanding suitable for a diverse audience.
+    biography: |
+      Prof **Laurent Najman** received his Ph.D. in applied mathematics from Paris-Dauphine University in 1994 (with highest honors), and his Ingénieur degree from the École des Mines de Paris in 1991. After early research at Thomson-CSF on infrared image segmentation, he directed R&D at Animation Science, a start-up whose award-winning particle system technologies were widely recognized in computer graphics. He later worked as a Senior Scientist at OCÉ Print Logic Technologies on image analysis for scanning and printing.
+      
+      From 2002 to 2025, he was Full Professor at ESIEE Paris, Université Gustave Eiffel, where he led the A3SI research team. He is now Professor of Mathematics at Khalifa University in the United Arab Emirates. In 2025, he was also elected President of AFRIF, the French branch of the International Association for Pattern Recognition.
+      
+      His research interests lie in data science, with a particular focus on the topology of discrete structures (graphs, hierarchies, simplicial complexes) through discrete mathematical morphology and optimization, with many applications in healthcare.
+    links:
+      speaker: https://www.laurentnajman.org/
+      teams: https://teams.microsoft.com/l/meetup-join/19%3ameeting_MWQzNjk2MDQtZjA4Ni00OWNkLWFhYjctYTZjZTE3MGJmOTZi%40thread.v2/0?context=%7b%22Tid%22%3a%2208fe1c0a-19f5-4f24-a662-fdd5dd460025%22%2c%22Oid%22%3a%22aba525f2-e024-4b7d-b19f-d522948dead5%22%7d
+    tags: [Self-Supervised Learning, World Models, Generative Models, Computer Vision, Data Science]
