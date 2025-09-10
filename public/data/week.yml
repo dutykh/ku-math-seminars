@@ -67,9 +67,9 @@ seminars:
     affiliation: Mathematics Department, Khalifa University
     affiliationUrl: https://www.ku.ac.ae/
     title: "Scenario tree generation for multistage stochastic programming"
-    status: postponed  # Optional field, defaults to "confirmed" if not specified
-    start: 2025-09-12T10:00:00+04:00
-    end: 2025-09-12T11:00:00+04:00
+    status: confirmed  # Optional field, defaults to "confirmed" if not specified
+    start: 2025-09-19T10:00:00+04:00
+    end: 2025-09-19T11:00:00+04:00
     location: R01002, Main Campus
     abstract: |
       Multistage stochastic programming relies on the construction of scenario trees to represent uncertainty across decision stages. In this work, we develop a data-driven framework for scenario tree generation. The framework consists of two steps: scenario extraction from historical data and subsequent scenario reduction. The quality of the reduced scenario trees is assessed using a metric for probability space distance, for example, the Wasserstein distance. To demonstrate the effectiveness of the proposed approach, we apply it to a multistage portfolio selection problem, highlighting its ability to balance computational tractability with representational fidelity.
