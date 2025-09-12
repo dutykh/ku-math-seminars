@@ -654,7 +654,21 @@ const structuredData = {
           doc.setFontSize(14);
           doc.text(seriesLabel, pageWidth / 2, currentY + 8, { align: 'center' });
           currentY += 25;
-          
+
+          // Organizers line (if available)
+          const organisers = seriesInfo?.organisedBy;
+          if (organisers && typeof organisers === 'string') {
+            doc.setFont('helvetica', 'italic');
+            doc.setFontSize(10);
+            doc.setTextColor(75, 85, 99);
+            const orgText = `Organized by: ${organisers}`;
+            const orgLines = doc.splitTextToSize(orgText, pageWidth - 2 * margin);
+            for (let i = 0; i < orgLines.length; i++) {
+              doc.text(orgLines[i], pageWidth / 2, currentY + (i * 5), { align: 'center' });
+            }
+            currentY += (orgLines.length * 5) + 8;
+          }
+
           // Status badge if not confirmed
           const status = seminar.status || 'confirmed';
           if (status !== 'confirmed') {
