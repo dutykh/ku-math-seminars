@@ -10,9 +10,9 @@
 # Note: To skip a seminar series entirely for a week, simply omit it from the seminars list
 
 week:
-  isoWeek: 37
-  start: September 8, 2025
-  end: September 14, 2025
+  isoWeek: 38
+  start: September 15, 2025
+  end: September 21, 2025
   timezone: Asia/Dubai
   status: open
   note: ""
@@ -45,22 +45,22 @@ series:
 
 seminars:
   - series: math
-    speaker: Dr Mohamed Soufiane Jouini
+    speaker: Dr Erkko Lehtonen
     affiliation: Mathematics Department, Khalifa University
     affiliationUrl: https://www.ku.ac.ae/
-    title: "Image Processing and Machine Learning: Characterizing heterogeneity in porous media"
+    title: "On clones and clonoids, especially those of Boolean functions"
     status: confirmed  # Optional field, defaults to "confirmed" if not specified
-    start: 2025-09-11T15:00:00+04:00
-    end: 2025-09-11T16:00:00+04:00
+    start: 2025-09-18T15:00:00+04:00
+    end: 2025-09-18T16:00:00+04:00
     location: SAN Campus, Zarkuh Bldg, ADCO Auditorium
     abstract: |
-      This presentation focuses on heterogeneity in porous media and how it can be characterized using image processing and machine learning. In the first part, we explore the variation of pore sizes, shapes, and spatial arrangements in computed tomography (CT) images. Here, textural descriptors combined with supervised and unsupervised classification provide an automated way to differentiate reservoir rocks and link their structural features to physical properties. The second part examines micro-CT data across multiple length scales, showing how texture-based approaches can be used to upscale rock properties from the pore scale to the core scale. In the final part, we present a quantitative description of carbonate rock heterogeneity using multifractal theory, offering a rigorous framework to capture pore complexity and its implications for flow and transport processes.
+      We provide a brief introduction to the theory of clones, minions, and clonoids, which are sets of functions of several arguments with certain closure conditions defined in terms of function class composition. These notions arise in a natural way in universal algebra and they have proved useful in the analysis of computational complexity of constraint satisfaction problems. Our primary focus is on clonoids of Boolean functions, and we present classifications of clonoids in the spirit of Post's classification of clones. Moreover, we propose refinements and strengthenings to Sparks's theorem on the cardinalities of clonoid lattices.
     biography: |
-      Dr. Mohamed Soufiane Jouini received his Ph.D. in Signal and Image Processing from Bordeaux University, a Master of Science in Signal and Image Processing from the National Polytechnic Institute of Toulouse, and a Master's degree in Electrical Engineering from the same institution. Before transitioning to academia, Dr. Jouini gained substantial experience in research and development within industry, including roles at TOTAL E&P Research Centre in Pau, France, and SAGEM SÉCURITÉ (now IDEMIA) in Paris, France. In early 2010, he joined the Petroleum Institute (now part of Khalifa University) as a Research and Teaching Associate, where he focused on image-based digital rock physics projects. In 2014, he was appointed Assistant Professor in the Department of Mathematics at Khalifa University and has served as Associate Professor since 2020. Dr. Jouini's research focuses on image processing, digital rock physics, fractals, and machine learning. He applies advanced imaging and computational methods to model and predict physical properties in applications such as oil reservoir characterization, CO₂ sequestration, and water desalination. His work has earned notable recognition, including: The Oil & Gas Year Award (2016) in the "Partnership of the Year" category for a digital rock physics project on core sample analysis and the R&D Bright Finding & Integration Pen award from ADNOC R&D (2014) for best integration of research into industry.
+      Dr. Erkko Lehtonen obtained his master's and doctoral degrees in mathematics from Tampere University of Technology, Finland, in 1998 and in 2007, respectively, and he got his habilitation in 2018 from the Technische Universität Dresden, Germany. He has held postdoctoral research and teaching posts at University of Waterloo (2007–2008), University of Luxembourg (2009–2013), University of Lisbon (2014–2015), TU Dresden (2015–2019), and NOVA University Lisbon (2019–2022). He is currently an assistant professor at Khalifa University (since 2022). Dr. Lehtonen's research interests lie at the confluence of universal algebra, combinatorics, and discrete mathematics. An active researcher, he has authored over 60 papers published in distinguished journals, such as Algebra Universalis, Discrete Mathematics, International Journal of Algebra and Computation, Journal of Algebraic Combinatorics, Journal of Combinatorial Theory, Series A, Order, and Semigroup Forum, as well as several book chapters.
     links:
-      speaker: https://www.ku.ac.ae/college-people/mohamed-soufiane-jouini
+      speaker: https://n-ary.fi/
       teams: https://teams.microsoft.com/l/meetup-join/19%3ameeting_MWQzNjk2MDQtZjA4Ni00OWNkLWFhYjctYTZjZTE3MGJmOTZi%40thread.v2/0?context=%7b%22Tid%22%3a%2208fe1c0a-19f5-4f24-a662-fdd5dd460025%22%2c%22Oid%22%3a%22aba525f2-e024-4b7d-b19f-d522948dead5%22%7d
-    tags: [Image Processing, Machine Learning, Digital Rock Physics, Fractals, Porous Media]
+    tags: [Universal Algebra, Clones, Clonoids, Boolean Functions, Post's Lattice, Computational Complexity]
 
   - series: grad
     speaker: Mr Ade Candra Bayu
@@ -74,31 +74,3 @@ seminars:
     abstract: |
       Multistage stochastic programming relies on the construction of scenario trees to represent uncertainty across decision stages. In this work, we develop a data-driven framework for scenario tree generation. The framework consists of two steps: scenario extraction from historical data and subsequent scenario reduction. The quality of the reduced scenario trees is assessed using a metric for probability space distance, for example, the Wasserstein distance. To demonstrate the effectiveness of the proposed approach, we apply it to a multistage portfolio selection problem, highlighting its ability to balance computational tractability with representational fidelity.
     tags: [Stochastic Programming, Scenario Tree, Wasserstein Distance]
-
-  - series: rescomp
-    speaker: Dr. Andrea Marini
-    affiliation: Istituto Struttura della Materia, National Research Council, Italy
-    affiliationUrl: https://flash-it.eu/
-    title: "Unveiling the Yambo code: Features, Performance, and Applications in Materials Science"
-    status: confirmed  # Optional field, defaults to "confirmed" if not specified
-    start: 2025-09-11T11:00:00+04:00
-    end: 2025-09-11T12:15:00+04:00
-    location: MS Teams
-    abstract: |
-      Yambo [1,2] is a cutting-edge computational tool for simulating the electronic and optical properties of materials using many-body perturbation theory. This talk will provide an overview of Yambo's core features, including its implementation of the GW approximation and Bethe-Salpeter equation for accurate quasiparticle and excitonic calculations. We will discuss its high-performance computing capabilities, scalability across modern architectures, and recent advancements enhancing its efficiency and versatility. Real-world applications will be highlighted, showcasing how Yambo supports groundbreaking research in energy materials, nanostructures, and two-dimensional systems.
-      
-      [1] A. Marini, C.Hogan, M.Grüning and D.Varsano, yambo: an ab initio tool for excited state calculations Comp. Phys. Comm., 180, 1392 (2009).
-
-      [2] D. Sangalli et al. Many-body perturbation theory calculations using the yambo code, Journal of Physics: Condensed Matter 31 , 325902 (2019).
-    biography: |
-      Dr. Andrea Marini is the author of more than 100 peer–reviewed publications in international journals. He gave more than 60 invited talks to international conferences, invited lectures and scientific colloquia in various universities and research centres. His scientific production led to 10218 total citations with an h-index of 51.
-      
-      A. Marini founded in 2000 and is currently the head coordinator of the ab-initio Yambo project. Yambo is a worldwide known, open source code for steady- state and real-time excited state Ab-Initio calculations. Yambo is a member of the Partnership for Advanced Computing in Europe (PRACE) and it is installed on many High-Performance Centers around the world.
-      
-      A. Marini has taken part in several European and national projects founded by: the Ikerbasque foundation (Spain), the Italian minister for research and the H2020 European program. At the moment, his research is funded by two European projects: MaX and NFFA. He is also coordinator of a national project (PRIN) devoted to the physics of High–Harmonics in Pump & probe experiments.
-
-      A. Marini is presently at the head of the Division of Ultrafast Processes in Materials (FLASHit) of the CNR-ISM. FLASHit is part of the Laboratory of Materials Modeling of the Institute for Material Science of the National Research Council in Italy. He is also part of the National Centre for HPC, Big Data and Quantum Computing, member of the International Advisory Panel of the African School on Electronic Structure Methods and Applications network and he is currently teaching Advanced Quantum Mechanics and Many-Body Theory at the East Africa Institute for Fundamental Research located in the University of Rwanda, Kigali.
-    links:
-      speaker: https://flash-it.eu/about-us/andrea-marini/
-      teams: https://teams.microsoft.com/l/meetup-join/19%3ameeting_NGQwN2NmZmEtOWY4Ni00MDg3LTgyMjQtMjUxYTZmNTQ0MDgy%40thread.v2/0?context=%7b%22Tid%22%3a%2208fe1c0a-19f5-4f24-a662-fdd5dd460025%22%2c%22Oid%22%3a%223714a014-43d8-4dda-8606-2baba023aa4d%22%7d
-    tags: [Yambo, Many-Body Perturbation Theory, GW Approximation, Bethe-Salpeter Equation, Excitonic Effects, Electronic Structure]
