@@ -1,0 +1,76 @@
+# KU Math Seminars - Week Data
+# Author: Dr. Denys Dutykh (Khalifa University of Science and Technology, Abu Dhabi, UAE)
+#
+# Seminar Status Options:
+# - confirmed (default): The seminar is confirmed and will take place as scheduled
+# - cancelled: The seminar has been cancelled
+# - postponed: The seminar has been postponed to a later date
+# - tentative: The seminar is tentatively scheduled but not yet confirmed
+#
+# Note: To skip a seminar series entirely for a week, simply omit it from the seminars list
+
+week:
+  isoWeek: 38
+  start: September 15, 2025
+  end: September 21, 2025
+  timezone: Asia/Dubai
+  status: open
+  note: ""
+
+series:
+  - code: ccms
+    label: CCMS College Seminar
+    organisedBy: College of Computing and Mathematical Sciences
+    organisedByUrl: https://www.ku.ac.ae/college-of-computing-and-mathematical-sciences/
+  - code: math
+    label: KU Math Seminar
+    organisedBy: Dr Denys Dutykh, Erkko Lehtonen, Yerkin Kitapbayev, and Julian Barreiro-Gomez
+    organisedByUrl: https://www.denys-dutykh.com/
+  - code: fin
+    label: Data and Stochastic Analysis in Finance, Energy and Digital Economy
+    organisedBy: Prof Jorge Zubelli, Giorgio Consigli, and Yerkin Kitapbayev
+    organisedByUrl: https://www.ku.ac.ae/academics/college-of-computing-and-mathematical-sciences/department/department-of-mathematics/
+  - code: grad
+    label: Graduate Math Seminar
+    organisedBy: Prof Hadi Susanto
+    organisedByUrl: https://www.ku.ac.ae/college-people/hadi-susanto
+  - code: ug
+    label: Beyond Math Seminar
+    organisedBy: Ms Nesma Khalil
+    organisedByUrl: https://www.ku.ac.ae/college-people/nesma-khalil/
+  - code: rescomp
+    label: Research Computing Webinar
+    organisedBy: Mr Wadud Miah
+    organisedByUrl: https://www.ku.ac.ae/research-offices/research-computing/
+
+seminars:
+  - series: math
+    speaker: Dr Erkko Lehtonen
+    affiliation: Mathematics Department, Khalifa University
+    affiliationUrl: https://www.ku.ac.ae/
+    title: "On clones and clonoids, especially those of Boolean functions"
+    status: confirmed  # Optional field, defaults to "confirmed" if not specified
+    start: 2025-09-18T15:00:00+04:00
+    end: 2025-09-18T16:00:00+04:00
+    location: SAN Campus, Zarkuh Bldg, ADCO Auditorium
+    abstract: |
+      We provide a brief introduction to the theory of clones, minions, and clonoids, which are sets of functions of several arguments with certain closure conditions defined in terms of function class composition. These notions arise in a natural way in universal algebra and they have proved useful in the analysis of computational complexity of constraint satisfaction problems. Our primary focus is on clonoids of Boolean functions, and we present classifications of clonoids in the spirit of Post's classification of clones. Moreover, we propose refinements and strengthenings to Sparks's theorem on the cardinalities of clonoid lattices.
+    biography: |
+      Dr. Erkko Lehtonen obtained his master's and doctoral degrees in mathematics from Tampere University of Technology, Finland, in 1998 and in 2007, respectively, and he got his habilitation in 2018 from the Technische Universität Dresden, Germany. He has held postdoctoral research and teaching posts at University of Waterloo (2007–2008), University of Luxembourg (2009–2013), University of Lisbon (2014–2015), TU Dresden (2015–2019), and NOVA University Lisbon (2019–2022). He is currently an assistant professor at Khalifa University (since 2022). Dr. Lehtonen's research interests lie at the confluence of universal algebra, combinatorics, and discrete mathematics. An active researcher, he has authored over 60 papers published in distinguished journals, such as Algebra Universalis, Discrete Mathematics, International Journal of Algebra and Computation, Journal of Algebraic Combinatorics, Journal of Combinatorial Theory, Series A, Order, and Semigroup Forum, as well as several book chapters.
+    links:
+      speaker: https://n-ary.fi/
+      teams: https://teams.microsoft.com/l/meetup-join/19%3ameeting_MWQzNjk2MDQtZjA4Ni00OWNkLWFhYjctYTZjZTE3MGJmOTZi%40thread.v2/0?context=%7b%22Tid%22%3a%2208fe1c0a-19f5-4f24-a662-fdd5dd460025%22%2c%22Oid%22%3a%22aba525f2-e024-4b7d-b19f-d522948dead5%22%7d
+    tags: [Universal Algebra, Clones, Clonoids, Boolean Functions, Post's Lattice, Computational Complexity]
+
+  - series: grad
+    speaker: Mr Ade Candra Bayu
+    affiliation: Mathematics Department, Khalifa University
+    affiliationUrl: https://www.ku.ac.ae/
+    title: "Scenario tree generation for multistage stochastic programming"
+    status: confirmed  # Optional field, defaults to "confirmed" if not specified
+    start: 2025-09-19T10:00:00+04:00
+    end: 2025-09-19T11:00:00+04:00
+    location: R01002, Main Campus
+    abstract: |
+      Multistage stochastic programming relies on the construction of scenario trees to represent uncertainty across decision stages. In this work, we develop a data-driven framework for scenario tree generation. The framework consists of two steps: scenario extraction from historical data and subsequent scenario reduction. The quality of the reduced scenario trees is assessed using a metric for probability space distance, for example, the Wasserstein distance. To demonstrate the effectiveness of the proposed approach, we apply it to a multistage portfolio selection problem, highlighting its ability to balance computational tractability with representational fidelity.
+    tags: [Stochastic Programming, Scenario Tree, Wasserstein Distance]
