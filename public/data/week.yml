@@ -10,9 +10,9 @@
 # Note: To skip a seminar series entirely for a week, simply omit it from the seminars list
 
 week:
-  isoWeek: 39
-  start: September 22, 2025
-  end: September 28, 2025
+  isoWeek: 40
+  start: September 29, 2025
+  end: October 5, 2025
   timezone: Asia/Dubai
   status: open
   note: ""
@@ -30,6 +30,10 @@ series:
     label: Data and Stochastic Analysis in Finance, Energy and Digital Economy
     organisedBy: Prof Giorgio Consigli, Yerkin Kitapbayev, and Jorge Zubelli
     organisedByUrl: https://www.ku.ac.ae/academics/college-of-computing-and-mathematical-sciences/department/department-of-mathematics/
+  - code: bio
+    label: Math Biology Seminar
+    organisedBy: Dr Haralampos Hatzikirou
+    organisedByUrl: https://www.ku.ac.ae/college-people/haralampos-hatzikirou/
   - code: grad
     label: Graduate Math Seminar
     organisedBy: Prof Hadi Susanto
@@ -48,40 +52,33 @@ seminars:
     speaker: Dr Abdullahi Umar
     affiliation: Mathematics Department, Khalifa University
     affiliationUrl: https://www.ku.ac.ae/
-    title: "Partial Symmetries and Hidden Patterns: Symmetric Inverse Monoids and Quasi-Crystals"
+    title: "From Classical to Optimized Waveform Relaxation: Advances in Circuit Simulation and Beyond"
     status: confirmed  # Optional field, defaults to "confirmed" if not specified
-    start: 2025-09-25T15:00:00+04:00
-    end: 2025-09-25T16:00:00+04:00
-    location: SAN Campus, BuHasa Bldg, Classroom 2137
+    start: 2025-10-02T15:00:00+04:00
+    end: 2025-10-02T16:00:00+04:00
+    location: SAN Campus, Zarkuh Bldg, ADCO Auditorium
     abstract: |
-      Symmetric inverse monoids occupy a central position in semigroup theory, serving as canonical examples of inverse semigroups and providing a rich framework for understanding partial symmetries. Unlike full symmetries, which apply everywhere, partial symmetries describe transformations that work only on part of a system. These are surprisingly powerful tools for understanding complex structures. This talk explores their foundational role in the algebraic structure of semigroups, emphasizing their combinatorial elegance and rank properties. 
-      
-      A particularly intriguing aspect of symmetric inverse monoids is their emerging connection to the mathematical modeling of quasi-crystals. These aperiodic structures, which defy classical crystallographic symmetries, find a natural algebraic counterpart in the partial bijections encoded by inverse monoids. We will examine how the combinatorics of these monoids—especially their rank stratification and idempotent structure—mirror the local symmetries and tiling rules observed in quasi-crystalline formations.
-      
-      Whether you're curious about how abstract math finds its way into physics, or simply intrigued by the beauty of hidden patterns, this talk offers a glimpse into how algebraic thinking helps us make sense of the unexpected.
+      Waveform relaxation (WR) methods solve large systems of ODEs in parallel by decomposing them into smaller subsystems and iteratively coupling their solutions. Classical WR (CWR), based on Jacobi or Gauss-Seidel schemes, often suffers from slow or inconsistent convergence, especially in tightly coupled systems. To address these issues, variants such as Robin WR (RWR) improve convergence significantly through the use of carefully designed transmission conditions. Originally developed for VLSI circuit simulations, WR methods have since been extended to solve time-dependent PDEs as well. In this talk, I will review classical and optimized WR techniques, focusing on both continuous-time and discrete-time analyses in circuit models, and I will highlight some connections to PDEs.
     biography: |
-      Dr. Abdullahi Umar is a Professor of Pure Mathematics at Khalifa University, UAE, specializing in algebraic semigroup theory and discrete mathematics. With over 30 years of teaching and research experience across four countries, he has published extensively, supervised numerous postgraduate students, and is recognized internationally for his contributions, including the Umar band and Umar semigroup.
+      Dr. Mohammad Al-Khaleel is an Associate Professor of Mathematics at Khalifa University, UAE. He received his M.Sc. and Ph.D. in Applied Mathematics (Numerical Analysis and Scientific Computing) from McGill University, Canada, in 2003 and 2007. His research focuses on efficient parallel numerical methods for differential equations, with applications in seismic modeling, fluid dynamics, and circuit simulation. He has published widely in leading journals, including the SIAM Journal on Scientific Computing and the SIAM Journal on Numerical Analysis, and has supervised numerous graduate and undergraduate research projects. He is also an active contributor to international conferences and academic committees.
     links:
-      speaker: https://www.ku.ac.ae/college-people/abdullahi-umar
+      speaker: https://www.ku.ac.ae/college-people/mohammad-al-khaleel/
       teams: https://teams.microsoft.com/l/meetup-join/19%3ameeting_MWQzNjk2MDQtZjA4Ni00OWNkLWFhYjctYTZjZTE3MGJmOTZi%40thread.v2/0?context=%7b%22Tid%22%3a%2208fe1c0a-19f5-4f24-a662-fdd5dd460025%22%2c%22Oid%22%3a%22aba525f2-e024-4b7d-b19f-d522948dead5%22%7d
-    tags: [Semigroup Theory, Partial Symmetries, Symmetric Inverse Monoids, Quasi-Crystals, Aperiodic Structures, Combinatorics, Algebraic Structures, Mathematical Physics, Tiling]
+    tags: [Waveform Relaxation, Numerical Methods, Circuit Simulation, Parallel Computing, Ordinary Differential Equations, Partial Differential Equations, Scientific Computing, Iterative Methods, Convergence Analysis, VLSI]
 
-  - series: fin
-    speaker: Dr Giorgio Consigli
+  - series: bio
+    speaker: Prof Mokhtar Kirane
     affiliation: Mathematics Department, Khalifa University
     affiliationUrl: https://www.ku.ac.ae/
-    title: "Multiperiod interval-based stochastic dominance with application to dynamic portfolios"
-    status: postponed  # Optional field, defaults to "confirmed" if not specified
-    start: 2025-09-26T10:00:00+04:00
-    end: 2025-09-26T11:00:00+04:00
+    title: "On the global existence and uniform-in-time bounds for three-component reaction-diffusion systems with mass control and polynomial growth"
+    status: confirmed  # Optional field, defaults to "confirmed" if not specified
+    start: 2025-10-03T10:00:00+04:00
+    end: 2025-10-03T11:00:00+04:00
     location: R01013, Main Campus
     abstract: |
-      We consider a multi-stage generalization of the interval-based stochastic dominance (ISD) principles introduced by Liu, Chen and Consigli (2021). The ISD criterion was motivated specifically in a financial context to allow for contiguous integer SD orders on different portions of a portfolio return distribution against a benchmark distribution. A continuous spanning of SD conditions between first-, second-, and third-order stochastic dominance was introduced in that context, relying on a reference point. Here, by extending the partial order to random data processes, we apply ISD conditions to a multi-period portfolio selection problem and verify the modeling and computational implications of such an extension. Several theoretical and methodological issues arise in this case that motivate this contribution. The problem is formulated in scenario form as a multistage stochastic recourse program, and we study two possible generalizations of ISD principles in which we either enforce ISD constraints on each stage, independently from the scenario tree process evolution, or we do so conditionally along the scenario tree. We present a comprehensive set of computational results to show that, depending on the benchmark investment policy and the adopted ISD formulation, stochastic dominance conditions of first- or second-order can be enforced dynamically over a range of possible values of the reference point, and their solution carries a specific rationale. The computational constraints induced by the multistage ISD formulation are also emphasized and discussed in detail.
+      A class of three-component reaction-diffusion systems subject to mass control and a newly introduced structural assumption, referred to as linear intermediate weighted sum condition, will be presented. Under these hypotheses, the global existence of classical solutions in arbitrary spatial dimensions and wide class of boundary conditions, even when the nonlinearities exhibit arbitrary polynomial growth is established. We also present that, under slightly stronger assumptions and mixed boundary conditions, solutions admit uniform-in-time bounds. Our approach relies on the extension of L^p-energy polynomial functionals (a Lyapunov functional), together with the regularizing effect for parabolic equations. Furthermore, we demonstrate the applicability of our framework by analyzing three-species sub-skew-symmetric Lotka-Volterra systems with higher-order interactions, and a reversible chemical reaction.
     biography: |
-      Dr. Giorgio Consigli is Associate Chair of Graduate studies and Associate Professor of Mathematics at Khalifa University (since 2021) and Fellow of the UK Institute of Mathematics and its Applications. Previously, he held faculty positions at the University of Bergamo and worked in quantitative development at UniCredit Investment Bank. He earned his PhD at the University of Essex (1995) and held a PostDoc position at the University of Cambridge. His research focuses on stochastic optimization, quantitative finance, and computational methods in risk and asset-liability management, with long-standing collaborations across Europe, the US, and Asia. Giorgio is Springer author as contributor and with three volumes edited to the Int. Series of Operations Research and Management Science.
-
-      He has served on the Scientific Committee of the Stochastic Programming Society (COSP), co-founded the Italian Stochastic Programming section, and is a Board Member of the EURO WG on Commodity and Financial Modelling. He has organized major international conferences and delivered keynote talks worldwide. Dr. Consigli is Area Editor for OR Spectrum and the IMA Journal of Management Mathematics, Associate Editor of several journals, and guest editor of multiple special issues. He has a relevant record of research grants and advanced training grants in the area of computational methods in finance and applied mathematics both at national and international levels.
+      Prof. Mokhtar Kirane earned a PhD in Mathematics from the University of Pierre et Marie Curie (Paris 6, 1983), a Doctorat ès Sciences from the University of Annaba (1990), and a Habilitation from the University of Picardie (2000). He held postdoctoral and research fellow positions at IAC-CNR (Rome) and ICTP (Trieste), and served as professor at Annaba, Picardie, and La Rochelle universities before joining Khalifa University as Professor in 2020. His research focuses on Partial Differential Equations, Fractional Calculus, Inverse Problems, Image Processing, and Biomathematics. He has published 210+ papers in top international journals, coordinated and participated in numerous international projects, organized conferences, and supervised 20 PhD theses whose graduates now hold academic positions worldwide. He is Editor-in-Chief of Fractional Differential Calculus and sits on several editorial boards. He has received major awards including the FDA Achievement Award (2018) and the Riesz Award (2020).
     links:
-      speaker: https://www.ku.ac.ae/college-people/giorgio-consigli
-      teams: https://teams.microsoft.com/meet/3377641447817?p=4FHgg5n6eoAUhuKsdJ
-    tags: [Stochastic Dominance, Multi-period Models, Dynamic Portfolio Selection, Stochastic Programming, Quantitative Finance, Risk Management, Computational Finance, Scenario Analysis]
+      speaker: https://www.ku.ac.ae/college-people/mokhtar-kirane/
+    tags: [Reaction-Diffusion Systems, Partial Differential Equations, Mathematical Biology, Global Existence, Nonlinear Analysis, Boundary Conditions, Lyapunov Functionals, Lotka-Volterra Systems, Chemical Reactions]
