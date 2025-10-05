@@ -1,0 +1,84 @@
+# KU Math Seminars - Week Data
+# Author: Dr. Denys Dutykh (Khalifa University of Science and Technology, Abu Dhabi, UAE)
+#
+# Seminar Status Options:
+# - confirmed (default): The seminar is confirmed and will take place as scheduled
+# - cancelled: The seminar has been cancelled
+# - postponed: The seminar has been postponed to a later date
+# - tentative: The seminar is tentatively scheduled but not yet confirmed
+#
+# Note: To skip a seminar series entirely for a week, simply omit it from the seminars list
+
+week:
+  isoWeek: 40
+  start: September 29, 2025
+  end: October 5, 2025
+  timezone: Asia/Dubai
+  status: open
+  note: ""
+
+series:
+  - code: ccms
+    label: CCMS College Seminar
+    organisedBy: College of Computing and Mathematical Sciences
+    organisedByUrl: https://www.ku.ac.ae/college-of-computing-and-mathematical-sciences/
+  - code: math
+    label: KU Math Seminar
+    organisedBy: Dr Denys Dutykh, Erkko Lehtonen, Yerkin Kitapbayev, and Julian Barreiro-Gomez
+    organisedByUrl: https://www.denys-dutykh.com/
+  - code: fin
+    label: Data and Stochastic Analysis in Finance, Energy and Digital Economy
+    organisedBy: Prof Giorgio Consigli, Yerkin Kitapbayev, and Jorge Zubelli
+    organisedByUrl: https://www.ku.ac.ae/academics/college-of-computing-and-mathematical-sciences/department/department-of-mathematics/
+  - code: bio
+    label: Math Biology Seminar
+    organisedBy: Dr Haralampos Hatzikirou
+    organisedByUrl: https://www.ku.ac.ae/college-people/haralampos-hatzikirou/
+  - code: grad
+    label: Graduate Math Seminar
+    organisedBy: Prof Hadi Susanto
+    organisedByUrl: https://www.ku.ac.ae/college-people/hadi-susanto
+  - code: ug
+    label: Beyond Math Seminar
+    organisedBy: Ms Nesma Khalil
+    organisedByUrl: https://www.ku.ac.ae/college-people/nesma-khalil/
+  - code: rescomp
+    label: Research Computing Webinar
+    organisedBy: Mr Wadud Miah
+    organisedByUrl: https://www.ku.ac.ae/research-offices/research-computing/
+
+seminars:
+  - series: math
+    speaker: Dr Mohammad Al-Khaleel
+    affiliation: Mathematics Department, Khalifa University
+    affiliationUrl: https://www.ku.ac.ae/
+    title: "From Classical to Optimized Waveform Relaxation: Advances in Circuit Simulation and Beyond"
+    status: confirmed  # Optional field, defaults to "confirmed" if not specified
+    start: 2025-10-02T15:00:00+04:00
+    end: 2025-10-02T16:00:00+04:00
+    location: SAN Campus, Zarkuh Bldg, ADCO Auditorium
+    abstract: |
+      Waveform relaxation (WR) methods solve large systems of ODEs in parallel by decomposing them into smaller subsystems and iteratively coupling their solutions. Classical WR (CWR), based on Jacobi or Gauss-Seidel schemes, often suffers from slow or inconsistent convergence, especially in tightly coupled systems. To address these issues, variants such as Robin WR (RWR) improve convergence significantly through the use of carefully designed transmission conditions. Originally developed for VLSI circuit simulations, WR methods have since been extended to solve time-dependent PDEs as well. In this talk, I will review classical and optimized WR techniques, focusing on both continuous-time and discrete-time analyses in circuit models, and I will highlight some connections to PDEs.
+    biography: |
+      Dr. Mohammad Al-Khaleel is an Associate Professor of Mathematics at Khalifa University, UAE. He received his M.Sc. and Ph.D. in Applied Mathematics (Numerical Analysis and Scientific Computing) from McGill University, Canada, in 2003 and 2007. His research focuses on efficient parallel numerical methods for differential equations, with applications in seismic modeling, fluid dynamics, and circuit simulation. He has published widely in leading journals, including the SIAM Journal on Scientific Computing and the SIAM Journal on Numerical Analysis, and has supervised numerous graduate and undergraduate research projects. He is also an active contributor to international conferences and academic committees.
+    links:
+      speaker: https://www.ku.ac.ae/college-people/mohammad-al-khaleel/
+      teams: https://teams.microsoft.com/l/meetup-join/19%3ameeting_MWQzNjk2MDQtZjA4Ni00OWNkLWFhYjctYTZjZTE3MGJmOTZi%40thread.v2/0?context=%7b%22Tid%22%3a%2208fe1c0a-19f5-4f24-a662-fdd5dd460025%22%2c%22Oid%22%3a%22aba525f2-e024-4b7d-b19f-d522948dead5%22%7d
+    tags: [Waveform Relaxation, Numerical Methods, Circuit Simulation, Parallel Computing, Ordinary Differential Equations, Partial Differential Equations, Scientific Computing, Iterative Methods, Convergence Analysis, VLSI]
+
+  - series: bio
+    speaker: Prof Mokhtar Kirane
+    affiliation: Mathematics Department, Khalifa University
+    affiliationUrl: https://www.ku.ac.ae/
+    title: "On the global existence and uniform-in-time bounds for three-component reaction-diffusion systems with mass control and polynomial growth"
+    status: confirmed  # Optional field, defaults to "confirmed" if not specified
+    start: 2025-10-03T10:00:00+04:00
+    end: 2025-10-03T11:00:00+04:00
+    location: R01013, Main Campus
+    abstract: |
+      A class of three-component reaction-diffusion systems subject to mass control and a newly introduced structural assumption, referred to as linear intermediate weighted sum condition, will be presented. Under these hypotheses, the global existence of classical solutions in arbitrary spatial dimensions and wide class of boundary conditions, even when the nonlinearities exhibit arbitrary polynomial growth is established. We also present that, under slightly stronger assumptions and mixed boundary conditions, solutions admit uniform-in-time bounds. Our approach relies on the extension of L^p-energy polynomial functionals (a Lyapunov functional), together with the regularizing effect for parabolic equations. Furthermore, we demonstrate the applicability of our framework by analyzing three-species sub-skew-symmetric Lotka-Volterra systems with higher-order interactions, and a reversible chemical reaction.
+    biography: |
+      Prof. Mokhtar Kirane earned a PhD in Mathematics from the University of Pierre et Marie Curie (Paris 6, 1983), a Doctorat ès Sciences from the University of Annaba (1990), and a Habilitation from the University of Picardie (2000). He held postdoctoral and research fellow positions at IAC-CNR (Rome) and ICTP (Trieste), and served as professor at Annaba, Picardie, and La Rochelle universities before joining Khalifa University as Professor in 2020. His research focuses on Partial Differential Equations, Fractional Calculus, Inverse Problems, Image Processing, and Biomathematics. He has published 210+ papers in top international journals, coordinated and participated in numerous international projects, organized conferences, and supervised 20 PhD theses whose graduates now hold academic positions worldwide. He is Editor-in-Chief of Fractional Differential Calculus and sits on several editorial boards. He has received major awards including the FDA Achievement Award (2018) and the Riesz Award (2020).
+    links:
+      speaker: https://www.ku.ac.ae/college-people/mokhtar-kirane/
+    tags: [Reaction-Diffusion Systems, Partial Differential Equations, Mathematical Biology, Global Existence, Nonlinear Analysis, Boundary Conditions, Lyapunov Functionals, Lotka-Volterra Systems, Chemical Reactions]
