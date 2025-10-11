@@ -1,0 +1,117 @@
+# KU Math Seminars - Week Data
+# Author: Dr. Denys Dutykh (Khalifa University of Science and Technology, Abu Dhabi, UAE)
+#
+# Seminar Status Options:
+# - confirmed (default): The seminar is confirmed and will take place as scheduled
+# - cancelled: The seminar has been cancelled
+# - postponed: The seminar has been postponed to a later date
+# - tentative: The seminar is tentatively scheduled but not yet confirmed
+#
+# Note: To skip a seminar series entirely for a week, simply omit it from the seminars list
+
+week:
+  isoWeek: 41
+  start: October 6, 2025
+  end: October 12, 2025
+  timezone: Asia/Dubai
+  status: open
+  note: ""
+
+series:
+  - code: ccms
+    label: CCMS College Seminar
+    organisedBy: Dr Denys Dutykh, Julian Barreiro-Gomez, Sajid Javed
+    organisedByUrl: https://www.denys-dutykh.com/
+  - code: math
+    label: KU Math Seminar
+    organisedBy: Dr Denys Dutykh, Erkko Lehtonen, Yerkin Kitapbayev, Julian Barreiro-Gomez, and Meryem Rhadbane
+    organisedByUrl: https://www.denys-dutykh.com/
+  - code: fin
+    label: Data and Stochastic Analysis in Finance, Energy and Digital Economy
+    organisedBy: Prof Giorgio Consigli, Yerkin Kitapbayev, and Jorge Zubelli
+    organisedByUrl: https://www.ku.ac.ae/academics/college-of-computing-and-mathematical-sciences/department/department-of-mathematics/
+  - code: bio
+    label: Math Biology Seminar
+    organisedBy: Dr Haralampos Hatzikirou
+    organisedByUrl: https://www.ku.ac.ae/college-people/haralampos-hatzikirou/
+  - code: grad
+    label: Graduate Math Seminar
+    organisedBy: Prof Hadi Susanto
+    organisedByUrl: https://hs-info.github.io/
+  - code: ug
+    label: Beyond Math Seminar
+    organisedBy: Ms Nesma Khalil, Prof Partha Guha, Mr Mahmoud Yassin
+    organisedByUrl: https://www.ku.ac.ae/college-people/nesma-khalil/
+  - code: rescomp
+    label: Research Computing Webinar
+    organisedBy: Mr Wadud Miah
+    organisedByUrl: https://www.ku.ac.ae/research-offices/research-computing/
+
+seminars:
+  - series: math
+    speaker: Prof Mokhtar Kirane
+    affiliation: Mathematics Department, Khalifa University
+    affiliationUrl: https://www.ku.ac.ae/
+    title: "Nonexistence of global weak solutions to semilinear wave equations involving time-dependent structural damping terms"
+    status: confirmed  # Optional field, defaults to "confirmed" if not specified
+    start: 2025-10-09T15:00:00+04:00
+    end: 2025-10-09T16:00:00+04:00
+    location: SAN Campus, Zarkuh Bldg, ADCO Auditorium
+    abstract: |
+      We consider a semilinear wave equation involving a time-dependent structural damping term of the form (1 + t)^{-β}(−∆)^{σ/2}u_t. Our results show the influence of the parameters β and σ on the nonexistence of global weak solutions under suitable assumptions on the given data of the system.
+    biography: |
+      Prof. Mokhtar Kirane earned a PhD in Mathematics from the University of Pierre et Marie Curie (Paris 6, 1983), a Doctorat ès Sciences from the University of Annaba (1990), and a Habilitation from the University of Picardie (2000). He held postdoctoral and research fellow positions at IAC-CNR (Rome) and ICTP (Trieste), and served as professor at Annaba, Picardie, and La Rochelle universities before joining Khalifa University as Professor in 2020. His research focuses on Partial Differential Equations, Fractional Calculus, Inverse Problems, Image Processing, and Biomathematics. He has published 210+ papers in top international journals, coordinated and participated in numerous international projects, organized conferences, and supervised 20 PhD theses whose graduates now hold academic positions worldwide. He is Editor-in-Chief of Fractional Differential Calculus and sits on several editorial boards. He has received major awards including the FDA Achievement Award (2018) and the Riesz Award (2020).
+    links:
+      speaker: https://www.ku.ac.ae/college-people/mokhtar-kirane/
+      teams: https://teams.microsoft.com/l/meetup-join/19%3ameeting_MWQzNjk2MDQtZjA4Ni00OWNkLWFhYjctYTZjZTE3MGJmOTZi%40thread.v2/0?context=%7b%22Tid%22%3a%2208fe1c0a-19f5-4f24-a662-fdd5dd460025%22%2c%22Oid%22%3a%22aba525f2-e024-4b7d-b19f-d522948dead5%22%7d
+    tags: [Wave Equations, Partial Differential Equations, Nonlinear Analysis, Damping, Global Solutions, Semilinear Equations]
+
+  - series: ug
+    speaker: Prof Monojit Choudhury
+    affiliation: Mohamed bin Zayed University of Artificial Intelligence (MBZAI)
+    affiliationUrl: https://mbzuai.ac.ae/
+    title: "Turing Test 2.0: The Possibility, Usefulness and Challenges of Imitating a Specific User through Generative AI"
+    status: confirmed  # Optional field, defaults to "confirmed" if not specified
+    start: 2025-10-07T17:00:00+04:00
+    end: 2025-10-07T18:00:00+04:00
+    location: G01011, Main Campus
+    abstract: |
+      It is already known that Large Language Models (LLMs) can imitate humans well enough to pass the Turing test   but the question remains whether an individual can truly be modeled. In this talk, the focus will be placed on personalization: the extent to which user behavior can be predicted from history and context. Because LLMs are trained on sequential human data, choices, preferences, and even quirks can often be mirrored. It will be shown that positive predictions, such as what is likely to be known, done, or preferred, can be generated, while negative predictions, such as what is unlikely to be understood or chosen, are also possible. Group patterns are captured effectively by LLMs like GPT-4, but their performance decreases significantly when smaller groups or individuals are modeled. This limitation carries important implications, and open challenges will be raised on how statistical guarantees of user-behavior modeling can be specified without measuring countless individuals.
+    biography: |
+      Monojit Choudhury is a Professor of Natural Language Processing at Mohamed bin Zayed University of Artificial Intelligence (MBZUAI), Abu Dhabi. Before joining MBZUAI, he was appointed as Principal Scientist at Microsoft Research India and Microsoft Turing. His research has been focused on the intersection of Natural Language Processing, socio-cultural aspects of technology use, and ethics. Work has been carried out by him on multilingual and multicultural aspects of large language models (LLMs), their application in low-resource languages, and approaches to make LLMs more inclusive and safer. AI has also been used by him to study how language patterns interact with socio-cultural norms and values. Prof. Choudhury serves as Associate Editor of Communications of the ACM and IEEE Transactions on Pattern Analysis and Machine Intelligence. Over 150 peer-reviewed publications and multiple best paper awards have been credited to him. His academic training was received at IIT Kharagpur, where he earned both BTech and PhD degrees.
+    links:
+      speaker: https://mbzuai.ac.ae/study/faculty/monojit-choudhury/
+    tags: [Artificial Intelligence, Large Language Models, Turing Test, Personalization, User Modeling, Generative AI, Natural Language Processing, AI Ethics, Behavioral Prediction, Machine Learning, Human-AI Interaction]
+
+  - series: grad
+    speaker: Ms Aysha Nihidha Pulakkal
+    affiliation: Graduate student, Mathematics Department, Khalifa University
+    affiliationUrl: https://www.ku.ac.ae/
+    title: "Exploring Nonlinear Lattices in the Presence of an On-Site Potential: on the Influence of Nonlinear Coupling in Klein-Gordon Systems"
+    status: confirmed  # Optional field, defaults to "confirmed" if not specified
+    start: 2025-10-10T10:00:00+04:00
+    end: 2025-10-10T11:00:00+04:00
+    location: R01013, Main Campus
+    abstract: |
+      The talk will focus on the modulational dynamics of a wave packet propagating in a one-dimensional (1D) hybrid α-Fermi-Pasta-Ulam-Tsingou / Klein-Gordon (α-FPUT-KG) lattice chain, incorporating quadratic coupling nonlinearity in the presence of an onsite potential. Using Newell's multiple-scales method, we derive a nonlinear Schrödinger equation (NLSE) and obtain analytical expressions for the dispersion (P) and nonlinearity (Q) coefficients in terms of the carrier wavenumber k and the system parameters. We then explore the conditions under which focusing and defocusing regimes occur, which in turn determine the types of envelope soliton solutions supported by the system. Particular attention is given to the Peregrine soliton, a solution that can theoretically capture the phenomenon of freak (rogue) waves-extreme, high-amplitude waves that appear and disappear suddenly in an oscillatory medium. Finally, we discuss the limitations of the continuum theory in comparison with the underlying discrete system.
+    biography: |
+      N/A
+    tags: [Nonlinear Lattices, Klein-Gordon Systems, Modulational Dynamics, Nonlinear Schrödinger Equation, Solitons, Rogue Waves, Peregrine Soliton, Lattice Chains, Wave Packets, Dispersion Relations, Nonlinear Coupling, Continuum Theory]
+
+  - series: ccms
+    speaker: Prof Peter Markowich
+    affiliation: King Abdullah University of Science and Technology (KAUST)
+    affiliationUrl: https://www.kaust.edu.sa/
+    title: "PDE models for deep neural networks: learning theory, calculus of variations and optimal control"
+    status: confirmed  # Optional field, defaults to "confirmed" if not specified
+    start: 2025-10-13T14:00:00+04:00
+    end: 2025-10-13T15:00:00+04:00
+    location: L02012, Main Campus
+    abstract: |
+      We propose a partial differential-integral equation (PDE) framework for deep neural networks (DNNs) and their associated learning problems by taking the continuum limits of both network width and depth. The proposed model captures the complex interactions among hidden nodes, overcoming limitations of traditional discrete and ordinary differential equation (ODE)-based models. We explore the well-posedness of the forward propagation problem, analyze the existence and properties of minimizers for the learning task, and provide a detailed examination of necessary and sufficient conditions for the existence of critical points. Controllability and optimality conditions for the learning task with its associated PDE forward problem are established using variational calculus, the Pontryagin Maximum Principle, and the Hamilton-Jacobi-Bellman equation, framing the deep learning process as a PDE-constrained optimization problem. In this context, we prove the existence of viscosity solutions for the latter and we establish optimal feedback controls based on the value functional. This approach facilitates the development of new network architectures and numerical methods that improve upon traditional layer-by-layer gradient descent techniques. The paper provides a mathematical foundation for connecting neural networks, PDE theory, variational analysis, and optimal control. By integrating these fields, we offer a robust framework that enhances deep learning models' stability, efficiency, and interpretability.
+    biography: |
+      Professor Markowich earned an M.S. and a Ph.D. in Habilitation for Applied and Numerical Mathematics at the Vienna University of Technology (TU-Wien), Austria. He became a Full Professor at the Technical University of Berlin (TUB) in 1989. From 1999 until 2007, he worked at the University of Vienna, Austria, as a Professor of Applied Analysis; from 2007-2011, he worked at the University of Cambridge, U.K., as a Professor of Applied Mathematics. Since 2011, he has been a Distinguished Professor at KAUST. The Austrian-Italian researcher is a prolific researcher and author, with nearly 14,000 citations and more than 200 scientific papers in top international journals. He has authored a series of books presenting topics of science and engineering found in nature or everyday life. In the books, physical variables such as mass, velocity and energy are analyzed using partial differential equations, along with their spatial and temporal variations. Professor Markowich has been honored with numerous awards and recognitions throughout his career; these include the Wittgenstein Prize from the Austrian Science Fund, The Royal Society Wolfson Research Merit Award and the Humboldt Research Award. In 2015, and again in 2018, he held a J.T. Oden Faculty Fellowship at the Oden Institute for Computational Engineering and Sciences (University of Texas), the Von Neumann Visiting Professorship at the Technical University Munich, Germany, in 2013; the Excellence Chair at Jiaotong University, Shanghai, China, in 2012; and the Excellence Chair of the Foundation Sciences Mathématiques de Paris, France, in 2011. Markowich is a Fellow of the European Academy of Sciences, the Institute of Physics, the American Mathematical Society and the Institute of Mathematics and its Applications. He is also a member of the European Academy of Sciences and Arts, Academia Europaea and a Foreign Member of the Austrian Academy of Sciences.
+    links:
+      speaker: https://www.kaust.edu.sa/en/study/faculty/peter-markowich/
+      teams: https://teams.microsoft.com/l/meetup-join/19%3ameeting_Y2YyMTkzMDItNDUwMS00NWM1LWJlOTMtZmIyYzBmZjU3OGEx%40thread.v2/0?context=%7b%22Tid%22%3a%2208fe1c0a-19f5-4f24-a662-fdd5dd460025%22%2c%22Oid%22%3a%22aba525f2-e024-4b7d-b19f-d522948dead5%22%7d
+    tags: [Partial Differential Equations, Deep Neural Networks, Learning Theory, Calculus of Variations, Optimal Control, Mathematical Modeling, Neural Network Architecture, PDE-Constrained Optimization, Pontryagin Maximum Principle, Hamilton-Jacobi-Bellman Equation, Viscosity Solutions, Applied Mathematics]

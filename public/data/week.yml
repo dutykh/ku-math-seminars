@@ -10,9 +10,9 @@
 # Note: To skip a seminar series entirely for a week, simply omit it from the seminars list
 
 week:
-  isoWeek: 41
-  start: October 6, 2025
-  end: October 12, 2025
+  isoWeek: 42
+  start: October 13, 2025
+  end: October 19, 2025
   timezone: Asia/Dubai
   status: open
   note: ""
@@ -35,8 +35,8 @@ series:
     organisedBy: Dr Haralampos Hatzikirou
     organisedByUrl: https://www.ku.ac.ae/college-people/haralampos-hatzikirou/
   - code: grad
-    label: Graduate Math Seminar
-    organisedBy: Prof Hadi Susanto
+    label: CCMS Graduate Seminar
+    organisedBy: Prof Hadi Susanto, Julian Barreiro-Gomez, Sajid Javed
     organisedByUrl: https://hs-info.github.io/
   - code: ug
     label: Beyond Math Seminar
@@ -48,55 +48,6 @@ series:
     organisedByUrl: https://www.ku.ac.ae/research-offices/research-computing/
 
 seminars:
-  - series: math
-    speaker: Prof Mokhtar Kirane
-    affiliation: Mathematics Department, Khalifa University
-    affiliationUrl: https://www.ku.ac.ae/
-    title: "Nonexistence of global weak solutions to semilinear wave equations involving time-dependent structural damping terms"
-    status: confirmed  # Optional field, defaults to "confirmed" if not specified
-    start: 2025-10-09T15:00:00+04:00
-    end: 2025-10-09T16:00:00+04:00
-    location: SAN Campus, Zarkuh Bldg, ADCO Auditorium
-    abstract: |
-      We consider a semilinear wave equation involving a time-dependent structural damping term of the form (1 + t)^{-β}(−∆)^{σ/2}u_t. Our results show the influence of the parameters β and σ on the nonexistence of global weak solutions under suitable assumptions on the given data of the system.
-    biography: |
-      Prof. Mokhtar Kirane earned a PhD in Mathematics from the University of Pierre et Marie Curie (Paris 6, 1983), a Doctorat ès Sciences from the University of Annaba (1990), and a Habilitation from the University of Picardie (2000). He held postdoctoral and research fellow positions at IAC-CNR (Rome) and ICTP (Trieste), and served as professor at Annaba, Picardie, and La Rochelle universities before joining Khalifa University as Professor in 2020. His research focuses on Partial Differential Equations, Fractional Calculus, Inverse Problems, Image Processing, and Biomathematics. He has published 210+ papers in top international journals, coordinated and participated in numerous international projects, organized conferences, and supervised 20 PhD theses whose graduates now hold academic positions worldwide. He is Editor-in-Chief of Fractional Differential Calculus and sits on several editorial boards. He has received major awards including the FDA Achievement Award (2018) and the Riesz Award (2020).
-    links:
-      speaker: https://www.ku.ac.ae/college-people/mokhtar-kirane/
-      teams: https://teams.microsoft.com/l/meetup-join/19%3ameeting_MWQzNjk2MDQtZjA4Ni00OWNkLWFhYjctYTZjZTE3MGJmOTZi%40thread.v2/0?context=%7b%22Tid%22%3a%2208fe1c0a-19f5-4f24-a662-fdd5dd460025%22%2c%22Oid%22%3a%22aba525f2-e024-4b7d-b19f-d522948dead5%22%7d
-    tags: [Wave Equations, Partial Differential Equations, Nonlinear Analysis, Damping, Global Solutions, Semilinear Equations]
-
-  - series: ug
-    speaker: Prof Monojit Choudhury
-    affiliation: Mohamed bin Zayed University of Artificial Intelligence (MBZAI)
-    affiliationUrl: https://mbzuai.ac.ae/
-    title: "Turing Test 2.0: The Possibility, Usefulness and Challenges of Imitating a Specific User through Generative AI"
-    status: confirmed  # Optional field, defaults to "confirmed" if not specified
-    start: 2025-10-07T17:00:00+04:00
-    end: 2025-10-07T18:00:00+04:00
-    location: G01011, Main Campus
-    abstract: |
-      It is already known that Large Language Models (LLMs) can imitate humans well enough to pass the Turing test   but the question remains whether an individual can truly be modeled. In this talk, the focus will be placed on personalization: the extent to which user behavior can be predicted from history and context. Because LLMs are trained on sequential human data, choices, preferences, and even quirks can often be mirrored. It will be shown that positive predictions, such as what is likely to be known, done, or preferred, can be generated, while negative predictions, such as what is unlikely to be understood or chosen, are also possible. Group patterns are captured effectively by LLMs like GPT-4, but their performance decreases significantly when smaller groups or individuals are modeled. This limitation carries important implications, and open challenges will be raised on how statistical guarantees of user-behavior modeling can be specified without measuring countless individuals.
-    biography: |
-      Monojit Choudhury is a Professor of Natural Language Processing at Mohamed bin Zayed University of Artificial Intelligence (MBZUAI), Abu Dhabi. Before joining MBZUAI, he was appointed as Principal Scientist at Microsoft Research India and Microsoft Turing. His research has been focused on the intersection of Natural Language Processing, socio-cultural aspects of technology use, and ethics. Work has been carried out by him on multilingual and multicultural aspects of large language models (LLMs), their application in low-resource languages, and approaches to make LLMs more inclusive and safer. AI has also been used by him to study how language patterns interact with socio-cultural norms and values. Prof. Choudhury serves as Associate Editor of Communications of the ACM and IEEE Transactions on Pattern Analysis and Machine Intelligence. Over 150 peer-reviewed publications and multiple best paper awards have been credited to him. His academic training was received at IIT Kharagpur, where he earned both BTech and PhD degrees.
-    links:
-      speaker: https://mbzuai.ac.ae/study/faculty/monojit-choudhury/
-    tags: [Artificial Intelligence, Large Language Models, Turing Test, Personalization, User Modeling, Generative AI, Natural Language Processing, AI Ethics, Behavioral Prediction, Machine Learning, Human-AI Interaction]
-
-  - series: grad
-    speaker: Ms Aysha Nihidha Pulakkal
-    affiliation: Graduate student, Mathematics Department, Khalifa University
-    affiliationUrl: https://www.ku.ac.ae/
-    title: "Exploring Nonlinear Lattices in the Presence of an On-Site Potential: on the Influence of Nonlinear Coupling in Klein-Gordon Systems"
-    status: confirmed  # Optional field, defaults to "confirmed" if not specified
-    start: 2025-10-10T10:00:00+04:00
-    end: 2025-10-10T11:00:00+04:00
-    location: R01013, Main Campus
-    abstract: |
-      The talk will focus on the modulational dynamics of a wave packet propagating in a one-dimensional (1D) hybrid α-Fermi-Pasta-Ulam-Tsingou / Klein-Gordon (α-FPUT-KG) lattice chain, incorporating quadratic coupling nonlinearity in the presence of an onsite potential. Using Newell's multiple-scales method, we derive a nonlinear Schrödinger equation (NLSE) and obtain analytical expressions for the dispersion (P) and nonlinearity (Q) coefficients in terms of the carrier wavenumber k and the system parameters. We then explore the conditions under which focusing and defocusing regimes occur, which in turn determine the types of envelope soliton solutions supported by the system. Particular attention is given to the Peregrine soliton, a solution that can theoretically capture the phenomenon of freak (rogue) waves-extreme, high-amplitude waves that appear and disappear suddenly in an oscillatory medium. Finally, we discuss the limitations of the continuum theory in comparison with the underlying discrete system.
-    biography: |
-      N/A
-    tags: [Nonlinear Lattices, Klein-Gordon Systems, Modulational Dynamics, Nonlinear Schrödinger Equation, Solitons, Rogue Waves, Peregrine Soliton, Lattice Chains, Wave Packets, Dispersion Relations, Nonlinear Coupling, Continuum Theory]
 
   - series: ccms
     speaker: Prof Peter Markowich
@@ -106,7 +57,7 @@ seminars:
     status: confirmed  # Optional field, defaults to "confirmed" if not specified
     start: 2025-10-13T14:00:00+04:00
     end: 2025-10-13T15:00:00+04:00
-    location: L02012, Main Campus
+    location: Main Campus, L02012
     abstract: |
       We propose a partial differential-integral equation (PDE) framework for deep neural networks (DNNs) and their associated learning problems by taking the continuum limits of both network width and depth. The proposed model captures the complex interactions among hidden nodes, overcoming limitations of traditional discrete and ordinary differential equation (ODE)-based models. We explore the well-posedness of the forward propagation problem, analyze the existence and properties of minimizers for the learning task, and provide a detailed examination of necessary and sufficient conditions for the existence of critical points. Controllability and optimality conditions for the learning task with its associated PDE forward problem are established using variational calculus, the Pontryagin Maximum Principle, and the Hamilton-Jacobi-Bellman equation, framing the deep learning process as a PDE-constrained optimization problem. In this context, we prove the existence of viscosity solutions for the latter and we establish optimal feedback controls based on the value functional. This approach facilitates the development of new network architectures and numerical methods that improve upon traditional layer-by-layer gradient descent techniques. The paper provides a mathematical foundation for connecting neural networks, PDE theory, variational analysis, and optimal control. By integrating these fields, we offer a robust framework that enhances deep learning models' stability, efficiency, and interpretability.
     biography: |
@@ -115,3 +66,62 @@ seminars:
       speaker: https://www.kaust.edu.sa/en/study/faculty/peter-markowich/
       teams: https://teams.microsoft.com/l/meetup-join/19%3ameeting_Y2YyMTkzMDItNDUwMS00NWM1LWJlOTMtZmIyYzBmZjU3OGEx%40thread.v2/0?context=%7b%22Tid%22%3a%2208fe1c0a-19f5-4f24-a662-fdd5dd460025%22%2c%22Oid%22%3a%22aba525f2-e024-4b7d-b19f-d522948dead5%22%7d
     tags: [Partial Differential Equations, Deep Neural Networks, Learning Theory, Calculus of Variations, Optimal Control, Mathematical Modeling, Neural Network Architecture, PDE-Constrained Optimization, Pontryagin Maximum Principle, Hamilton-Jacobi-Bellman Equation, Viscosity Solutions, Applied Mathematics]
+
+  - series: ccms
+    speaker: Prof Mustapha Tlidi
+    affiliation: Université Libre de Bruxelles
+    affiliationUrl: https://www.ulb.be/
+    title: "Vegetation patterns in arid ecosystems: a self-organized response to water scarcity"
+    status: confirmed  # Optional field, defaults to "confirmed" if not specified
+    start: 2025-10-14T15:00:00+04:00
+    end: 2025-10-14T16:00:00+04:00
+    location: Main Campus, L02012
+    abstract: |
+      Arid ecosystems are vulnerable to desertification and land degradation due to climate change, overgrazing and deforestation. As aridity increases, the spatial homogeneity of vegetation cover is lost and it self-organizes into heterogeneous patterns [1,2], which is a precursor to a catastrophic shift to bare soil [3]. Several studies suggest that environmental inhomogeneities in time or space could be crucial to understand these phenomena [4,5]. Using a unified mathematical model and incorporating environmental inhomogeneities in space, we show how two branches of vegetation patterns create a hysteresis loop as the mortality level changes. In an increasing mortality scenario, one observes an equilibrium branch of high vegetation biomass that forms self-organized hexagonal-like patterns. However, when the mortality trend is reversed, one observes a branch with low biomass and no evident patterning, where vegetation spots form clusters instead. This behavior is supported by remote sensing and field observations and can be linked to climate change trends in arid ecosystems.
+
+      [1] Lefever, R. and Lejeune, O., On the origin of tiger bush. Bull Math Biol 59 263 (1997). 
+      [2] Lejeune, O., Tlidi, M., & Couteron, P. (2002). Localized vegetation patches: a self-organized response to resource scarcity. Physical Review E, 66(1), 010901. 
+      [3] Scheffer, M., Carpenter, S., Foley, J. A., Folke, C., & Walker, B. (2001). Catastrophic shifts in ecosystems. Nature, 413 (6856), 591-596. 
+      [4] Pinto-Ramos, D., Clerc, M. G. & Tlidi, M. (2023) Topological defects law for migrating banded vegetation patterns in arid climates. Sci. Adv. 9, eadf6620. 
+      [5] Hidalgo-Ogalde, B., Pinto-Ramos, D., Clerc, M. G., & Tlidi, M. (2024). Nonreciprocal feedback induces migrating oblique and horizontal banded vegetation patterns in hyper-arid landscapes. Scientific reports, 14(1), 14635.
+    biography: |
+      Mustapha Tlidi holds  M.Sc. and PhD in Physics  from the Faculty of Science at the Université Libre de Bruxelles (ULB), Brussels, Belgium. He served in a permanent role as Research Director at the Belgian National Science Foundation and as Professor within the Faculty of Science. His research spans diffractive and dispersive nonlinear optics, as well as laser physics. In recent years, his work has expanded to include the mathematical modelling of vegetation patterns in semi-arid landscapes. Professor Tlidi is the author of over 200 scientific publications and two books. His contributions have earned him several distinctions, including the De Potter Prize awarded by the Royal Academy of Sciences of Belgium. In 2025, he was also recognized as an Outstanding Referee by the American Physical Society (APS).
+    links:
+      speaker: https://scholar.google.com/citations?user=dT3Svb4AAAAJ&hl=en
+      teams: https://teams.microsoft.com/l/meetup-join/19%3ameeting_MWEyOWYyNDYtYWExNy00ZTAzLTk4Y2MtMGM2M2U2NDJkOTQ0%40thread.v2/0?context=%7b%22Tid%22%3a%2208fe1c0a-19f5-4f24-a662-fdd5dd460025%22%2c%22Oid%22%3a%22aba525f2-e024-4b7d-b19f-d522948dead5%22%7d
+    tags: [Arid Ecosystems, Vegetation Patterns, Self-Organization, Mathematical Modeling, Climate Change, Desertification, Ecology, Environmental Science, Nonlinear Dynamics, Pattern Formation]
+
+  - series: math
+    speaker: Prof Hadi Susanto
+    affiliation: Mathematics Department, Khalifa University
+    affiliationUrl: https://www.ku.ac.ae/
+    title: "Quantum Droplets: From Physics to Exponential Asymptotics, from Pattern Formation to Bifurcations"
+    status: confirmed  # Optional field, defaults to "confirmed" if not specified
+    start: 2025-10-16T15:00:00+04:00
+    end: 2025-10-16T16:00:00+04:00
+    location: SAN Campus, Zarkuh Bldg, ADCO Auditorium
+    abstract: |
+      Quantum droplets are self-bound states that arise in ultracold atomic gases through a delicate balance between attractive interactions and quantum fluctuations. They are modeled by nonlinear Schrödinger equations and provide a rich setting where concepts from quantum physics intersect with nonlinear dynamics and dynamical systems. In this talk, I will discuss discrete quantum droplets (in systems with, e.g., a linear lattice potential), which may exist within an exponentially small “pinning region”. I will also outline how their stability can be established. Throughout, I will emphasize physical intuition, illustrative examples, and how asymptotic analysis complements numerical computations.
+    biography: |
+      Professor Hadi Susanto studied Mathematics at Institut Teknologi Bandung, Indonesia (BSc) and the University of Twente, The Netherlands (MSc, PhD). He subsequently held positions at the University of Massachusetts Amherst (as a Visiting Assistant Professor), the University of Nottingham (as a Lecturer), and the University of Essex (as a Senior Lecturer and then Professor). He joined Khalifa University in 2020.
+    links:
+      speaker: https://hs-info.github.io/
+      teams: https://teams.microsoft.com/l/meetup-join/19%3ameeting_MWQzNjk2MDQtZjA4Ni00OWNkLWFhYjctYTZjZTE3MGJmOTZi%40thread.v2/0?context=%7b%22Tid%22%3a%2208fe1c0a-19f5-4f24-a662-fdd5dd460025%22%2c%22Oid%22%3a%22aba525f2-e024-4b7d-b19f-d522948dead5%22%7d
+    tags: [Quantum Physics, Nonlinear Dynamics, Dynamical Systems, Asymptotic Analysis, Pattern Formation, Bifurcations, Ultracold Atomic Gases, Nonlinear Schrödinger Equations, Stability Analysis, Mathematical Physics]
+
+  - series: fin
+    speaker: Dr. Carlo Acerbi
+    affiliation: Abu Dhabi Investment Authority
+    affiliationUrl: https://www.adia.ae/
+    title: "Backtestability of Risk Measures"
+    status: confirmed  # Optional field, defaults to "confirmed" if not specified
+    start: 2025-10-17T11:00:00+04:00
+    end: 2025-10-17T12:00:00+04:00
+    location: Main campus, Room R02013
+    abstract: |
+      Backtesting risk measures, such as Value at Risk (VaR), is a consolidated practice in financial risk management and banking regulation since at least 3 decades ago. Yet, a formal definition of “backtest of a risk measure” was missing until very recently. Questions such as whether a given risk measure is backtestable or not, were ill-posed, and spurred confusion and controversy in the financial risk literature. The case of Expected Shortfall (ES) was devoted special attention (and heated academic debates) since its adoption as a capital adequacy standard in Basel 3. Backtestability – whatever it exactly means – is a non-negotiable property for a risk regulation standard. We try to put some order, providing a first definition of backtest of a risk measure. We discuss the relationship between backtestability and elicitability. We then introduce the important subclass of “sharp backtests” which allow to measure the discrepancy between the predicted (ex-ante) risk and the actual (ex-post, realized) risk, thereby providing corrective feedback to risk models. Finally, we illustrate the mechanism of a “ridge backtest”, by which some non-backtestable risk measures still admit a prudential form of approximated backtest. We did not forget to tell you if the ES is backtestable or not: for that you will have to wait until the end of the presentation.
+    biography: |
+      Dr. Carlo Acerbi earned a PhD in High Energy Physics at the International School for Advanced Studies (Trieste, Italy). He worked in quantitative financial risk management since 1998, at the interface between theory and practice. He is the author of several influential papers on advances in risk theory and its applications. He is currently a Quantitative Research and Development Lead at the Abu Dhabi Investment Authority (ADIA) and founder and Scientific Head of Risknowledge SA, Geneva, CH. He has academic affiliations at the Ecole Polytechnique Federale de Lausanne (CH), Bocconi University (IT) and is honorary Professor at Corvinus University of Budapest (HU).
+    links:
+      speaker: https://scholar.google.com/citations?user=D0YuMlcAAAAJ&hl=en
+    tags: [Risk Management, Financial Regulation, Value at Risk, Expected Shortfall, Backtesting, Quantitative Finance, Banking Regulation, Basel 3, Elicitability, Risk Measures]
