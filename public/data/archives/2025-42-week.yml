@@ -1,0 +1,127 @@
+# KU Math Seminars - Week Data
+# Author: Dr. Denys Dutykh (Khalifa University of Science and Technology, Abu Dhabi, UAE)
+#
+# Seminar Status Options:
+# - confirmed (default): The seminar is confirmed and will take place as scheduled
+# - cancelled: The seminar has been cancelled
+# - postponed: The seminar has been postponed to a later date
+# - tentative: The seminar is tentatively scheduled but not yet confirmed
+#
+# Note: To skip a seminar series entirely for a week, simply omit it from the seminars list
+
+week:
+  isoWeek: 42
+  start: October 13, 2025
+  end: October 19, 2025
+  timezone: Asia/Dubai
+  status: open
+  note: ""
+
+series:
+  - code: ccms
+    label: CCMS College Seminar
+    organisedBy: Dr Denys Dutykh, Julian Barreiro-Gomez, Sajid Javed
+    organisedByUrl: https://www.denys-dutykh.com/
+  - code: math
+    label: KU Math Seminar
+    organisedBy: Dr Denys Dutykh, Erkko Lehtonen, Yerkin Kitapbayev, Julian Barreiro-Gomez, and Meryem Rhadbane
+    organisedByUrl: https://www.denys-dutykh.com/
+  - code: fin
+    label: Data and Stochastic Analysis in Finance, Energy and Digital Economy
+    organisedBy: Prof Giorgio Consigli, Yerkin Kitapbayev, and Jorge Zubelli
+    organisedByUrl: https://www.ku.ac.ae/academics/college-of-computing-and-mathematical-sciences/department/department-of-mathematics/
+  - code: bio
+    label: Math Biology Seminar
+    organisedBy: Dr Haralampos Hatzikirou
+    organisedByUrl: https://www.ku.ac.ae/college-people/haralampos-hatzikirou/
+  - code: grad
+    label: CCMS Graduate Seminar
+    organisedBy: Prof Hadi Susanto, Julian Barreiro-Gomez, Sajid Javed
+    organisedByUrl: https://hs-info.github.io/
+  - code: ug
+    label: Beyond Math Seminar
+    organisedBy: Ms Nesma Khalil, Prof Partha Guha, Mr Mahmoud Yassin
+    organisedByUrl: https://www.ku.ac.ae/college-people/nesma-khalil/
+  - code: rescomp
+    label: Research Computing Webinar
+    organisedBy: Mr Wadud Miah
+    organisedByUrl: https://www.ku.ac.ae/research-offices/research-computing/
+
+seminars:
+
+  - series: ccms
+    speaker: Prof Peter Markowich
+    affiliation: King Abdullah University of Science and Technology (KAUST)
+    affiliationUrl: https://www.kaust.edu.sa/
+    title: "PDE models for deep neural networks: learning theory, calculus of variations and optimal control"
+    status: confirmed  # Optional field, defaults to "confirmed" if not specified
+    start: 2025-10-13T14:00:00+04:00
+    end: 2025-10-13T15:00:00+04:00
+    location: Main Campus, L02012
+    abstract: |
+      We propose a partial differential-integral equation (PDE) framework for deep neural networks (DNNs) and their associated learning problems by taking the continuum limits of both network width and depth. The proposed model captures the complex interactions among hidden nodes, overcoming limitations of traditional discrete and ordinary differential equation (ODE)-based models. We explore the well-posedness of the forward propagation problem, analyze the existence and properties of minimizers for the learning task, and provide a detailed examination of necessary and sufficient conditions for the existence of critical points. Controllability and optimality conditions for the learning task with its associated PDE forward problem are established using variational calculus, the Pontryagin Maximum Principle, and the Hamilton-Jacobi-Bellman equation, framing the deep learning process as a PDE-constrained optimization problem. In this context, we prove the existence of viscosity solutions for the latter and we establish optimal feedback controls based on the value functional. This approach facilitates the development of new network architectures and numerical methods that improve upon traditional layer-by-layer gradient descent techniques. The paper provides a mathematical foundation for connecting neural networks, PDE theory, variational analysis, and optimal control. By integrating these fields, we offer a robust framework that enhances deep learning models' stability, efficiency, and interpretability.
+    biography: |
+      Professor Markowich earned an M.S. and a Ph.D. in Habilitation for Applied and Numerical Mathematics at the Vienna University of Technology (TU-Wien), Austria. He became a Full Professor at the Technical University of Berlin (TUB) in 1989. From 1999 until 2007, he worked at the University of Vienna, Austria, as a Professor of Applied Analysis; from 2007-2011, he worked at the University of Cambridge, U.K., as a Professor of Applied Mathematics. Since 2011, he has been a Distinguished Professor at KAUST. The Austrian-Italian researcher is a prolific researcher and author, with nearly 14,000 citations and more than 200 scientific papers in top international journals. He has authored a series of books presenting topics of science and engineering found in nature or everyday life. In the books, physical variables such as mass, velocity and energy are analyzed using partial differential equations, along with their spatial and temporal variations. Professor Markowich has been honored with numerous awards and recognitions throughout his career; these include the Wittgenstein Prize from the Austrian Science Fund, The Royal Society Wolfson Research Merit Award and the Humboldt Research Award. In 2015, and again in 2018, he held a J.T. Oden Faculty Fellowship at the Oden Institute for Computational Engineering and Sciences (University of Texas), the Von Neumann Visiting Professorship at the Technical University Munich, Germany, in 2013; the Excellence Chair at Jiaotong University, Shanghai, China, in 2012; and the Excellence Chair of the Foundation Sciences Mathématiques de Paris, France, in 2011. Markowich is a Fellow of the European Academy of Sciences, the Institute of Physics, the American Mathematical Society and the Institute of Mathematics and its Applications. He is also a member of the European Academy of Sciences and Arts, Academia Europaea and a Foreign Member of the Austrian Academy of Sciences.
+    links:
+      speaker: https://www.kaust.edu.sa/en/study/faculty/peter-markowich/
+      teams: https://teams.microsoft.com/l/meetup-join/19%3ameeting_Y2YyMTkzMDItNDUwMS00NWM1LWJlOTMtZmIyYzBmZjU3OGEx%40thread.v2/0?context=%7b%22Tid%22%3a%2208fe1c0a-19f5-4f24-a662-fdd5dd460025%22%2c%22Oid%22%3a%22aba525f2-e024-4b7d-b19f-d522948dead5%22%7d
+    tags: [Partial Differential Equations, Deep Neural Networks, Learning Theory, Calculus of Variations, Optimal Control, Mathematical Modeling, Neural Network Architecture, PDE-Constrained Optimization, Pontryagin Maximum Principle, Hamilton-Jacobi-Bellman Equation, Viscosity Solutions, Applied Mathematics]
+
+  - series: ccms
+    speaker: Prof Mustapha Tlidi
+    affiliation: Université Libre de Bruxelles
+    affiliationUrl: https://www.ulb.be/
+    title: "Vegetation patterns in arid ecosystems: a self-organized response to water scarcity"
+    status: confirmed  # Optional field, defaults to "confirmed" if not specified
+    start: 2025-10-14T15:00:00+04:00
+    end: 2025-10-14T16:00:00+04:00
+    location: Main Campus, L02012
+    abstract: |
+      Arid ecosystems are vulnerable to desertification and land degradation due to climate change, overgrazing and deforestation. As aridity increases, the spatial homogeneity of vegetation cover is lost and it self-organizes into heterogeneous patterns [1,2], which is a precursor to a catastrophic shift to bare soil [3]. Several studies suggest that environmental inhomogeneities in time or space could be crucial to understand these phenomena [4,5]. Using a unified mathematical model and incorporating environmental inhomogeneities in space, we show how two branches of vegetation patterns create a hysteresis loop as the mortality level changes. In an increasing mortality scenario, one observes an equilibrium branch of high vegetation biomass that forms self-organized hexagonal-like patterns. However, when the mortality trend is reversed, one observes a branch with low biomass and no evident patterning, where vegetation spots form clusters instead. This behavior is supported by remote sensing and field observations and can be linked to climate change trends in arid ecosystems.
+
+      [1] Lefever, R. and Lejeune, O., On the origin of tiger bush. Bull Math Biol 59 263 (1997). 
+      [2] Lejeune, O., Tlidi, M., & Couteron, P. (2002). Localized vegetation patches: a self-organized response to resource scarcity. Physical Review E, 66(1), 010901. 
+      [3] Scheffer, M., Carpenter, S., Foley, J. A., Folke, C., & Walker, B. (2001). Catastrophic shifts in ecosystems. Nature, 413 (6856), 591-596. 
+      [4] Pinto-Ramos, D., Clerc, M. G. & Tlidi, M. (2023) Topological defects law for migrating banded vegetation patterns in arid climates. Sci. Adv. 9, eadf6620. 
+      [5] Hidalgo-Ogalde, B., Pinto-Ramos, D., Clerc, M. G., & Tlidi, M. (2024). Nonreciprocal feedback induces migrating oblique and horizontal banded vegetation patterns in hyper-arid landscapes. Scientific reports, 14(1), 14635.
+    biography: |
+      Mustapha Tlidi holds  M.Sc. and PhD in Physics  from the Faculty of Science at the Université Libre de Bruxelles (ULB), Brussels, Belgium. He served in a permanent role as Research Director at the Belgian National Science Foundation and as Professor within the Faculty of Science. His research spans diffractive and dispersive nonlinear optics, as well as laser physics. In recent years, his work has expanded to include the mathematical modelling of vegetation patterns in semi-arid landscapes. Professor Tlidi is the author of over 200 scientific publications and two books. His contributions have earned him several distinctions, including the De Potter Prize awarded by the Royal Academy of Sciences of Belgium. In 2025, he was also recognized as an Outstanding Referee by the American Physical Society (APS).
+    links:
+      speaker: https://scholar.google.com/citations?user=dT3Svb4AAAAJ&hl=en
+      teams: https://teams.microsoft.com/l/meetup-join/19%3ameeting_MWEyOWYyNDYtYWExNy00ZTAzLTk4Y2MtMGM2M2U2NDJkOTQ0%40thread.v2/0?context=%7b%22Tid%22%3a%2208fe1c0a-19f5-4f24-a662-fdd5dd460025%22%2c%22Oid%22%3a%22aba525f2-e024-4b7d-b19f-d522948dead5%22%7d
+    tags: [Arid Ecosystems, Vegetation Patterns, Self-Organization, Mathematical Modeling, Climate Change, Desertification, Ecology, Environmental Science, Nonlinear Dynamics, Pattern Formation]
+
+  - series: math
+    speaker: Prof Hadi Susanto
+    affiliation: Mathematics Department, Khalifa University
+    affiliationUrl: https://www.ku.ac.ae/
+    title: "Quantum Droplets: From Physics to Exponential Asymptotics, from Pattern Formation to Bifurcations"
+    status: confirmed  # Optional field, defaults to "confirmed" if not specified
+    start: 2025-10-16T15:00:00+04:00
+    end: 2025-10-16T16:00:00+04:00
+    location: SAN Campus, Zarkuh Bldg, ADCO Auditorium
+    abstract: |
+      Quantum droplets are self-bound states that arise in ultracold atomic gases through a delicate balance between attractive interactions and quantum fluctuations. They are modeled by nonlinear Schrödinger equations and provide a rich setting where concepts from quantum physics intersect with nonlinear dynamics and dynamical systems. In this talk, I will discuss discrete quantum droplets (in systems with, e.g., a linear lattice potential), which may exist within an exponentially small “pinning region”. I will also outline how their stability can be established. Throughout, I will emphasize physical intuition, illustrative examples, and how asymptotic analysis complements numerical computations.
+    biography: |
+      Professor Hadi Susanto studied Mathematics at Institut Teknologi Bandung, Indonesia (BSc) and the University of Twente, The Netherlands (MSc, PhD). He subsequently held positions at the University of Massachusetts Amherst (as a Visiting Assistant Professor), the University of Nottingham (as a Lecturer), and the University of Essex (as a Senior Lecturer and then Professor). He joined Khalifa University in 2020.
+    links:
+      speaker: https://hs-info.github.io/
+      teams: https://teams.microsoft.com/l/meetup-join/19%3ameeting_MWQzNjk2MDQtZjA4Ni00OWNkLWFhYjctYTZjZTE3MGJmOTZi%40thread.v2/0?context=%7b%22Tid%22%3a%2208fe1c0a-19f5-4f24-a662-fdd5dd460025%22%2c%22Oid%22%3a%22aba525f2-e024-4b7d-b19f-d522948dead5%22%7d
+    tags: [Quantum Physics, Nonlinear Dynamics, Dynamical Systems, Asymptotic Analysis, Pattern Formation, Bifurcations, Ultracold Atomic Gases, Nonlinear Schrödinger Equations, Stability Analysis, Mathematical Physics]
+
+  - series: fin
+    speaker: Dr. Carlo Acerbi
+    affiliation: Abu Dhabi Investment Authority
+    affiliationUrl: https://www.adia.ae/
+    title: "Backtestability of Risk Measures"
+    status: confirmed  # Optional field, defaults to "confirmed" if not specified
+    start: 2025-10-17T11:00:00+04:00
+    end: 2025-10-17T12:00:00+04:00
+    location: Main campus, Room R02013
+    abstract: |
+      Backtesting risk measures, such as Value at Risk (VaR), is a consolidated practice in financial risk management and banking regulation since at least 3 decades ago. Yet, a formal definition of “backtest of a risk measure” was missing until very recently. Questions such as whether a given risk measure is backtestable or not, were ill-posed, and spurred confusion and controversy in the financial risk literature. The case of Expected Shortfall (ES) was devoted special attention (and heated academic debates) since its adoption as a capital adequacy standard in Basel 3. Backtestability – whatever it exactly means – is a non-negotiable property for a risk regulation standard. We try to put some order, providing a first definition of backtest of a risk measure. We discuss the relationship between backtestability and elicitability. We then introduce the important subclass of “sharp backtests” which allow to measure the discrepancy between the predicted (ex-ante) risk and the actual (ex-post, realized) risk, thereby providing corrective feedback to risk models. Finally, we illustrate the mechanism of a “ridge backtest”, by which some non-backtestable risk measures still admit a prudential form of approximated backtest. We did not forget to tell you if the ES is backtestable or not: for that you will have to wait until the end of the presentation.
+    biography: |
+      Dr. Carlo Acerbi earned a PhD in High Energy Physics at the International School for Advanced Studies (Trieste, Italy). He worked in quantitative financial risk management since 1998, at the interface between theory and practice. He is the author of several influential papers on advances in risk theory and its applications. He is currently a Quantitative Research and Development Lead at the Abu Dhabi Investment Authority (ADIA) and founder and Scientific Head of Risknowledge SA, Geneva, CH. He has academic affiliations at the Ecole Polytechnique Federale de Lausanne (CH), Bocconi University (IT) and is honorary Professor at Corvinus University of Budapest (HU).
+    links:
+      speaker: https://scholar.google.com/citations?user=D0YuMlcAAAAJ&hl=en
+    tags: [Risk Management, Financial Regulation, Value at Risk, Expected Shortfall, Backtesting, Quantitative Finance, Banking Regulation, Basel 3, Elicitability, Risk Measures]
