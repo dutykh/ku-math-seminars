@@ -66,3 +66,20 @@ seminars:
       speaker: https://sites.google.com/view/juliangutierrezpineda/
       teams: https://teams.microsoft.com/l/meetup-join/19%3ameeting_MWQzNjk2MDQtZjA4Ni00OWNkLWFhYjctYTZjZTE3MGJmOTZi%40thread.v2/0?context=%7b%22Tid%22%3a%2208fe1c0a-19f5-4f24-a662-fdd5dd460025%22%2c%22Oid%22%3a%22aba525f2-e024-4b7d-b19f-d522948dead5%22%7d
     tags: [Mean-Field Games, Common Noise, Multi-Scale Systems, Averaging Principle, Ergodic Dynamics, Epsilon-Nash Equilibrium, Approximation Methods, Optimal Control, Partial Differential Equations, Stochastic Processes, Game Theory, Multi-Agent Systems, Time-Scale Separation, Convergence Analysis, Mathematical Modeling]
+
+  - series: ug
+    speaker: Prof Mokhtar Kirane
+    affiliation: Mathenatics Department, Khalifa University
+    affiliationUrl: https://www.ku.ac.ae/
+    title: "Mathematics From Abstraction to Application"
+    status: confirmed  # Optional field, defaults to "confirmed" if not specified
+    start: 2025-10-20T17:00:00+04:00
+    end: 2025-10-20T18:00:00+04:00
+    location: Main Campus, L03007
+    abstract: |
+      Mathematics occupies a unique position as both a theoretical discipline and an applied science. Its beauty is reflected in patterns, structures, and symmetries that transcend cultural and disciplinary boundaries, while its usefulness emerges in models that inform technology, science, and everyday life. This lecture will discuss how abstraction and application coexist within mathematics, illustrating the interplay between elegant ideas and their transformative power in solving real-world problems.
+    biography: |
+      Prof. Mokhtar Kirane is a mathematician specializing in analysis, fractional differential equations, and applied mathematics. He earned his PhD in Mathematics from the University Pierre et Marie Curie (Paris VI) in 1983, followed by a Habilitation in Mathematics. His current research focuses on nonexistence theory, reaction–diffusion systems, asymptotic behaviour, inverse problems, nonlocal operators, and bio-mathematics.
+    links:
+      speaker: https://www.mokhtarkirane.com/
+    tags: [Abstraction, Applications, Mathematical Modeling, Patterns, Structures, Symmetry, Applied Mathematics, Theoretical Mathematics, Real-World Problems, General Audience, Undergraduate Seminar]
