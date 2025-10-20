@@ -69,7 +69,7 @@ seminars:
 
   - series: ug
     speaker: Prof Mokhtar Kirane
-    affiliation: Mathenatics Department, Khalifa University
+    affiliation: Mathematics Department, Khalifa University
     affiliationUrl: https://www.ku.ac.ae/
     title: "Mathematics From Abstraction to Application"
     status: confirmed  # Optional field, defaults to "confirmed" if not specified
