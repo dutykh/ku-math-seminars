@@ -1,0 +1,85 @@
+# KU Math Seminars - Week Data
+# Author: Dr. Denys Dutykh (Khalifa University of Science and Technology, Abu Dhabi, UAE)
+#
+# Seminar Status Options:
+# - confirmed (default): The seminar is confirmed and will take place as scheduled
+# - cancelled: The seminar has been cancelled
+# - postponed: The seminar has been postponed to a later date
+# - tentative: The seminar is tentatively scheduled but not yet confirmed
+#
+# Note: To skip a seminar series entirely for a week, simply omit it from the seminars list
+
+week:
+  isoWeek: 43
+  start: October 20, 2025
+  end: October 26, 2025
+  timezone: Asia/Dubai
+  status: open
+  note: ""
+
+series:
+  - code: ccms
+    label: CCMS College Seminar
+    organisedBy: Dr Denys Dutykh, Julian Barreiro-Gomez, Sajid Javed
+    organisedByUrl: https://www.denys-dutykh.com/
+  - code: math
+    label: KU Math Seminar
+    organisedBy: Dr Denys Dutykh, Erkko Lehtonen, Yerkin Kitapbayev, Julian Barreiro-Gomez, and Meryem Rhadbane
+    organisedByUrl: https://www.denys-dutykh.com/
+  - code: fin
+    label: Data and Stochastic Analysis in Finance, Energy and Digital Economy
+    organisedBy: Prof Giorgio Consigli, Yerkin Kitapbayev, and Jorge Zubelli
+    organisedByUrl: https://www.ku.ac.ae/academics/college-of-computing-and-mathematical-sciences/department/department-of-mathematics/
+  - code: bio
+    label: Math Biology Seminar
+    organisedBy: Dr Haralampos Hatzikirou
+    organisedByUrl: https://www.ku.ac.ae/college-people/haralampos-hatzikirou/
+  - code: grad
+    label: CCMS Graduate Seminar
+    organisedBy: Prof Hadi Susanto, Julian Barreiro-Gomez, Sajid Javed
+    organisedByUrl: https://hs-info.github.io/
+  - code: ug
+    label: Beyond Math Seminar
+    organisedBy: Ms Nesma Khalil, Prof Partha Guha, Mr Mahmoud Yassin
+    organisedByUrl: https://www.ku.ac.ae/college-people/nesma-khalil/
+  - code: rescomp
+    label: Research Computing Webinar
+    organisedBy: Mr Wadud Miah
+    organisedByUrl: https://www.ku.ac.ae/research-offices/research-computing/
+
+seminars:
+
+  - series: math
+    speaker: Dr Julian Gutierrez
+    affiliation: CREST, Institut Polytechnique de Paris
+    affiliationUrl: https://crest.science/
+    title: "Approximation of multi-scale mean-field games with common noise"
+    status: confirmed  # Optional field, defaults to "confirmed" if not specified
+    start: 2025-10-23T15:00:00+04:00
+    end: 2025-10-23T16:00:00+04:00
+    location: Main Campus, L03007
+    abstract: |
+      For multi-agent games, the mean-field game (MFG) framework is well known for providing ε-Nash equilibria. In the presence of common noise, however, solving the MFG itself becomes particularly challenging. We introduce a framework for obtaining an ε-Nash equilibrium for the MFG with common noise, which in turn yields a (double) ε-Nash equilibrium in the corresponding finite-population game. The proposed framework is based on a multi-scale system in which an ergodic fast-evolving variable carries the common noise. By exploiting the averaging principle for multi-scale systems with ergodic dynamics, we reduce the problem to an MFG without common noise―a simpler setting to solve―whose solution approximates the equilibrium of the original problem. Strong convergence results allow us to quantify the sub-optimality of this approximation in terms of the time-scale separation parameter.
+    biography: |
+      Julian received both B.S. in Mathematics and B.S. in Engineering from Escuela Colombiana de Ingenieria, Colombia. After receiving his M.Sc. in Mathematical Sciences from Universidad Nacional Autónoma de México, México, he joined Professor Diogo Gomes as a Ph.D. student in applied mathematics at King Abdullah University of Science and Technology, Saudi Arabia. Upon completing his Ph.D., he joined Ecole Polytechnique as a Postdoctoral Researcher. His research interests are primarily in optimal control, optimal transport, calculus of variations, partial differential equations, and mean-field games, with a particular focus on applications to engineering and finance.
+    links:
+      speaker: https://sites.google.com/view/juliangutierrezpineda/
+      teams: https://teams.microsoft.com/l/meetup-join/19%3ameeting_MWQzNjk2MDQtZjA4Ni00OWNkLWFhYjctYTZjZTE3MGJmOTZi%40thread.v2/0?context=%7b%22Tid%22%3a%2208fe1c0a-19f5-4f24-a662-fdd5dd460025%22%2c%22Oid%22%3a%22aba525f2-e024-4b7d-b19f-d522948dead5%22%7d
+    tags: [Mean-Field Games, Common Noise, Multi-Scale Systems, Averaging Principle, Ergodic Dynamics, Epsilon-Nash Equilibrium, Approximation Methods, Optimal Control, Partial Differential Equations, Stochastic Processes, Game Theory, Multi-Agent Systems, Time-Scale Separation, Convergence Analysis, Mathematical Modeling]
+
+  - series: ug
+    speaker: Prof Mokhtar Kirane
+    affiliation: Mathematics Department, Khalifa University
+    affiliationUrl: https://www.ku.ac.ae/
+    title: "Mathematics From Abstraction to Application"
+    status: confirmed  # Optional field, defaults to "confirmed" if not specified
+    start: 2025-10-20T17:00:00+04:00
+    end: 2025-10-20T18:00:00+04:00
+    location: Main Campus, L03007
+    abstract: |
+      Mathematics occupies a unique position as both a theoretical discipline and an applied science. Its beauty is reflected in patterns, structures, and symmetries that transcend cultural and disciplinary boundaries, while its usefulness emerges in models that inform technology, science, and everyday life. This lecture will discuss how abstraction and application coexist within mathematics, illustrating the interplay between elegant ideas and their transformative power in solving real-world problems.
+    biography: |
+      Prof. Mokhtar Kirane is a mathematician specializing in analysis, fractional differential equations, and applied mathematics. He earned his PhD in Mathematics from the University Pierre et Marie Curie (Paris VI) in 1983, followed by a Habilitation in Mathematics. His current research focuses on nonexistence theory, reaction–diffusion systems, asymptotic behaviour, inverse problems, nonlocal operators, and bio-mathematics.
+    links:
+      speaker: https://www.mokhtarkirane.com/
+    tags: [Abstraction, Applications, Mathematical Modeling, Patterns, Structures, Symmetry, Applied Mathematics, Theoretical Mathematics, Real-World Problems, General Audience, Undergraduate Seminar]
