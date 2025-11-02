@@ -7,15 +7,22 @@
 # - postponed: The seminar has been postponed to a later date
 # - tentative: The seminar is tentatively scheduled but not yet confirmed
 #
+# Week Status Options:
+# - open (default): Regular seminar week
+# - holiday: University-wide holiday, seminars paused
+# - break: Academic break, seminars paused
+# - exams: Examination period, seminars paused
+# - cancelled: Entire seminar week cancelled
+#
 # Note: To skip a seminar series entirely for a week, simply omit it from the seminars list
 
 week:
-  isoWeek: 44
-  start: October 27, 2025
-  end: November 2, 2025
+  isoWeek: 45
+  start: November 3, 2025
+  end: November 9, 2025
   timezone: Asia/Dubai
-  status: open
-  note: ""
+  status: break
+  note: "No seminars this week during unforeseen circumstances. Sessions resume next week."
 
 series:
   - code: ccms
@@ -47,40 +54,4 @@ series:
     organisedBy: Mr Wadud Miah
     organisedByUrl: https://www.ku.ac.ae/research-offices/research-computing/
 
-seminars:
-
-  - series: math
-    speaker: Dr German Obando
-    affiliation: Universidad de Nariño
-    affiliationUrl: https://www.udenar.edu.co/
-    title: "A Delay Paradox: Why Slower is Faster in Multi-Agent Agreement"
-    status: confirmed  # Optional field, defaults to "confirmed" if not specified
-    start: 2025-10-30T15:00:00+04:00
-    end: 2025-10-30T16:00:00+04:00
-    location: Main Campus, L03007
-    abstract: |
-      Consensus protocols are algorithms that allow a network of agents to reach an agreement on a variable of interest. Traditionally, time delays, inherent to communication and processing in such networks, have been considered a limiting factor. These delays can compromise the system's stability, even preventing the desired agreement from being reached. However, some research has revealed a counterintuitive phenomenon: the possibility that certain delay values, far from being detrimental, can actually accelerate the speed at which agents converge to the consensus state. This talk shows how the Lambert W function allows for the exact characterization of the location of the poles in linear dynamical systems with delays, opening the door to a detailed analysis of not only stability but also transient behavior. By means of a delay-dependent root locus, we focus on finding the delay that maximizes the convergence speed in consensus networks.
-    biography: |
-      Germán Obando received the B.S. degree in Electronics Engineering from Universidad de Nariño, Colombia, in 2008; the M.S. degree in Electronics and Computers Engineering from Universidad de los Andes, Colombia, in 2010; and the Ph.D. degree in Engineering from Universidad de los Andes and Ecole des Mines de Nantes, France, in 2016. In 2023, he joined the Department of Electronics at Universidad de Nariño, where he is currently an Associate Professor. His research interests include population dynamics, distributed control and time delayed systems.
-    links:
-      speaker: https://www.researchgate.net/profile/German-Obando-2/
-      teams: https://teams.microsoft.com/l/meetup-join/19%3ameeting_MWQzNjk2MDQtZjA4Ni00OWNkLWFhYjctYTZjZTE3MGJmOTZi%40thread.v2/0?context=%7b%22Tid%22%3a%2208fe1c0a-19f5-4f24-a662-fdd5dd460025%22%2c%22Oid%22%3a%22aba525f2-e024-4b7d-b19f-d522948dead5%22%7d
-    tags: [Consensus, Multi-Agent Systems, Consensus Protocols, Time-Delay Systems, Delayed Differential Equations, Stability Analysis, Convergence Rate, Lambert W Function, Linear Dynamical Systems, Root Locus, Delay-Dependent Root Locus, Transient Response, Distributed Control, Networked Control Systems, Control Theory]
-
-  - series: fin
-    speaker: Prof Giorgio Consigli
-    affiliation: Mathematics Department, Khalifa University
-    affiliationUrl: https://www.ku.ac.ae/
-    title: "Multiperiod interval-based stochastic dominance with application to dynamic portfolios"
-    status: confirmed  # Optional field, defaults to "confirmed" if not specified
-    start: 2025-10-31T11:00:00+04:00
-    end: 2025-10-31T12:00:00+04:00
-    location: Main Campus, R01013
-    abstract: |
-      We consider a multi-stage generalization of the interval-based stochastic dominance (ISD) principles introduced by Liu, Chen and Consigli (2021). The ISD criterion was motivated specifically in a financial context to allow for contiguous integer SD orders on different portions of a portfolio return distribution against a benchmark distribution. A continuous spanning of SD conditions between first-, second-, and third-order stochastic dominance was introduced in that context, relying on a reference point. Here, by extending the partial order to random data processes, we apply ISD conditions to a multi-period portfolio selection problem and verify the modeling and computational implications of such an extension. Several theoretical and methodological issues arise in this case that motivate this contribution. The problem is formulated in scenario form as a multistage stochastic recourse program, and we study two possible generalizations of ISD principles in which we either enforce ISD constraints on each stage, independently from the scenario tree process evolution, or we do so conditionally along the scenario tree. We present a comprehensive set of computational results to show that, depending on the benchmark investment policy and the adopted ISD formulation, stochastic dominance conditions of first- or second-order can be enforced dynamically over a range of possible values of the reference point, and their solution carries a specific rationale. The computational constraints induced by the multistage ISD formulation are also emphasized and discussed in detail.
-    biography: |
-      Dr. Giorgio Consigli is Associate Chair of Graduate studies and Associate Professor of Mathematics at Khalifa University (since 2021) and Fellow of the UK Institute of Mathematics and its Applications. Previously, he held faculty positions at the University of Bergamo and worked in quantitative development at UniCredit Investment Bank. He earned his PhD at the University of Essex (1995) and held a PostDoc position at the University of Cambridge. His research focuses on stochastic optimization, quantitative finance, and computational methods in risk and asset-liability management, with long-standing collaborations across Europe, the US, and Asia. Giorgio is Springer author as contributor and with three volumes edited to the Int. Series of Operations Research and Management Science. He has served on the Scientific Committee of the Stochastic Programming Society (COSP), co-founded the Italian Stochastic Programming section, and is a Board Member of the EURO WG on Commodity and Financial Modelling. He has organized major international conferences and delivered keynote talks worldwide. Dr. Consigli is Area Editor for OR Spectrum and the IMA Journal of Management Mathematics, Associate Editor of several journals, and guest editor of multiple special issues. He has a relevant record of research grants and advanced training grants in the area of computational methods in finance and applied mathematics both at national and international levels.
-    links:
-      speaker: https://www.ku.ac.ae/college-people/giorgio-consigli/
-      teams: https://teams.microsoft.com/meet/3377641447817?p=4FHgg5n6eoAUhuKsdJ
-    tags: [Stochastic Dominance, Interval-Based Stochastic Dominance, Multiperiod, Multistage Stochastic Programming, Portfolio Selection, Dynamic Portfolios, Scenario Trees, Recourse Programming, Quantitative Finance, Risk Management, Optimization Under Uncertainty, First-Order Stochastic Dominance, Second-Order Stochastic Dominance, Reference Point, Computational Methods, Modeling and Computation, Financial Engineering]
+seminars: []

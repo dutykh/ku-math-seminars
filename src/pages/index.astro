@@ -4,7 +4,8 @@
  * Author: Dr. Denys Dutykh (Khalifa University of Science and Technology, Abu Dhabi, UAE)
  * License: GNU General Public License v3.0
  */
-import type { WeekData } from "../lib/types";
+import type { WeekData, WeekStatus } from "../lib/types";
+import { formatWeekRange } from '../lib/time';
 import '../index.css';
 import WeekHeader from '../components/WeekHeader.astro';
 import SeriesSection from '../components/SeriesSection.astro';
@@ -20,12 +21,12 @@ const yamlPath = path.join(process.cwd(), 'public', 'data', 'week.yml');
 const yamlContent = fs.readFileSync(yamlPath, 'utf8');
 const weekData = yaml.parse(yamlContent) as WeekData;
 
-// Group seminars by series
+const seminarsList = Array.isArray(weekData.seminars) ? weekData.seminars : [];
 const seriesList = Array.isArray(weekData.series) ? weekData.series : [];
 const knownSeries = new Map(seriesList.map(s => [s.code, s]));
 const groupedSeminars = new Map();
 
-(weekData.seminars || []).forEach(seminar => {
+seminarsList.forEach(seminar => {
   if (!groupedSeminars.has(seminar.series)) {
     groupedSeminars.set(seminar.series, []);
   }
@@ -34,7 +35,7 @@ const groupedSeminars = new Map();
 
 // Find unknown series codes and sort them
 const unknownCodes = Array.from(
-  new Set((weekData.seminars || []).map(s => s.series))
+  new Set(seminarsList.map(s => s.series))
 ).filter(code => !knownSeries.has(code)).sort();
 
 // Create complete series order
@@ -44,24 +45,77 @@ const allSeries = [
 ];
 
 const timezone = weekData.week.timezone || 'Asia/Dubai';
+const weekRangeSummary = formatWeekRange(
+  weekData.week.start,
+  weekData.week.end,
+  weekData.week.isoWeek,
+  timezone
+);
+
+type WeekStatusBanner = {
+  title: string;
+  defaultMessage: string;
+  icon: string;
+  className: string;
+  titleClass: string;
+};
+
+const weekStatus = (weekData.week.status || 'open') as WeekStatus;
+const weekStatusBanners: Record<WeekStatus, WeekStatusBanner | null> = {
+  open: null,
+  holiday: {
+    title: 'University Holiday',
+    defaultMessage: 'Seminars pause this week while the university observes a holiday.',
+    icon: '🎉',
+    className: 'bg-status-holiday/10 border-status-holiday/40',
+    titleClass: 'text-status-holiday'
+  },
+  break: {
+    title: 'Academic Break',
+    defaultMessage: 'No seminars are scheduled during the academic break.',
+    icon: '🧭',
+    className: 'bg-status-break/10 border-status-break/40',
+    titleClass: 'text-status-break'
+  },
+  exams: {
+    title: 'Examination Period',
+    defaultMessage: 'Seminars are on hold while examinations are in progress.',
+    icon: '📝',
+    className: 'bg-status-exams/10 border-status-exams/40',
+    titleClass: 'text-status-exams'
+  },
+  cancelled: {
+    title: 'Week Cancelled',
+    defaultMessage: "This week's seminar programme is cancelled.",
+    icon: '⚠️',
+    className: 'bg-status-cancelled/10 border-status-cancelled/40',
+    titleClass: 'text-status-cancelled'
+  }
+};
+
+const statusInfo = weekStatusBanners[weekStatus];
+const statusNote = typeof weekData.week.note === 'string' ? weekData.week.note.trim() : '';
+const statusMessage = statusNote || statusInfo?.defaultMessage || '';
 
 // Generate dynamic SEO content
-const seminarCount = weekData.seminars?.length || 0;
+const seminarCount = seminarsList.length;
 const weekNumber = weekData.week.isoWeek || 1;
 const currentYear = weekData.week.start ? new Date(weekData.week.start).getFullYear() : new Date().getFullYear();
 
 // Dynamic title and description
-const dynamicTitle = seminarCount > 0 
+const hasSeminars = seminarCount > 0;
+
+const dynamicTitle = hasSeminars 
   ? `Week ${weekNumber} Seminars (${seminarCount} events) - Mathematics Department, Khalifa University`
   : `Week ${weekNumber} - Mathematics Department, Khalifa University`;
 
-const featuredSpeakers = weekData.seminars?.slice(0, 3).map(s => s.speaker).join(', ') || '';
-const dynamicDescription = seminarCount > 0
+const featuredSpeakers = seminarsList.slice(0, 3).map(s => s.speaker).join(', ') || '';
+const dynamicDescription = hasSeminars
   ? `Join us for ${seminarCount} mathematics seminars in Week ${weekNumber}, ${currentYear}. Featured speakers: ${featuredSpeakers}. Abu Dhabi, UAE.`
   : `Mathematics Department seminars for Week ${weekNumber}, ${currentYear} at Khalifa University, Abu Dhabi, UAE.`;
 
 // Academic keywords based on current seminars
-const seminarKeywords = weekData.seminars?.map(s => s.tags || []).flat().join(', ') || '';
+const seminarKeywords = seminarsList.map(s => s.tags || []).flat().join(', ') || '';
 const dynamicKeywords = `mathematics, seminars, Khalifa University, Abu Dhabi, research, talks, academic events, ${seminarKeywords}`.replace(/,\s*,/g, ',').replace(/,\s*$/, '');
 
 // Cache-busting token for OG images to force social scrapers to refresh
@@ -135,7 +189,7 @@ const structuredData = {
         "@type": "Thing",
         "name": "Mathematics Seminars"
       },
-      "mainEntity": (weekData.seminars || []).map((seminar, index) => ({
+      "mainEntity": seminarsList.map((seminar, index) => ({
         "@type": "Event",
         "@id": `https://www.events.denys-dutykh.com/#event${index}`,
         "name": seminar.title,
@@ -289,14 +343,35 @@ const structuredData = {
     
     <main id="main-content" class="container max-w-4xl mx-auto px-6 py-8 md:px-8 lg:px-12" role="main">
       <!-- Week Range and Status Banner -->
-      <div class="mb-8">
-        <div id="week-range" class="hidden"></div>
-        <div id="banner" class="hidden bg-status-break/10 border border-status-break/30 rounded-xl px-4 py-3 text-sm text-status-break font-medium"></div>
+      <div class="mb-8 space-y-3">
+        <div id="week-range" class="sr-only">
+          {weekRangeSummary}
+        </div>
+        {statusInfo && (
+          <div
+            id="banner"
+            class={`flex items-start gap-3 rounded-xl border px-4 py-3 text-sm shadow-subtle bg-background-subtle/90 ${statusInfo.className}`}
+            role="status"
+            aria-live="polite"
+          >
+            <span class="text-2xl" aria-hidden="true">{statusInfo.icon}</span>
+            <div class="space-y-1 text-left">
+              <div class={`font-semibold ${statusInfo.titleClass}`}>
+                {statusInfo.title}
+              </div>
+              {statusMessage && (
+                <p class="text-sm text-foreground-secondary font-normal">
+                  {statusMessage}
+                </p>
+              )}
+            </div>
+          </div>
+        )}
       </div>
 
       <!-- Main Content -->
       <main id="content" aria-live="polite" class="space-y-12">
-        {weekData.seminars && weekData.seminars.length > 0 ? (
+        {hasSeminars ? (
           allSeries.map((seriesMeta, index) => {
             const seminars = groupedSeminars.get(seriesMeta.code) || [];
             if (!seminars.length) return null;
@@ -330,7 +405,9 @@ const structuredData = {
           <div class="card-elevated rounded-2xl p-8 text-center">
             <div class="text-6xl mb-4">📅</div>
             <h3 class="text-xl font-semibold text-foreground mb-2">No seminars scheduled</h3>
-            <p class="text-muted">Check back next week for upcoming events.</p>
+            <p class="text-muted">
+              {statusMessage || 'Check back next week for upcoming events.'}
+            </p>
           </div>
         )}
       </main>
@@ -1066,7 +1143,7 @@ const structuredData = {
           let currentY = 80;
           
           // Safe access to seminars array
-          const seminars = weekData.seminars || [];
+          const seminars = Array.isArray(weekData.seminars) ? weekData.seminars : [];
           const series = weekData.series || [];
           
           if (seminars.length === 0) {
@@ -1104,7 +1181,7 @@ const structuredData = {
       // Global variable approach - using define:vars
       window.kuSeminarData = {
         week: weekData.week || {},
-        seminars: weekData.seminars || [],
+        seminars: Array.isArray(weekData.seminars) ? weekData.seminars : [],
         series: weekData.series || []
       };
       console.log('Server-side data loaded:', window.kuSeminarData);
