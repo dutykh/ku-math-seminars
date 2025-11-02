@@ -123,10 +123,17 @@ To skip a seminar series entirely for a week, simply omit it from the seminars l
 
 ### Week Status Banners
 The site automatically displays appropriate banners for the entire week:
+- `open` - Default state, no banner shown
 - `holiday` - University holiday
 - `break` - Spring/summer break
 - `exams` - Examination period
 - `cancelled` - Week cancelled
+
+Each banner can include a custom message via the `week.note` field. When no seminars are scheduled, the page shows an explanatory card that reuses the same note so visitors understand why the schedule is empty.
+
+### Empty Week Handling
+- Setting `seminars: []` (or omitting the list) renders a polished “No seminars scheduled” card instead of leaving the page blank.
+- The card displays the note supplied in `week.note`, making it easy to announce holidays, academic breaks, or other pauses.
 
 ### Print/PDF Export
 - Click "Print / Save PDF" button
