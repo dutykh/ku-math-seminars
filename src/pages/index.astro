@@ -12,6 +12,7 @@ import SeriesSection from '../components/SeriesSection.astro';
 import Globe from '../components/icons/Globe.astro';
 import Mail from '../components/icons/Mail.astro';
 import AstroLogo from '../components/icons/AstroLogo.astro';
+import Calendar from '../components/icons/Calendar.astro';
 import yaml from 'yaml';
 import fs from 'fs';
 import path from 'path';
@@ -403,7 +404,9 @@ const structuredData = {
           })
         ) : (
           <div class="card-elevated rounded-2xl p-8 text-center">
-            <div class="text-6xl mb-4">📅</div>
+            <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-ku-primary/10 text-ku-primary">
+              <Calendar size={32} class="stroke-current" />
+            </div>
             <h3 class="text-xl font-semibold text-foreground mb-2">No seminars scheduled</h3>
             <p class="text-muted">
               {statusMessage || 'Check back next week for upcoming events.'}
