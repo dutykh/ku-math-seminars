@@ -1,0 +1,57 @@
+# KU Math Seminars - Week Data
+# Author: Dr. Denys Dutykh (Khalifa University of Science and Technology, Abu Dhabi, UAE)
+#
+# Seminar Status Options:
+# - confirmed (default): The seminar is confirmed and will take place as scheduled
+# - cancelled: The seminar has been cancelled
+# - postponed: The seminar has been postponed to a later date
+# - tentative: The seminar is tentatively scheduled but not yet confirmed
+#
+# Week Status Options:
+# - open (default): Regular seminar week
+# - holiday: University-wide holiday, seminars paused
+# - break: Academic break, seminars paused
+# - exams: Examination period, seminars paused
+# - cancelled: Entire seminar week cancelled
+#
+# Note: To skip a seminar series entirely for a week, simply omit it from the seminars list
+
+week:
+  isoWeek: 45
+  start: November 3, 2025
+  end: November 9, 2025
+  timezone: Asia/Dubai
+  status: break
+  note: "No seminars this week during unforeseen circumstances. Sessions resume next week."
+
+series:
+  - code: ccms
+    label: CCMS College Seminar
+    organisedBy: Dr Denys Dutykh, Julian Barreiro-Gomez, Sajid Javed
+    organisedByUrl: https://www.denys-dutykh.com/
+  - code: math
+    label: KU Math Seminar
+    organisedBy: Dr Denys Dutykh, Erkko Lehtonen, Yerkin Kitapbayev, Julian Barreiro-Gomez, and Meryem Rhadbane
+    organisedByUrl: https://www.denys-dutykh.com/
+  - code: fin
+    label: Data and Stochastic Analysis in Finance, Energy and Digital Economy
+    organisedBy: Prof Giorgio Consigli, Yerkin Kitapbayev, and Jorge Zubelli
+    organisedByUrl: https://www.ku.ac.ae/academics/college-of-computing-and-mathematical-sciences/department/department-of-mathematics/
+  - code: bio
+    label: Math Biology Seminar
+    organisedBy: Dr Haralampos Hatzikirou
+    organisedByUrl: https://www.ku.ac.ae/college-people/haralampos-hatzikirou/
+  - code: grad
+    label: CCMS Graduate Seminar
+    organisedBy: Prof Hadi Susanto, Julian Barreiro-Gomez, Sajid Javed
+    organisedByUrl: https://hs-info.github.io/
+  - code: ug
+    label: Beyond Math Seminar
+    organisedBy: Ms Nesma Khalil, Prof Partha Guha, Mr Mahmoud Yassin
+    organisedByUrl: https://www.ku.ac.ae/college-people/nesma-khalil/
+  - code: rescomp
+    label: Research Computing Webinar
+    organisedBy: Mr Wadud Miah
+    organisedByUrl: https://www.ku.ac.ae/research-offices/research-computing/
+
+seminars: []

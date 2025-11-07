@@ -1,0 +1,17 @@
+- series: ccms/math/fin/bio
+  speaker: Dr
+  affiliation: 
+  affiliationUrl: 
+  title: ""
+  status: confirmed  # Optional field, defaults to "confirmed" if not specified\
+  start: 2025-11-12T15:00:00+04:00
+  end: 2025-11-12T16:00:00+04:00
+  location: Main Campus, R03014
+  abstract: |
+    
+  biography: |
+    
+  links:
+    speaker: 
+    teams: 
+  tags: []
