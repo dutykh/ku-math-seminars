@@ -116,8 +116,8 @@ seminars:
   affiliationUrl: https://nyuad.nyu.edu/en/
   title: "Oxygen Deficiency Drives Drastic Pattern Transition in Algal Bioconvection"
   status: confirmed  # Optional field, defaults to "confirmed" if not specified\
-  start: 2025-11-14T10:00:00+04:00
-  end: 2025-11-14T11:00:00+04:00
+  start: 2025-11-14T11:00:00+04:00
+  end: 2025-11-14T12:00:00+04:00
   location: Main Campus, R02013
   abstract: |
     Suspensions of motile microorganisms can spontaneously form large-scale fluid motion, known as bioconvection, characterized by dense downwelling plumes separated by broad upwelling regions. In this study, we investigate bioconvection in shallow suspensions of Chlamydomonas reinhardtii confined within spiral-shaped boundaries, combining detailed experiments with three-dimensional simulations. Under open liquid-air interfaces, cells accumulate near the surface via negative gravitaxis, generating spiral-shaped density patterns that subsequently fragment into lattice-like clusters, leading to plume formation. Space-time analyses demonstrate coherent rotational dynamics, with predominantly inward-directed motion near the spiral core and bidirectional motion further out. Introducing confinement by sealing the upper boundary with an air-impermeable wall triggers dramatic pattern transitions due to oxygen depletion: initially stable arrangements reorganize into new structures with significantly reduced wavelengths. Complementary numerical simulations, based on incompressible Navier-Stokes equations incorporating negative buoyancy and active swimmer stress, successfully replicate initial pattern formation, subsequent instability, fragmentation into plumes, and emergence of strong vortical flows—nearly an order of magnitude faster than individual cell swimming. However, these models do not capture oxygen depletion-driven transitions observed experimentally. Our results highlight that geometric confinement, oxygen availability, and metabolic transitions critically regulate bioconvection dynamics, offering novel strategies for controlling microbial self-organization and fluid transport.
