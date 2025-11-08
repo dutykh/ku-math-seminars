@@ -1,6 +1,6 @@
 # KU Math Seminars Website
 
-A minimal, static website for displaying the weekly programme of Mathematics Department seminars at Khalifa University.
+A minimal, static website for displaying the weekly programme of Mathematics Department seminars and faculty job interviews at Khalifa University, including an at-a-glance weekly summary.
 
 **Author:** Dr. Denys Dutykh (Khalifa University of Science and Technology, Abu Dhabi, UAE)  
 **License:** GNU General Public License v3.0
@@ -14,13 +14,18 @@ This site displays the current week's mathematics seminars across multiple serie
 - Graduate Math Seminar
 - Undergraduate Math Seminar
 
+The homepage opens with a weekly summary that highlights the timetable and status of upcoming seminars and interviews, followed by detailed sections for talks and recruitment events.
+
 ## Architecture
 
 - **Build-time data load**: `src/pages/index.astro` reads `public/data/week.yml` using Node `fs` and the `yaml` package, parses into `WeekData` (see `src/lib/types.ts`).
 - **Rendering**: Astro pages/components render static HTML with small interactive islands when needed. Main composition is in `index.astro` using components:
   - `src/components/WeekHeader.astro` – week banner, theme controls.
+  - `src/components/WeeklySummary.astro` – “week at a glance” table of contents combining seminars and interviews.
   - `src/components/SeriesSection.astro` – section per seminar series.
   - `src/components/SeminarCard.astro` – individual seminar card with status, links, abstract/biography toggles.
+  - `src/components/JobInterviewsSection.astro` – recruitment spotlight listing the week's interviews.
+  - `src/components/JobInterviewCard.astro` – detailed card for each candidate, including virtual meeting links.
 - **Styling**: Tailwind CSS via `@astrojs/tailwind` with custom design tokens and utilities defined in `tailwind.config.ts`. Global styles in `src/index.css`. Print stylesheet in `public/styles/print.css`.
 - **Time/formatting utilities**: `src/lib/time.ts` for week range, time ranges, timezone labels, timeline positions.
 - **PDF generation**: Two options
@@ -74,7 +79,8 @@ pnpm preview
 1. Open `public/data/week.yml`
 2. Update the week information (dates, status, etc.)
 3. Modify the seminars list with current week's talks
-4. Save the file - changes are reflected immediately in dev mode
+4. (Optional) Update the `interviews` list with any faculty recruitment sessions, including `links.meeting` for virtual rooms
+5. Save the file - changes are reflected immediately in dev mode
 
 ### YAML Schema
 
@@ -108,6 +114,24 @@ seminars:
       slides: https://...
       teams: https://...
     tags: [PDE, Analysis]  # Optional
+
+interviews:
+  - candidate: Dr Jane Smith
+    candidateUrl: https://...
+    position: Assistant Professor (Analysis)
+    interviewType: teaching      # teaching|research
+    mode: virtual                # virtual|in-person
+    start: 2025-08-21T09:00:00+04:00
+    end: 2025-08-21T09:45:00+04:00
+    location: Virtual (Microsoft Teams)
+    organizedBy:
+      - Prof Ahmed Ameur
+      - Dr. Denys Dutykh
+    notes: >
+      30-minute teaching demo followed by Q&A with the panel.
+    links:
+      meeting: https://teams.microsoft.com/...
+      cv: https://...
 ```
 
 ## Features
@@ -134,6 +158,16 @@ Each banner can include a custom message via the `week.note` field. When no semi
 ### Empty Week Handling
 - Setting `seminars: []` (or omitting the list) renders a polished “No seminars scheduled” card instead of leaving the page blank.
 - The card displays the note supplied in `week.note`, making it easy to announce holidays, academic breaks, or other pauses.
+
+### Weekly Summary Overview
+
+- The `WeeklySummary.astro` component generates a “Week at a glance” section that aggregates seminars and interviews, shows timezone context, and links to detailed cards via anchor navigation.
+- Status badges highlight postponed/cancelled seminars and distinguish between teaching vs. research interviews for quick scanning.
+
+### Job Interview Spotlight
+
+- `JobInterviewsSection.astro` renders a dedicated recruitment spotlight with cards for each candidate, displaying mode (virtual/on-campus), panel members, and duration.
+- Virtual interviews can include a `links.meeting` URL which produces a prominent “Join virtual room” button in the UI.
 
 ### Print/PDF Export
 - Click "Print / Save PDF" button
