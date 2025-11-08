@@ -15,3 +15,21 @@
     speaker: 
     teams: 
   tags: []
+
+  interviews:
+  - candidate: Dr 
+    candidateUrl: 
+    position: 
+    interviewType: teaching/research
+    mode: in-person/virtual
+    start: 2025-11-12T09:00:00+04:00
+    end: 2025-11-12T10:15:00+04:00
+    location: Main Campus, Room E1-023 (Teaching Studio)
+    organizedBy:
+      - Dr. Denys Dutykh
+      - Prof Ahmed Ameur
+      - Prof Mohammad Al-Khaleel
+    notes: >
+      Teaching demonstration on modeling nonlinear waves for undergraduate engineering majors. Includes Q&A focused on active learning approaches.
+    links:
+      cv: https://example.com/cv/sofia-ramirez.pdf

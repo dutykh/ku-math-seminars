@@ -17,9 +17,10 @@ export interface Props {
   timezone: string;
   showTimeline?: boolean;
   index: number;
+  anchorId?: string;
 }
 
-const { seminar, timezone, showTimeline = false, index } = Astro.props;
+const { seminar, timezone, showTimeline = false, index, anchorId } = Astro.props;
 const timeRange = formatTimeRange(seminar.start, seminar.end, timezone);
 const timelinePosition = showTimeline ? getTimePosition(seminar.start, timezone) : 0;
 
@@ -94,12 +95,13 @@ function sanitizeHTML(html: string): string {
 const abstractHtml = sanitizeHTML(parseMarkdown(seminar.abstract));
 const biographyHtml = seminar.biography ? sanitizeHTML(parseMarkdown(seminar.biography)) : '';
 
-const cardId = `seminar-card-${index}`;
+const cardId = anchorId || `seminar-card-${index}`;
 const abstractId = `abstract-${index}`;
 const biographyId = `biography-${index}`;
 ---
 
 <div 
+  id={cardId}
   class={`
     seminar-card relative bg-gradient-to-br from-surface via-background-subtle to-ku-secondary/8 
     border-2 border-ku-secondary/30 dark:border-ku-secondary/40 rounded-2xl p-8 shadow-large

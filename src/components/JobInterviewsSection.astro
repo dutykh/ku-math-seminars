@@ -1,0 +1,46 @@
+---
+import type { JobInterview } from '../lib/types';
+import JobInterviewCard from './JobInterviewCard.astro';
+import Calendar from './icons/Calendar.astro';
+
+interface Props {
+  interviews: JobInterview[];
+  timezone: string;
+  defaultPanel: string[];
+}
+
+const { interviews, timezone, defaultPanel } = Astro.props as Props;
+
+if (!interviews?.length) {
+  return null;
+}
+
+const sortedInterviews = [...interviews].sort(
+  (a, b) => new Date(a.start).getTime() - new Date(b.start).getTime()
+);
+---
+
+<section class="space-y-8" aria-labelledby="job-interviews-heading">
+  <div class="text-center space-y-4">
+    <div class="inline-flex items-center gap-2 rounded-full border border-ku-primary/20 bg-ku-primary/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-ku-primary">
+      <Calendar size={16} /> Recruitment Spotlight
+    </div>
+    <div>
+      <h2 id="job-interviews-heading" class="text-3xl font-bold text-foreground">Faculty Job Interviews</h2>
+      <p class="text-foreground-secondary max-w-2xl mx-auto">
+        Organized by {defaultPanel.join(', ')} to evaluate outstanding candidates through teaching and research-focused sessions.
+      </p>
+    </div>
+  </div>
+
+  <div class="space-y-6">
+    {sortedInterviews.map((interview, index) => (
+      <JobInterviewCard
+        interview={interview}
+        timezone={timezone}
+        index={index}
+        defaultPanel={defaultPanel}
+      />
+    ))}
+  </div>
+</section>

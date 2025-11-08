@@ -6,6 +6,7 @@
 
 import type { Seminar, SeriesMeta } from '../lib/types';
 import SeminarCard from './SeminarCard.astro';
+import { getSeminarAnchorId } from '../lib/anchors';
 
 export interface Props {
   seriesCode: string;
@@ -67,13 +68,17 @@ const sortedSeminars = [...seminars].sort((a, b) =>
   
   <!-- Seminars -->
   <div class={`space-y-6 ${showTimeline ? 'relative timeline-visual ml-4' : ''}`}>
-    {sortedSeminars.map((seminar, index) => (
-      <SeminarCard
-        seminar={seminar}
-        timezone={timezone}
-        showTimeline={showTimeline}
-        index={index}
-      />
-    ))}
+    {sortedSeminars.map((seminar, index) => {
+      const anchorId = getSeminarAnchorId(seriesCode, seminar);
+      return (
+        <SeminarCard
+          seminar={seminar}
+          timezone={timezone}
+          showTimeline={showTimeline}
+          index={index}
+          anchorId={anchorId}
+        />
+      );
+    })}
   </div>
 </section>

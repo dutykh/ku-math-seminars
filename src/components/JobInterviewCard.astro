@@ -1,0 +1,145 @@
+---
+import type { JobInterview } from '../lib/types';
+import { formatTimeRange } from '../lib/time';
+import Calendar from './icons/Calendar.astro';
+import Clock from './icons/Clock.astro';
+import MapPin from './icons/MapPin.astro';
+import Video from './icons/Video.astro';
+import ExternalLink from './icons/ExternalLink.astro';
+import { getInterviewAnchorId } from '../lib/anchors';
+
+interface Props {
+  interview: JobInterview;
+  timezone: string;
+  index: number;
+  defaultPanel: string[];
+}
+
+const { interview, timezone, index, defaultPanel } = Astro.props as Props;
+const timeRange = formatTimeRange(interview.start, interview.end, timezone);
+const startDate = new Date(interview.start);
+const endDate = new Date(interview.end);
+const dateLabel = startDate.toLocaleDateString('en-GB', {
+  weekday: 'long',
+  month: 'long',
+  day: 'numeric'
+});
+const durationMinutes = Math.max(Math.round((endDate.getTime() - startDate.getTime()) / 60000), 0);
+const panel = interview.organizedBy?.length ? interview.organizedBy : defaultPanel;
+const anchorId = getInterviewAnchorId(interview);
+
+const tzFormatter = new Intl.DateTimeFormat('en-US', {
+  timeZone: timezone,
+  timeZoneName: 'short'
+});
+const tzPart = tzFormatter.formatToParts(startDate).find((part) => part.type === 'timeZoneName');
+const timezoneAbbr = tzPart?.value || timezone;
+
+const typeLabel = interview.interviewType === 'teaching' ? 'Teaching Interview' : 'Research Interview';
+const typeClass =
+  interview.interviewType === 'teaching'
+    ? 'from-amber-500/20 to-orange-500/20 text-amber-700 border-amber-500/30'
+    : 'from-sky-500/20 to-indigo-500/20 text-sky-700 border-sky-500/30';
+
+const modeLabel = interview.mode === 'virtual' ? 'Virtual Session' : 'On-campus Session';
+const modeIcon = interview.mode === 'virtual' ? Video : MapPin;
+const ModeIcon = modeIcon;
+
+const meetingLink = interview.links?.meeting;
+const profileLink = interview.candidateUrl || interview.links?.profile;
+const cvLink = interview.links?.cv;
+---
+
+<article
+  id={anchorId}
+  class="relative overflow-hidden rounded-3xl border border-ku-secondary/30 bg-gradient-to-br from-surface via-background-subtle to-ku-primary/5 p-6 md:p-8 shadow-large backdrop-blur-md transition-shadow duration-300 hover:shadow-xl"
+  data-interview-index={index}
+>
+  <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+    <div class="absolute top-4 right-4 h-28 w-28 rounded-full bg-ku-primary/10 blur-3xl"></div>
+    <div class="absolute -bottom-6 -left-6 h-32 w-32 rounded-full bg-ku-accent/10 blur-3xl"></div>
+  </div>
+
+  <div class="relative z-10 space-y-5">
+    <div class="flex flex-wrap items-center gap-3 text-xs font-semibold uppercase tracking-wide">
+      <span class={`inline-flex items-center gap-2 rounded-full border px-3 py-1 bg-gradient-to-r ${typeClass}`}>
+        {typeLabel}
+      </span>
+      <span class="inline-flex items-center gap-2 rounded-full border border-ku-primary/20 bg-ku-primary/10 px-3 py-1 text-ku-primary">
+        <ModeIcon size={14} />
+        {modeLabel}
+      </span>
+      <span class="inline-flex items-center gap-2 rounded-full border border-ku-secondary/20 bg-ku-secondary/10 px-3 py-1 text-ku-secondary text-[0.65rem]">
+        {durationMinutes} min
+      </span>
+    </div>
+
+    <div class="space-y-2">
+      <div class="flex flex-wrap items-center gap-3">
+        <h3 class="text-2xl font-bold text-ku-primary leading-tight">
+          {profileLink ? (
+            <a href={profileLink} target="_blank" rel="noopener noreferrer" class="hover:text-ku-accent transition-colors duration-200 inline-flex items-center gap-2">
+              {interview.candidate}
+              <ExternalLink size={16} />
+            </a>
+          ) : (
+            interview.candidate
+          )}
+        </h3>
+      </div>
+      <p class="text-lg font-semibold text-foreground">{interview.position}</p>
+      <p class="text-sm text-foreground-secondary">
+        Panel: {panel.join(', ')}
+      </p>
+    </div>
+
+    <div class="grid gap-4 md:grid-cols-2">
+      <div class="rounded-2xl border border-ku-primary/15 bg-ku-primary/5 p-4 flex flex-col gap-2">
+        <div class="flex items-center gap-2 text-ku-primary font-semibold">
+          <Calendar size={18} /> {dateLabel}
+        </div>
+        <div class="flex items-center gap-2 text-foreground-secondary font-medium">
+          <Clock size={16} />
+          <span>{timeRange} ({timezoneAbbr})</span>
+        </div>
+      </div>
+      <div class="rounded-2xl border border-ku-accent/15 bg-ku-accent/5 p-4 flex flex-col gap-2">
+        <div class="flex items-center gap-2 text-ku-accent font-semibold">
+          <MapPin size={18} /> Location
+        </div>
+        <p class="text-foreground-secondary font-medium">{interview.location}</p>
+      </div>
+    </div>
+
+    {interview.notes && (
+      <div class="rounded-2xl border border-border-subtle bg-surface-elevated/80 p-4">
+        <p class="text-sm text-foreground-secondary">
+          {interview.notes}
+        </p>
+      </div>
+    )}
+
+    <div class="flex flex-wrap gap-3">
+      {meetingLink && (
+        <a
+          href={meetingLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 rounded-full bg-ku-primary text-white px-5 py-2 text-sm font-semibold shadow-subtle hover:bg-ku-accent transition-colors duration-300"
+        >
+          <Video size={16} /> Join virtual room
+        </a>
+      )}
+      {cvLink && (
+        <a
+          href={cvLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 rounded-full border border-ku-secondary/30 px-4 py-2 text-sm font-semibold text-foreground hover:border-ku-primary/50 hover:text-ku-primary transition-colors duration-300"
+        >
+          Candidate CV <ExternalLink size={14} />
+        </a>
+      )}
+    </div>
+  </div>
+</article>

@@ -1,0 +1,232 @@
+---
+import type { JobInterview, Seminar, SeriesMeta } from '../lib/types';
+import { getInterviewAnchorId, getSeminarAnchorId } from '../lib/anchors';
+import Calendar from './icons/Calendar.astro';
+import ChevronRight from './icons/ChevronRight.astro';
+
+interface Props {
+  seminars: Seminar[];
+  interviews?: JobInterview[];
+  timezone: string;
+  seriesList: SeriesMeta[];
+  weekRangeSummary: string;
+}
+
+const { seminars, interviews = [], timezone, seriesList, weekRangeSummary } = Astro.props as Props;
+
+const seriesLookup = new Map(seriesList.map((series) => [series.code, series]));
+const sortedSeminars = [...seminars].sort(
+  (a, b) => new Date(a.start).getTime() - new Date(b.start).getTime()
+);
+const sortedInterviews = [...interviews].sort(
+  (a, b) => new Date(a.start).getTime() - new Date(b.start).getTime()
+);
+
+const tzFormatter = new Intl.DateTimeFormat('en-US', {
+  timeZone: timezone,
+  timeZoneName: 'short'
+});
+const tzPart = tzFormatter.formatToParts(new Date()).find((part) => part.type === 'timeZoneName');
+const timezoneAbbr = tzPart?.value || timezone;
+
+const seminarStatusMetadata: Record<
+  string,
+  { label: string; className: string }
+> = {
+  cancelled: {
+    label: 'Cancelled',
+    className:
+      'bg-red-100 text-red-700 border border-red-200 dark:bg-red-500/20 dark:text-red-200 dark:border-red-500/40'
+  },
+  postponed: {
+    label: 'Postponed',
+    className:
+      'bg-amber-100 text-amber-700 border border-amber-200 dark:bg-amber-500/20 dark:text-amber-200 dark:border-amber-500/40'
+  },
+  tentative: {
+    label: 'Tentative',
+    className:
+      'bg-sky-100 text-sky-700 border border-sky-200 dark:bg-sky-500/20 dark:text-sky-200 dark:border-sky-500/40'
+  }
+};
+
+const interviewMetadata: Record<
+  string,
+  { label: string; className: string }
+> = {
+  teaching: {
+    label: 'Teaching',
+    className:
+      'bg-amber-100 text-amber-700 border border-amber-200 dark:bg-amber-500/20 dark:text-amber-200 dark:border-amber-500/40'
+  },
+  research: {
+    label: 'Research',
+    className:
+      'bg-sky-100 text-sky-700 border border-sky-200 dark:bg-sky-500/20 dark:text-sky-200 dark:border-sky-500/40'
+  }
+};
+
+type SummaryItem = {
+  anchorId: string;
+  seriesLabel: string;
+  dateLabel: string;
+  timeLabel: string;
+  title: string;
+  subtitle: string;
+  location: string;
+  badge?: { label: string; className: string };
+  startValue: number;
+};
+
+const seminarItems: SummaryItem[] = sortedSeminars.map((seminar) => {
+  const start = new Date(seminar.start);
+  const end = seminar.end ? new Date(seminar.end) : null;
+
+  const dateLabel = start.toLocaleDateString('en-GB', {
+    timeZone: timezone,
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric'
+  });
+
+  const startTime = start.toLocaleTimeString('en-GB', {
+    timeZone: timezone,
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+  const endTime = end
+    ? end.toLocaleTimeString('en-GB', {
+        timeZone: timezone,
+        hour: '2-digit',
+        minute: '2-digit'
+      })
+    : '';
+
+  const timeLabel = endTime ? `${startTime}\u2013${endTime}` : startTime;
+  const seriesLabel = seriesLookup.get(seminar.series)?.label || seminar.series.toUpperCase();
+  const status = seminar.status || 'confirmed';
+
+  return {
+    anchorId: getSeminarAnchorId(seminar.series, seminar),
+    seriesLabel,
+    dateLabel,
+    timeLabel,
+    title: seminar.title,
+    subtitle: seminar.speaker,
+    location: seminar.location,
+    badge: seminarStatusMetadata[status],
+    startValue: start.getTime()
+  };
+});
+
+const interviewItems: SummaryItem[] = sortedInterviews.map((interview) => {
+  const start = new Date(interview.start);
+  const end = new Date(interview.end);
+
+  const dateLabel = start.toLocaleDateString('en-GB', {
+    timeZone: timezone,
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric'
+  });
+
+  const startTime = start.toLocaleTimeString('en-GB', {
+    timeZone: timezone,
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+  const endTime = end.toLocaleTimeString('en-GB', {
+    timeZone: timezone,
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+
+  const timeLabel = `${startTime}\u2013${endTime}`;
+  const modeLabel = interview.mode === 'virtual' ? 'Virtual' : 'On campus';
+  const typeLabel = interview.interviewType === 'teaching' ? 'Teaching' : 'Research';
+
+  return {
+    anchorId: getInterviewAnchorId(interview),
+    seriesLabel: `Job Interview • ${typeLabel} • ${modeLabel}`,
+    dateLabel,
+    timeLabel,
+    title: interview.candidate,
+    subtitle: interview.position,
+    location: interview.location,
+    badge: interviewMetadata[interview.interviewType],
+    startValue: start.getTime()
+  };
+});
+
+const summaryItems = [...seminarItems, ...interviewItems].sort(
+  (a, b) => a.startValue - b.startValue
+);
+---
+
+{summaryItems.length > 0 && (
+  <section class="mb-10" aria-label="Weekly summary">
+    <div class="relative overflow-hidden rounded-3xl border border-ku-primary/20 bg-gradient-to-br from-surface via-background-subtle to-ku-accent/5 shadow-large p-6 md:p-8">
+      <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+        <div class="absolute -right-16 top-6 h-48 w-48 rounded-full bg-ku-primary/10 blur-3xl"></div>
+        <div class="absolute -left-10 -bottom-10 h-40 w-40 rounded-full bg-ku-accent/10 blur-3xl"></div>
+        <div class="absolute inset-0 border border-dashed border-ku-secondary/20 rounded-3xl"></div>
+      </div>
+      <div class="relative z-10">
+        <div class="flex items-center gap-3 text-ku-primary font-semibold uppercase text-xs tracking-[0.4em]">
+          <span class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-ku-primary/10 border border-ku-primary/30">
+            <Calendar size={20} class="text-ku-primary" />
+          </span>
+          <p>Week overview</p>
+        </div>
+        <div class="mt-4 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+          <div>
+            <h2 class="text-2xl font-bold">Week at a glance</h2>
+            <p class="text-sm text-foreground-secondary">Use this table of contents to jump to seminar and interview details below.</p>
+          </div>
+          <p class="text-sm text-muted text-right">
+            {weekRangeSummary}
+            <br />
+            Times shown in {timezoneAbbr}.
+          </p>
+        </div>
+
+        <nav class="mt-6" aria-label="Weekly table of contents">
+          <ol class="grid gap-4 md:grid-cols-2">
+            {summaryItems.map((item) => (
+              <li>
+                <a
+                  href={`#${item.anchorId}`}
+                  class="group block h-full rounded-2xl border border-border-subtle bg-surface p-5 shadow-subtle hover:border-ku-primary/40 hover:shadow-medium transition-all duration-300"
+                >
+                  <div class="flex items-center justify-between gap-3 mb-2">
+                    <p class="text-sm font-semibold uppercase tracking-wide text-muted">
+                      {item.dateLabel}
+                    </p>
+                    {item.badge && (
+                      <span class={`text-[0.65rem] font-semibold px-2.5 py-1 rounded-full ${item.badge.className}`}>
+                        {item.badge.label}
+                      </span>
+                    )}
+                  </div>
+                  <p class="text-sm font-semibold text-foreground">{item.timeLabel} {timezoneAbbr}</p>
+                  <h3 class="mt-2 text-lg font-semibold text-ku-primary group-hover:text-ku-accent transition-colors duration-300">
+                    {item.title}
+                  </h3>
+                  <p class="text-sm text-foreground-secondary">{item.subtitle}</p>
+                  <p class="mt-2 text-xs font-semibold uppercase tracking-wide text-ku-secondary">
+                    {item.seriesLabel}
+                  </p>
+                  <p class="text-sm text-muted">{item.location}</p>
+                  <div class="mt-4 flex items-center justify-between text-sm text-ku-primary font-semibold">
+                    <span>View details</span>
+                    <ChevronRight size={16} class="transition-transform duration-300 group-hover:translate-x-1" />
+                  </div>
+                </a>
+              </li>
+            ))}
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </section>
+)}

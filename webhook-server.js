@@ -92,7 +92,7 @@ app.post('/webhook', async (req, res) => {
 });
 
 // Health check endpoint
-app.get('/health', (req, res) => {
+app.get('/health', (_req, res) => {
   res.status(200).send('Webhook server is running');
 });
 

@@ -144,3 +144,21 @@ seminars:
     speaker: https://www.linkedin.com/in/adil-reghai-17aabb31/
     teams: https://teams.microsoft.com/l/meetup-join/19%3ameeting_ODE1N2Q3MmYtMTNlNi00NWE1LTg3ZTctZmIwZDVhMDdiOGRm%40thread.v2/0?context=%7b%22Tid%22%3a%2208fe1c0a-19f5-4f24-a662-fdd5dd460025%22%2c%22Oid%22%3a%22eb04c3c5-beb4-4057-8f3b-e01c9f48f510%22%7d
   tags: [VIX, S&P 500, Dimensional Analysis, Buckingham Pi Theorem, Scale Invariance, Local-Stochastic Volatility, LSV, Volatility Modeling, Mean Reversion, Barrier Options, Option Pricing, Quantitative Finance, Risk Management, Power Law]
+
+interviews:
+  - candidate: Dr Jorge Cely Garcia
+    candidateUrl: https://www.researchgate.net/profile/Jorge-Cely-2
+    position: Lecturer
+    interviewType: teaching
+    mode: virtual
+    start: 2025-11-11T10:00:00+04:00
+    end: 2025-11-11T10:45:00+04:00
+    location: Virtual (Microsoft Teams)
+    organizedBy:
+      - Prof Ahmed Ameur
+      - Dr. Denys Dutykh
+    notes: >
+      30-minute live presentations (15 min each) on two undergraduate topics of candidate choice
+    links:
+      meeting: https://teams.microsoft.com/meet/31491054442728?p=Y6Fo4Pyg0xGkhB7KpN
+      cv: https://www.genealogy.math.ndsu.nodak.edu/id.php?id=210222

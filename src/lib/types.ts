@@ -7,6 +7,9 @@ export type WeekStatus = "open" | "holiday" | "break" | "exams" | "cancelled";
 
 export type SeminarStatus = "confirmed" | "cancelled" | "postponed" | "tentative";
 
+export type InterviewMode = "virtual" | "in-person";
+export type InterviewType = "teaching" | "research";
+
 export interface WeekInfo {
   isoWeek: number;
   start: string; // Month DD, YYYY (e.g., "August 18, 2025")
@@ -47,8 +50,30 @@ export interface Seminar {
   status?: SeminarStatus; // Optional, defaults to "confirmed"
 }
 
+export interface InterviewLinks {
+  profile?: string;
+  meeting?: string;
+  cv?: string;
+  recording?: string;
+}
+
+export interface JobInterview {
+  candidate: string;
+  candidateUrl?: string;
+  position: string;
+  start: string; // ISO 8601 timestamp with offset
+  end: string; // ISO 8601 timestamp with offset
+  location: string;
+  mode: InterviewMode;
+  interviewType: InterviewType;
+  organizedBy?: string[];
+  notes?: string;
+  links?: InterviewLinks;
+}
+
 export interface WeekData {
   week: WeekInfo;
   series?: SeriesMeta[];
   seminars: Seminar[];
+  interviews?: JobInterview[];
 }

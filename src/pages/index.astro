@@ -9,6 +9,8 @@ import { formatWeekRange } from '../lib/time';
 import '../index.css';
 import WeekHeader from '../components/WeekHeader.astro';
 import SeriesSection from '../components/SeriesSection.astro';
+import JobInterviewsSection from '../components/JobInterviewsSection.astro';
+import WeeklySummary from '../components/WeeklySummary.astro';
 import Globe from '../components/icons/Globe.astro';
 import Mail from '../components/icons/Mail.astro';
 import AstroLogo from '../components/icons/AstroLogo.astro';
@@ -23,9 +25,16 @@ const yamlContent = fs.readFileSync(yamlPath, 'utf8');
 const weekData = yaml.parse(yamlContent) as WeekData;
 
 const seminarsList = Array.isArray(weekData.seminars) ? weekData.seminars : [];
+const interviewsList = Array.isArray(weekData.interviews) ? weekData.interviews : [];
 const seriesList = Array.isArray(weekData.series) ? weekData.series : [];
 const knownSeries = new Map(seriesList.map(s => [s.code, s]));
 const groupedSeminars = new Map();
+
+const interviewPanelDefault = [
+  'Dr. Denys Dutykh',
+  'Prof Ahmed Ameur',
+  'Prof Mohammad Al-Khaleel'
+];
 
 seminarsList.forEach(seminar => {
   if (!groupedSeminars.has(seminar.series)) {
@@ -100,28 +109,104 @@ const statusMessage = statusNote || statusInfo?.defaultMessage || '';
 
 // Generate dynamic SEO content
 const seminarCount = seminarsList.length;
+const interviewCount = interviewsList.length;
+const totalEvents = seminarCount + interviewCount;
 const weekNumber = weekData.week.isoWeek || 1;
 const currentYear = weekData.week.start ? new Date(weekData.week.start).getFullYear() : new Date().getFullYear();
 
 // Dynamic title and description
 const hasSeminars = seminarCount > 0;
+const hasInterviews = interviewCount > 0;
+const hasEvents = totalEvents > 0;
 
-const dynamicTitle = hasSeminars 
-  ? `Week ${weekNumber} Seminars (${seminarCount} events) - Mathematics Department, Khalifa University`
+const dynamicTitle = hasEvents 
+  ? `Week ${weekNumber} Academic Events (${totalEvents}) - Mathematics Department, Khalifa University`
   : `Week ${weekNumber} - Mathematics Department, Khalifa University`;
 
-const featuredSpeakers = seminarsList.slice(0, 3).map(s => s.speaker).join(', ') || '';
-const dynamicDescription = hasSeminars
-  ? `Join us for ${seminarCount} mathematics seminars in Week ${weekNumber}, ${currentYear}. Featured speakers: ${featuredSpeakers}. Abu Dhabi, UAE.`
+const featuredSpeakers = seminarsList.slice(0, 3).map(s => s.speaker);
+const featuredCandidates = interviewsList.slice(0, 2).map(i => i.candidate);
+const featuredNames = [...featuredSpeakers, ...featuredCandidates].filter(Boolean).join(', ');
+
+const dynamicDescription = hasEvents
+  ? `Join us for ${seminarCount} mathematics seminars${hasInterviews ? ` and ${interviewCount} faculty job interviews` : ''} in Week ${weekNumber}, ${currentYear}. Featured participants: ${featuredNames || 'international guests'}. Abu Dhabi, UAE.`
   : `Mathematics Department seminars for Week ${weekNumber}, ${currentYear} at Khalifa University, Abu Dhabi, UAE.`;
 
 // Academic keywords based on current seminars
 const seminarKeywords = seminarsList.map(s => s.tags || []).flat().join(', ') || '';
-const dynamicKeywords = `mathematics, seminars, Khalifa University, Abu Dhabi, research, talks, academic events, ${seminarKeywords}`.replace(/,\s*,/g, ',').replace(/,\s*$/, '');
+const interviewKeywords = interviewsList.map(i => i.position).join(', ');
+const dynamicKeywords = `mathematics, seminars, Khalifa University, Abu Dhabi, research, talks, academic events, job interviews, faculty recruitment${seminarKeywords ? `, ${seminarKeywords}` : ''}${interviewKeywords ? `, ${interviewKeywords}` : ''}`.replace(/,\s*,/g, ',').replace(/,\s*$/, '');
 
 // Cache-busting token for OG images to force social scrapers to refresh
 const ogVersion = `${currentYear}-${weekNumber}`;
 const ogImageUrl = `https://www.events.denys-dutykh.com/assets/og-image.png?v=${ogVersion}`;
+
+const seminarEntities = seminarsList.map((seminar, index) => ({
+  "@type": "Event",
+  "@id": `https://www.events.denys-dutykh.com/#event${index}`,
+  "name": seminar.title,
+  "description": seminar.abstract ? `${seminar.abstract.substring(0, 200).replace(/"/g, '\\"')}...` : 'Mathematics seminar',
+  "startDate": seminar.start,
+  ...(seminar.end && { "endDate": seminar.end }),
+  "eventStatus": seminar.status === 'cancelled' ? 'https://schema.org/EventCancelled' : 
+                seminar.status === 'postponed' ? 'https://schema.org/EventPostponed' : 
+                seminar.status === 'tentative' ? 'https://schema.org/EventScheduled' : 
+                'https://schema.org/EventScheduled',
+  "eventAttendanceMode": "https://schema.org/MixedEventAttendanceMode",
+  "location": {
+    "@type": "Place",
+    "name": seminar.location,
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Abu Dhabi",
+      "addressCountry": "UAE"
+    }
+  },
+  "organizer": {
+    "@id": "https://www.ku.ac.ae/#organization"
+  },
+  "performer": {
+    "@type": "Person",
+    "name": seminar.speaker,
+    ...(seminar.affiliation && { "affiliation": seminar.affiliation }),
+    ...(seminar.affiliationUrl && { "url": seminar.affiliationUrl }),
+    "jobTitle": "Researcher"
+  },
+  ...(seminar.tags && { "keywords": seminar.tags.join(', ') }),
+  "isAccessibleForFree": true,
+  "audience": {
+    "@type": "EducationalAudience",
+    "educationalRole": "student, faculty, researcher"
+  }
+}));
+
+const interviewEntities = interviewsList.map((interview, index) => ({
+  "@type": "Event",
+  "@id": `https://www.events.denys-dutykh.com/#jobinterview${index}`,
+  "name": `Job Interview: ${interview.candidate} (${interview.position})`,
+  "description": `Faculty ${interview.interviewType} interview for the ${interview.position} position.`,
+  "startDate": interview.start,
+  "endDate": interview.end,
+  "eventStatus": 'https://schema.org/EventScheduled',
+  "eventAttendanceMode": interview.mode === 'virtual'
+    ? 'https://schema.org/OnlineEventAttendanceMode'
+    : 'https://schema.org/OfflineEventAttendanceMode',
+  "location": {
+    "@type": "Place",
+    "name": interview.location,
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Abu Dhabi",
+      "addressCountry": "UAE"
+    }
+  },
+  "organizer": {
+    "@id": "https://www.ku.ac.ae/#organization"
+  },
+  "audience": {
+    "@type": "EducationalAudience",
+    "educationalRole": "faculty, recruitment committee"
+  }
+}));
 
 // Build structured data object for JSON-LD
 const structuredData = {
@@ -190,55 +275,29 @@ const structuredData = {
         "@type": "Thing",
         "name": "Mathematics Seminars"
       },
-      "mainEntity": seminarsList.map((seminar, index) => ({
-        "@type": "Event",
-        "@id": `https://www.events.denys-dutykh.com/#event${index}`,
-        "name": seminar.title,
-        "description": seminar.abstract ? `${seminar.abstract.substring(0, 200).replace(/"/g, '\\"')}...` : 'Mathematics seminar',
-        "startDate": seminar.start,
-        ...(seminar.end && { "endDate": seminar.end }),
-        "eventStatus": seminar.status === 'cancelled' ? 'https://schema.org/EventCancelled' : 
-                      seminar.status === 'postponed' ? 'https://schema.org/EventPostponed' : 
-                      seminar.status === 'tentative' ? 'https://schema.org/EventScheduled' : 
-                      'https://schema.org/EventScheduled',
-        "eventAttendanceMode": "https://schema.org/MixedEventAttendanceMode",
-        "location": {
-          "@type": "Place",
-          "name": seminar.location,
-          "address": {
-            "@type": "PostalAddress",
-            "addressLocality": "Abu Dhabi",
-            "addressCountry": "UAE"
-          }
-        },
-        "organizer": {
-          "@id": "https://www.ku.ac.ae/#organization"
-        },
-        "performer": {
-          "@type": "Person",
-          "name": seminar.speaker,
-          ...(seminar.affiliation && { "affiliation": seminar.affiliation }),
-          ...(seminar.affiliationUrl && { "url": seminar.affiliationUrl }),
-          "jobTitle": "Researcher"
-        },
-        ...(seminar.tags && { "keywords": seminar.tags.join(', ') }),
-        "isAccessibleForFree": true,
-        "audience": {
-          "@type": "EducationalAudience",
-          "educationalRole": "student, faculty, researcher"
-        }
-      }))
+      "mainEntity": [
+        ...seminarEntities,
+        ...interviewEntities
+      ]
     }
   ]
 };
+
+declare global {
+  interface Window {
+    dataLayer: unknown[];
+  }
+}
 ---
 <html lang="en">
   <head>
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6ZT85XGX9R"></script>
+    <script async is:inline src="https://www.googletagmanager.com/gtag/js?id=G-6ZT85XGX9R"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
+      function gtag(...args: unknown[]) {
+        window.dataLayer.push(args);
+      }
       gtag('js', new Date());
       gtag('config', 'G-6ZT85XGX9R');
     </script>
@@ -343,6 +402,13 @@ const structuredData = {
     <WeekHeader weekData={weekData} />
     
     <main id="main-content" class="container max-w-4xl mx-auto px-6 py-8 md:px-8 lg:px-12" role="main">
+      <WeeklySummary
+        seminars={seminarsList}
+        interviews={interviewsList}
+        timezone={timezone}
+        seriesList={seriesList}
+        weekRangeSummary={weekRangeSummary}
+      />
       <!-- Week Range and Status Banner -->
       <div class="mb-8 space-y-3">
         <div id="week-range" class="sr-only">
@@ -372,6 +438,13 @@ const structuredData = {
 
       <!-- Main Content -->
       <main id="content" aria-live="polite" class="space-y-12">
+        {hasInterviews && (
+          <JobInterviewsSection
+            interviews={interviewsList}
+            timezone={timezone}
+            defaultPanel={interviewPanelDefault}
+          />
+        )}
         {hasSeminars ? (
           allSeries.map((seriesMeta, index) => {
             const seminars = groupedSeminars.get(seriesMeta.code) || [];
@@ -403,15 +476,17 @@ const structuredData = {
             );
           })
         ) : (
-          <div class="card-elevated rounded-2xl p-8 text-center">
-            <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-ku-primary/10 text-ku-primary">
-              <Calendar size={32} class="stroke-current" />
+          !hasInterviews && (
+            <div class="card-elevated rounded-2xl p-8 text-center">
+              <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-ku-primary/10 text-ku-primary">
+                <Calendar size={32} class="stroke-current" />
+              </div>
+              <h3 class="text-xl font-semibold text-foreground mb-2">No seminars scheduled</h3>
+              <p class="text-muted">
+                {statusMessage || 'Check back next week for upcoming events.'}
+              </p>
             </div>
-            <h3 class="text-xl font-semibold text-foreground mb-2">No seminars scheduled</h3>
-            <p class="text-muted">
-              {statusMessage || 'Check back next week for upcoming events.'}
-            </p>
-          </div>
+          )
         )}
       </main>
     </main>
