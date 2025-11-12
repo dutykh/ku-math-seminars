@@ -45,3 +45,6 @@ pnpm-debug.log*
 # typescript
 *.tsbuildinfo
 .env.webhook
+
+# Runtime logs
+logs/
