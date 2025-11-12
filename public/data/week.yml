@@ -79,7 +79,7 @@ seminars:
   affiliation: Khalifa University
   affiliationUrl: https://www.ku.ac.ae/
   title: "Agentic AI for Digital Economy: Uncensorability and Turbulence Resistance"
-  status: confirmed  # Optional field, defaults to "confirmed" if not specified\
+  status: postponed  # Optional field, defaults to "confirmed" if not specified
   start: 2025-11-12T14:00:00+04:00
   end: 2025-11-12T15:00:00+04:00
   location: Main Campus, R03014
