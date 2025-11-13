@@ -115,7 +115,7 @@ seminars:
   affiliation: New York University Abu Dhabi
   affiliationUrl: https://nyuad.nyu.edu/en/
   title: "Oxygen Deficiency Drives Drastic Pattern Transition in Algal Bioconvection"
-  status: confirmed  # Optional field, defaults to "confirmed" if not specified\
+  status: postponed  # Optional field, defaults to "confirmed" if not specified\
   start: 2025-11-14T11:00:00+04:00
   end: 2025-11-14T12:00:00+04:00
   location: Main Campus, R02013
