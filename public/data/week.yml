@@ -114,18 +114,18 @@ seminars:
   speaker: Dr Frederico Brito
   affiliation: Technology Innovation Institute
   affiliationUrl: https://www.tii.ae/
-  title: "Turing Test 2.0: The Possibility, Usefulness and Challenges of Imitating a Specific User through Generative AI"
+  title: "Mathematics at the Heart of Quantum Computing"
   status: confirmed  # Optional field, defaults to "confirmed" if not specified\
   start: 2025-11-20T17:00:00+04:00
   end: 2025-11-20T18:00:00+04:00
   location: Main Campus, L02012
   abstract: |
-    Quantum computers promise to revolutionize the way we process information by harnessing the unfamiliar laws of quantum mechanics. But behind this new technology lies a rich mathematical foundation - from linear algebra and complex numbers to probability and information theory. In this talk, we will explore how mathematics shapes our understanding of quantum bits, quantum logic, and the remarkable power of quantum algorithms. No prior knowledge of quantum physics is required - just curiosity! Through simple examples and visual explanations, we will see how abstract mathematical ideas translate into real technological advances, opening the door to new ways of thinking about computation, science, and the future.
+    Quantum computers promise to revolutionize the way we process information by harnessing the unfamiliar laws of quantum mechanics. But behind this new technology lies a rich mathematical foundation — from linear algebra and complex numbers to probability and information theory. In this talk, we will explore how mathematics shapes our understanding of quantum bits, quantum logic, and the remarkable power of quantum algorithms. No prior knowledge of quantum physics is required — just curiosity! Through simple examples and visual explanations, we will see how abstract mathematical ideas translate into real technological advances, opening the door to new ways of thinking about computation, science, and the future.
   biography: |
     Prof. Frederico Brito obtained his Ph.D. from the University of Campinas and held a postdoctoral position at IBM T. J. Watson Research Center in Yorktown Heights. He later served as a Research Staff Member at D-Wave Systems and is currently a tenured Associate Professor of Physics at the University of São Paulo, where he leads the group on Open Quantum Systems and Superconducting Device Theory. Since July 2025, he has been the Director of TII's Quantum Computing Hardware Laboratory. His research focuses on quantum computation and quantum thermodynamics, particularly the dynamics of open quantum systems and the modeling of superconducting devices.
   links:
     speaker: https://www.tii.ae/team/prof-dr-frederico-brito
-  tags: [Generative AI, Turing Test, User Imitation, Quantum Computing, Quantum Bits, Quantum Logic, Quantum Algorithms, Linear Algebra, Complex Numbers, Probability Theory, Information Theory, Quantum Mechanics, Undergraduate Seminar]
+  tags: [Quantum Computing, Mathematics, Quantum Algorithms, Quantum Bits, Quantum Logic, Linear Algebra, Complex Numbers, Probability Theory, Information Theory, Quantum Mechanics, STEM Outreach]
 
 - series: grad
   speaker: Azamkhon Alisher Ugli Azamov
