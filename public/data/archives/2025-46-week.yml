@@ -1,0 +1,164 @@
+# KU Math Seminars - Week Data
+# Author: Dr. Denys Dutykh (Khalifa University of Science and Technology, Abu Dhabi, UAE)
+#
+# Seminar Status Options:
+# - confirmed (default): The seminar is confirmed and will take place as scheduled
+# - cancelled: The seminar has been cancelled
+# - postponed: The seminar has been postponed to a later date
+# - tentative: The seminar is tentatively scheduled but not yet confirmed
+#
+# Week Status Options:
+# - open (default): Regular seminar week
+# - holiday: University-wide holiday, seminars paused
+# - break: Academic break, seminars paused
+# - exams: Examination period, seminars paused
+# - cancelled: Entire seminar week cancelled
+#
+# Note: To skip a seminar series entirely for a week, simply omit it from the seminars list
+
+week:
+  isoWeek: 46
+  start: November 10, 2025
+  end: November 16, 2025
+  timezone: Asia/Dubai
+  status: open
+  note: "Welcome to a new and busy week!"
+
+series:
+  - code: ccms
+    label: CCMS College Seminar
+    organisedBy: Dr Denys Dutykh, Julian Barreiro-Gomez, and Sajid Javed
+    organisedByUrl: https://www.denys-dutykh.com/
+  - code: math
+    label: KU Math Seminar
+    organisedBy: Dr Denys Dutykh, Erkko Lehtonen, Yerkin Kitapbayev, Julian Barreiro-Gomez, and Meryem Rhadbane
+    organisedByUrl: https://www.denys-dutykh.com/
+  - code: fin
+    label: Data and Stochastic Analysis in Finance, Energy and Digital Economy
+    organisedBy: Prof Giorgio Consigli, Yerkin Kitapbayev, and Jorge Zubelli
+    organisedByUrl: https://www.ku.ac.ae/academics/college-of-computing-and-mathematical-sciences/department/department-of-mathematics/
+  - code: bio
+    label: Math Biology Seminar
+    organisedBy: Dr Haralampos Hatzikirou
+    organisedByUrl: https://www.ku.ac.ae/college-people/haralampos-hatzikirou/
+  - code: grad
+    label: CCMS Graduate Seminar
+    organisedBy: Prof Hadi Susanto, Julian Barreiro-Gomez, and Sajid Javed
+    organisedByUrl: https://hs-info.github.io/
+  - code: ug
+    label: Beyond Math Seminar
+    organisedBy: Ms Nesma Khalil, Prof Partha Guha, and Mr Mahmoud Yassin
+    organisedByUrl: https://www.ku.ac.ae/college-people/nesma-khalil/
+  - code: rescomp
+    label: Research Computing Webinar
+    organisedBy: Mr Wadud Miah
+    organisedByUrl: https://www.ku.ac.ae/research-offices/research-computing/
+
+seminars:
+
+- series: math
+  speaker: Dr Amin Chabchoub
+  affiliation: Okinawa Institute of Science and Technology
+  affiliationUrl: https://www.oist.jp/
+  title: "Hydrodynamics of Manakov-type Solitons and Breathers"
+  status: confirmed  # Optional field, defaults to "confirmed" if not specified\
+  start: 2025-11-11T15:00:00+04:00
+  end: 2025-11-11T16:00:00+04:00
+  location: Main Campus, R02013
+  abstract: |
+    The hydrodynamic and integrable Manakov equation can rise from the coupled nonlinear Schrödinger equation, when the crossing angle of two wave fields correspond to particular values. We report observations of exact Manakov envelope solitons and breathers in a water wave basin. Considering the challenges in building the appropriate experimental set-up to observe the clean evolution of crossing wave envelopes, the data show an excellent agreement with the theory. The experiments shed a new light on rogue wave formation in the ocean, particularly, when two wave systems are at play.
+  biography: |
+    Dr Amin Chabchoub received his PhD from Hamburg University of Technology (Germany) in 2013 and is currently Associate Professor at Okinawa Institute of Science and Technology (Head of the Marine Physics and Engineering Unit) in Japan. He also holds a Honorary Associate Professor appointment at the Department of Infrastructure Engineering of the University of Melbourne - Ocean Engineering Group (Australia). He was a Kyoto University Hakubi Fellow, Associate Professor in Environmental Fluid Mechanics at the School of Civil Engineering of the University of Sydney (Australia), and Assistant Professor of Hydrodynamics at the Department of Mechanical Engineering of Aalto University (Finland). Prior to these faculty roles, he was a Postdoctoral Researcher at Imperial College London (UK), Swinburne University of Technology (Australia), and The University of Tokyo (Japan). His areas of expertise and research interests include extreme waves, solitons, nonlinear dynamics, ocean engineering, and physical oceanography.
+  links:
+    speaker: https://www.oist.jp/research/research-units/mpe/amin-chabchoub/
+    teams: https://teams.microsoft.com/l/meetup-join/19%3ameeting_NjU1NjNmMDUtNDA3Ni00ZjE0LTgwZDktYTYyYmEzYTRiMDhk%40thread.v2/0?context=%7b%22Tid%22%3a%2208fe1c0a-19f5-4f24-a662-fdd5dd460025%22%2c%22Oid%22%3a%22aba525f2-e024-4b7d-b19f-d522948dead5%22%7d
+  tags: [Hydrodynamics, Water Waves, Integrable Systems, Nonlinear Schrödinger Equation, Solitons, Breathers, Rogue Waves, Experiments]
+
+- series: ccms
+  speaker: Dr Davor Svetinovic
+  affiliation: Khalifa University
+  affiliationUrl: https://www.ku.ac.ae/
+  title: "Agentic AI for Digital Economy: Uncensorability and Turbulence Resistance"
+  status: postponed  # Optional field, defaults to "confirmed" if not specified
+  start: 2025-11-12T14:00:00+04:00
+  end: 2025-11-12T15:00:00+04:00
+  location: Main Campus, R03014
+  abstract: |
+    Privacy primitives like BaseSAP restore unlinkability, but the digital economy can fail when block producers bias or delay inclusion. This talk introduces a neutrality-aware, agentic AI stack that detects censorship risk in post-Merge PBS, adapts execution through relay diversification, inclusion lists, and local-build fallback, and feeds latency and inclusion signals into trading and payments agents. The talk quantifies how such turbulence compresses anonymity sets, distorts prices, and erodes profits, and then demonstrates controls that restore autonomy and performance. The outcome is a deployable framework for censorship-resilient, turbulence-resistant on-chain agentic AI operations. No part of this talk should be interpreted as financial or investment advice.
+  biography: |
+    Dr. Davor Svetinovic is a computer science faculty at Khalifa University, Abu Dhabi, UAE. He is a globally recognized research leader, innovator, and a fellow at the Adia Lab, Abu Dhabi, specializing in Blockchain, DeFi, AI, and Cybersecurity. Recognized as a World Top 2% Scientist (Stanford/Elsevier), he has a distinguished track record of transforming foundational research into high-impact, real-world applications with significant economic value. Dr. Svetinovic's research has directly influenced the core infrastructure of major global platforms. His seminal works on blockchain security and stealth addresses led to significant privacy-enhancing protocol enhancements being implemented into the Ethereum blockchain. This contribution is projected to have a profound economic impact, potentially increasing the market cap of the Ethereum ecosystem - which underpins numerous UAE-based companies. His expertise lies in building secure, trustworthy, and decentralized systems that drive economic growth and technological sovereignty. His work aligns directly with the strategic vision of Abu Dhabi and the UAE. Dr. Svetinovic is a Senior Member of IEEE, a Lifetime Member of ACM, and an affiliate of the Mohammed Bin Rashid Academy of Scientists.
+  links:
+    speaker: https://www.ku.ac.ae/college-people/davor-svetinovic/
+    teams: https://teams.microsoft.com/l/meetup-join/19%3ameeting_Y2YyMTkzMDItNDUwMS00NWM1LWJlOTMtZmIyYzBmZjU3OGEx%40thread.v2/0?context=%7b%22Tid%22%3a%2208fe1c0a-19f5-4f24-a662-fdd5dd460025%22%2c%22Oid%22%3a%22aba525f2-e024-4b7d-b19f-d522948dead5%22%7d
+  tags: [Agentic AI, Blockchain, Ethereum, Proposer-Builder Separation, Censorship Resistance, Uncensorability, DeFi, On-chain Systems, Relay Diversification, Inclusion Lists, Latency, Trading Agents, Privacy, Unlinkability, Digital Economy]
+
+- series: math
+  speaker: Dr Gulnaz Shaidolda
+  affiliation: Khalifa University
+  affiliationUrl: https://www.ku.ac.ae/
+  title: "Lower Partial Moments for Skew Elliptical Distributions: Theory and Applications in Risk Analysis"
+  status: confirmed  # Optional field, defaults to "confirmed" if not specified\
+  start: 2025-11-13T15:00:00+04:00
+  end: 2025-11-13T16:00:00+04:00
+  location: SAN Campus, ADCO Auditorium
+  abstract: |
+    Robust modeling with skewed distributions is crucial in risk management, as many real-world datasets deviate from symmetry. This study derives explicit representations for lower partial moments (LPMs) of arbitrary powers n≥1for the normal, skew-normal, and skew-t distributions addressing a gap in the literature where closed-form results were lacking. Numerical analyses show that short-term stock price data can often be modeled by these distributions. Portfolio comparisons based on computed LPMs provide quantitative measures of relative risk. The results offer both theoretical contributions through new analytical expressions and practical tools for robust portfolio formation and risk assessment.
+  biography: |
+    Dr Gulnaz Shaidolda is a Lecturer in Mathematics at Khalifa University. She holds a Ph.D. in Mathematics from Nazarbayev University (2025) and an M.Sc. in Mathematics from Middle East Technical University (2019). Her research interests span applied and computational mathematics, optimization, numerical analysis, and statistical modeling, with applications in finance and risk analysis.
+  links:
+    speaker: https://kz.linkedin.com/in/gulnaz-shaidolda-65ab68210/
+    teams: https://teams.microsoft.com/l/meetup-join/19%3ameeting_MWQzNjk2MDQtZjA4Ni00OWNkLWFhYjctYTZjZTE3MGJmOTZi%40thread.v2/0?context=%7b%22Tid%22%3a%2208fe1c0a-19f5-4f24-a662-fdd5dd460025%22%2c%22Oid%22%3a%22aba525f2-e024-4b7d-b19f-d522948dead5%22%7d
+  tags: [Lower Partial Moments, Skew Elliptical Distributions, Skew-Normal, Skew-t, Risk Analysis, Risk Management, Portfolio Risk, Quantitative Finance, Statistical Modeling, Asymmetry]
+
+- series: bio
+  speaker: Dr Azam Gholami
+  affiliation: New York University Abu Dhabi
+  affiliationUrl: https://nyuad.nyu.edu/en/
+  title: "Oxygen Deficiency Drives Drastic Pattern Transition in Algal Bioconvection"
+  status: postponed  # Optional field, defaults to "confirmed" if not specified\
+  start: 2025-11-14T11:00:00+04:00
+  end: 2025-11-14T12:00:00+04:00
+  location: Main Campus, R02013
+  abstract: |
+    Suspensions of motile microorganisms can spontaneously form large-scale fluid motion, known as bioconvection, characterized by dense downwelling plumes separated by broad upwelling regions. In this study, we investigate bioconvection in shallow suspensions of Chlamydomonas reinhardtii confined within spiral-shaped boundaries, combining detailed experiments with three-dimensional simulations. Under open liquid-air interfaces, cells accumulate near the surface via negative gravitaxis, generating spiral-shaped density patterns that subsequently fragment into lattice-like clusters, leading to plume formation. Space-time analyses demonstrate coherent rotational dynamics, with predominantly inward-directed motion near the spiral core and bidirectional motion further out. Introducing confinement by sealing the upper boundary with an air-impermeable wall triggers dramatic pattern transitions due to oxygen depletion: initially stable arrangements reorganize into new structures with significantly reduced wavelengths. Complementary numerical simulations, based on incompressible Navier-Stokes equations incorporating negative buoyancy and active swimmer stress, successfully replicate initial pattern formation, subsequent instability, fragmentation into plumes, and emergence of strong vortical flows—nearly an order of magnitude faster than individual cell swimming. However, these models do not capture oxygen depletion-driven transitions observed experimentally. Our results highlight that geometric confinement, oxygen availability, and metabolic transitions critically regulate bioconvection dynamics, offering novel strategies for controlling microbial self-organization and fluid transport.
+  biography: |
+    Dr Azam Gholami received her bachelor's degree in physics from Sharif University in Tehran and her master's degree in physics from the Institute for Advanced Studies in Basic Sciences (IASBS) in Zanjan, Iran. In 2007, she graduated with a PhD in biophysics from Ludwig-Maximilians University in Munich, Germany. As a postdoctoral fellow, she worked at the Max Planck Institute for Dynamics and Self-Organization (MPIDS) in Göttingen. From September 2011, she became a group leader at the MPIDS Göttingen and led the group "Pattern Formation in Biological Systems" for about ten years.
+  links:
+    speaker: https://nyuad.nyu.edu/en/academics/divisions/science/faculty/azam-gholami.html
+  tags: [Bioconvection, Active Matter, Microbial Motility, Chlamydomonas reinhardtii, Pattern Formation, Nonlinear Dynamics, Fluid Dynamics, Navier-Stokes, Negative Gravitaxis, Oxygen Depletion, Geometric Confinement, Vortical Flows, Plume Formation, Numerical Simulations, Experiments]
+
+- series: fin
+  speaker: Adil Reghai
+  affiliation: Abu Dhabi Investment Authority
+  affiliationUrl: https://www.adia.ae/
+  title: "SPX, VIX and scale-invariant LSV"
+  status: confirmed  # Optional field, defaults to "confirmed" if not specified\
+  start: 2025-11-14T10:00:00+04:00
+  end: 2025-11-14T11:00:00+04:00
+  location: Main Campus, R02013
+  abstract: |
+    This talk examines the convergence of physics, data, and mathematics to model the mechanical link between VIX and the S&P 500. Using the Buckingham-Π theorem, we construct dimensionless variables and identify an optimal kernel that relates VIX to a smoothed price index. The estimated kernel follows a power-law shape, and a simple quadratic in the dimensionless index explains most VIX variation, achieving out-of-sample R2 near 88-89%. Residuals exhibit fast mean reversion, enabling a clean separation between structural drivers and market noise. Embedding the kernel in a local-stochastic-volatility framework then allows the generation of plausible market scenarios and the assessment of volatility and barrier products. Overall, the approach shows how dimensional reasoning, grounded in data, yields parsimonious, interpretable, and operationally effective models for risk management.
+  biography: |
+    Adil Reghai is the Quantitative Research and Development Lead within ADIA’s Q Team, where he designs, develops, and oversees advanced allocation and graduation algorithms aimed at identifying the most robust and performant strategies for production. His work is central to building a reliable, scalable, and data-driven investment platform that ensures systematic strategies transition into production with strong statistical validation and controlled risk. In parallel, Adil contributes extensively to the valuation and hedging of derivative options across all asset classes. His expertise spans local and stochastic volatility models, numerical methods, automatic differentiation, and model-risk management-bridging theoretical finance with industrial-grade implementation. He has authored several influential articles in Wilmott, Risk Magazine, and ESAIM Proceedings, covering topics such as volatility modeling, geometric enhancements to SABR and LSV, neural-network-based variance reduction, risk analysis, and robust model calibration. He is also the author of two reference books published by Springer and Palgrave Macmillan on financial model production and foundational quantitative finance.
+  links:
+    speaker: https://www.linkedin.com/in/adil-reghai-17aabb31/
+    teams: https://teams.microsoft.com/l/meetup-join/19%3ameeting_ODE1N2Q3MmYtMTNlNi00NWE1LTg3ZTctZmIwZDVhMDdiOGRm%40thread.v2/0?context=%7b%22Tid%22%3a%2208fe1c0a-19f5-4f24-a662-fdd5dd460025%22%2c%22Oid%22%3a%22eb04c3c5-beb4-4057-8f3b-e01c9f48f510%22%7d
+  tags: [VIX, S&P 500, Dimensional Analysis, Buckingham Pi Theorem, Scale Invariance, Local-Stochastic Volatility, LSV, Volatility Modeling, Mean Reversion, Barrier Options, Option Pricing, Quantitative Finance, Risk Management, Power Law]
+
+interviews:
+  - candidate: Dr Jorge Cely Garcia
+    candidateUrl: https://www.researchgate.net/profile/Jorge-Cely-2
+    position: Lecturer
+    interviewType: teaching
+    mode: virtual
+    start: 2025-11-11T10:00:00+04:00
+    end: 2025-11-11T10:45:00+04:00
+    location: Virtual (Microsoft Teams)
+    organizedBy:
+      - Prof Ahmed Ameur
+      - Dr. Denys Dutykh
+    notes: >
+      30-minute live presentations (15 min each) on two undergraduate topics of candidate choice
+    links:
+      meeting: https://teams.microsoft.com/meet/31491054442728?p=Y6Fo4Pyg0xGkhB7KpN
+      cv: https://www.genealogy.math.ndsu.nodak.edu/id.php?id=210222

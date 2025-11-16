@@ -17,9 +17,9 @@
 # Note: To skip a seminar series entirely for a week, simply omit it from the seminars list
 
 week:
-  isoWeek: 46
-  start: November 10, 2025
-  end: November 16, 2025
+  isoWeek: 47
+  start: November 17, 2025
+  end: November 23, 2025
   timezone: Asia/Dubai
   status: open
   note: "Welcome to a new and busy week!"
@@ -56,32 +56,14 @@ series:
 
 seminars:
 
-- series: math
-  speaker: Dr Amin Chabchoub
-  affiliation: Okinawa Institute of Science and Technology
-  affiliationUrl: https://www.oist.jp/
-  title: "Hydrodynamics of Manakov-type Solitons and Breathers"
-  status: confirmed  # Optional field, defaults to "confirmed" if not specified\
-  start: 2025-11-11T15:00:00+04:00
-  end: 2025-11-11T16:00:00+04:00
-  location: Main Campus, R02013
-  abstract: |
-    The hydrodynamic and integrable Manakov equation can rise from the coupled nonlinear Schrödinger equation, when the crossing angle of two wave fields correspond to particular values. We report observations of exact Manakov envelope solitons and breathers in a water wave basin. Considering the challenges in building the appropriate experimental set-up to observe the clean evolution of crossing wave envelopes, the data show an excellent agreement with the theory. The experiments shed a new light on rogue wave formation in the ocean, particularly, when two wave systems are at play.
-  biography: |
-    Dr Amin Chabchoub received his PhD from Hamburg University of Technology (Germany) in 2013 and is currently Associate Professor at Okinawa Institute of Science and Technology (Head of the Marine Physics and Engineering Unit) in Japan. He also holds a Honorary Associate Professor appointment at the Department of Infrastructure Engineering of the University of Melbourne - Ocean Engineering Group (Australia). He was a Kyoto University Hakubi Fellow, Associate Professor in Environmental Fluid Mechanics at the School of Civil Engineering of the University of Sydney (Australia), and Assistant Professor of Hydrodynamics at the Department of Mechanical Engineering of Aalto University (Finland). Prior to these faculty roles, he was a Postdoctoral Researcher at Imperial College London (UK), Swinburne University of Technology (Australia), and The University of Tokyo (Japan). His areas of expertise and research interests include extreme waves, solitons, nonlinear dynamics, ocean engineering, and physical oceanography.
-  links:
-    speaker: https://www.oist.jp/research/research-units/mpe/amin-chabchoub/
-    teams: https://teams.microsoft.com/l/meetup-join/19%3ameeting_NjU1NjNmMDUtNDA3Ni00ZjE0LTgwZDktYTYyYmEzYTRiMDhk%40thread.v2/0?context=%7b%22Tid%22%3a%2208fe1c0a-19f5-4f24-a662-fdd5dd460025%22%2c%22Oid%22%3a%22aba525f2-e024-4b7d-b19f-d522948dead5%22%7d
-  tags: [Hydrodynamics, Water Waves, Integrable Systems, Nonlinear Schrödinger Equation, Solitons, Breathers, Rogue Waves, Experiments]
-
 - series: ccms
   speaker: Dr Davor Svetinovic
   affiliation: Khalifa University
   affiliationUrl: https://www.ku.ac.ae/
   title: "Agentic AI for Digital Economy: Uncensorability and Turbulence Resistance"
-  status: postponed  # Optional field, defaults to "confirmed" if not specified
-  start: 2025-11-12T14:00:00+04:00
-  end: 2025-11-12T15:00:00+04:00
+  status: confirmed  # Optional field, defaults to "confirmed" if not specified
+  start: 2025-11-17T14:00:00+04:00
+  end: 2025-11-17T15:00:00+04:00
   location: Main Campus, R03014
   abstract: |
     Privacy primitives like BaseSAP restore unlinkability, but the digital economy can fail when block producers bias or delay inclusion. This talk introduces a neutrality-aware, agentic AI stack that detects censorship risk in post-Merge PBS, adapts execution through relay diversification, inclusion lists, and local-build fallback, and feeds latency and inclusion signals into trading and payments agents. The talk quantifies how such turbulence compresses anonymity sets, distorts prices, and erodes profits, and then demonstrates controls that restore autonomy and performance. The outcome is a deployable framework for censorship-resilient, turbulence-resistant on-chain agentic AI operations. No part of this talk should be interpreted as financial or investment advice.
@@ -91,74 +73,73 @@ seminars:
     speaker: https://www.ku.ac.ae/college-people/davor-svetinovic/
     teams: https://teams.microsoft.com/l/meetup-join/19%3ameeting_Y2YyMTkzMDItNDUwMS00NWM1LWJlOTMtZmIyYzBmZjU3OGEx%40thread.v2/0?context=%7b%22Tid%22%3a%2208fe1c0a-19f5-4f24-a662-fdd5dd460025%22%2c%22Oid%22%3a%22aba525f2-e024-4b7d-b19f-d522948dead5%22%7d
   tags: [Agentic AI, Blockchain, Ethereum, Proposer-Builder Separation, Censorship Resistance, Uncensorability, DeFi, On-chain Systems, Relay Diversification, Inclusion Lists, Latency, Trading Agents, Privacy, Unlinkability, Digital Economy]
+ 
+- series: math
+  speaker: Dr Carlile Lavor
+  affiliation: University of Campinas, Brazil
+  affiliationUrl: https://unicamp.br/en/
+  title: "Different Models for 3D Space in Molecular Geometry"
+  status: confirmed  # Optional field, defaults to "confirmed" if not specified\
+  start: 2025-11-18T12:00:00+04:00
+  end: 2025-11-18T13:00:00+04:00
+  location: Main Campus, L03007
+  abstract: |
+    This talk will explore the utilization of two different geometric approaches (homogeneous and conformal models) for computing interatomic distances, and their derivatives, in terms of internal coordinates of molecules. While the traditional Euclidean model has long been employed to represent 3D space in molecular dynamics, the homogeneous coordinate system introduces an extra dimension that allows for a unified algebraic representation of molecular transformations, such as translations and rotations. The conformal model further extends this framework by adding an additional dimension for scale and uniquely enables the orthogonal representation of rotations and translations. We will discuss how these two models may enhance the efficiency of modeling molecular geometry and transformations.
+  biography: |
+    Carlile Lavor graduated in Mathematics from the University of Campinas in 1996, and received a PhD in Computer Science from the Federal University of Rio de Janeiro, in 2001. He was a visiting professor at prestigious institutions like École Polytechnique (2008-2009) and Duke University (2013-2014). Since 2005, he has been working at the University of Campinas, where he is now a full professor. His research on distance geometry in the last 15 years culminated in the publication of a paper in SIAM Review (first published in 2014), which was awarded the Notable Article Prize from the ACM Computing Reviews in 2015. He is co-author of the book "Euclidean Distance Geometry" and co-editor of "Distance Geometry: Theory, Methods and Applications" book, both by Springer.
+  links:
+    speaker: https://cemeai.icmc.usp.br/carlile-lavor/
+    teams: https://teams.microsoft.com/l/meetup-join/19%3ameeting_MWQzNjk2MDQtZjA4Ni00OWNkLWFhYjctYTZjZTE3MGJmOTZi%40thread.v2/0?context=%7b%22Tid%22%3a%2208fe1c0a-19f5-4f24-a662-fdd5dd460025%22%2c%22Oid%22%3a%22aba525f2-e024-4b7d-b19f-d522948dead5%22%7d
+  tags: [Molecular Geometry, Distance Geometry, Homogeneous Coordinates, Conformal Geometric Algebra, Internal Coordinates, Interatomic Distances, Molecular Dynamics, Rotations and Translations, Computational Chemistry, Geometric Modeling]
 
 - series: math
-  speaker: Dr Gulnaz Shaidolda
+  speaker: Dr Ibrahim (Abe) M. Elfadel
   affiliation: Khalifa University
   affiliationUrl: https://www.ku.ac.ae/
-  title: "Lower Partial Moments for Skew Elliptical Distributions: Theory and Applications in Risk Analysis"
+  title: "Symbolic Modeling in Micro-electromechanical Systems"
   status: confirmed  # Optional field, defaults to "confirmed" if not specified\
-  start: 2025-11-13T15:00:00+04:00
-  end: 2025-11-13T16:00:00+04:00
+  start: 2025-11-20T15:00:00+04:00
+  end: 2025-11-20T16:00:00+04:00
   location: SAN Campus, ADCO Auditorium
   abstract: |
-    Robust modeling with skewed distributions is crucial in risk management, as many real-world datasets deviate from symmetry. This study derives explicit representations for lower partial moments (LPMs) of arbitrary powers n≥1for the normal, skew-normal, and skew-t distributions addressing a gap in the literature where closed-form results were lacking. Numerical analyses show that short-term stock price data can often be modeled by these distributions. Portfolio comparisons based on computed LPMs provide quantitative measures of relative risk. The results offer both theoretical contributions through new analytical expressions and practical tools for robust portfolio formation and risk assessment.
+    The use of tapered beams is ubiquitous in the sensing and actuation elements of micro-electromechanical systems (MEMS). Yet the distinct advantages of the tapered beam over the traditional rectangular one are often left unarticulated due to the blind trust in the finite-element models of MEMS devices. In this talk, I will take a fundamental, physics-based approach to the modeling of tapered beams in MEMS that is based on a rigorous perturbation analysis of the traditional Euler-Bernoulli beam. I will demonstrate how perturbation methods combined with symbolic modeling and the tools of computer algebra enable the development of semi-analytical models for tapered-beam MEMS elements. I will pay particular attention to the application of these novel models to piezoelectric MEMS energy harvesters, including the development of lumped-parameter circuit models that can be readily used for fast, highly accurate, electro-mechanical simulations. This talk is based on our recently published monograph: Wajih U. Syed and Ibrahim (Abe) M. Elfadel, 'Tapered Beams in MEMS: A Symbolic Modeling Framework with Applications to Energy Harvesting', Springer, 2024.
   biography: |
-    Dr Gulnaz Shaidolda is a Lecturer in Mathematics at Khalifa University. She holds a Ph.D. in Mathematics from Nazarbayev University (2025) and an M.Sc. in Mathematics from Middle East Technical University (2019). Her research interests span applied and computational mathematics, optimization, numerical analysis, and statistical modeling, with applications in finance and risk analysis.
+    Dr. Ibrahim (Abe) M. Elfadel is Professor of Computer and Information Engineering at Khalifa University. He leads the Secure Intelligent Systems Lab with a broad portfolio of research projects covering various aspects of the hardware and software of cyber physical systems. He was most recently recognized with the Khalifa University Service Excellence Award and is the Editor in Chief of the newly established Springer book series: "Synthesis Lectures on Circuits and Systems for Artificial Intelligence."
   links:
-    speaker: https://kz.linkedin.com/in/gulnaz-shaidolda-65ab68210/
+    speaker: https://www.ku.ac.ae/college-people/ibrahim-elfadel
     teams: https://teams.microsoft.com/l/meetup-join/19%3ameeting_MWQzNjk2MDQtZjA4Ni00OWNkLWFhYjctYTZjZTE3MGJmOTZi%40thread.v2/0?context=%7b%22Tid%22%3a%2208fe1c0a-19f5-4f24-a662-fdd5dd460025%22%2c%22Oid%22%3a%22aba525f2-e024-4b7d-b19f-d522948dead5%22%7d
-  tags: [Lower Partial Moments, Skew Elliptical Distributions, Skew-Normal, Skew-t, Risk Analysis, Risk Management, Portfolio Risk, Quantitative Finance, Statistical Modeling, Asymmetry]
+  tags: [Micro-electromechanical Systems, MEMS Modeling, Tapered Beams, Perturbation Methods, Symbolic Modeling, Computer Algebra, Piezoelectric Energy Harvesters, Semi-analytical Models, Electro-mechanical Simulation, Euler-Bernoulli Beam]
 
-- series: bio
-  speaker: Dr Azam Gholami
-  affiliation: New York University Abu Dhabi
-  affiliationUrl: https://nyuad.nyu.edu/en/
-  title: "Oxygen Deficiency Drives Drastic Pattern Transition in Algal Bioconvection"
-  status: postponed  # Optional field, defaults to "confirmed" if not specified\
-  start: 2025-11-14T11:00:00+04:00
-  end: 2025-11-14T12:00:00+04:00
-  location: Main Campus, R02013
-  abstract: |
-    Suspensions of motile microorganisms can spontaneously form large-scale fluid motion, known as bioconvection, characterized by dense downwelling plumes separated by broad upwelling regions. In this study, we investigate bioconvection in shallow suspensions of Chlamydomonas reinhardtii confined within spiral-shaped boundaries, combining detailed experiments with three-dimensional simulations. Under open liquid-air interfaces, cells accumulate near the surface via negative gravitaxis, generating spiral-shaped density patterns that subsequently fragment into lattice-like clusters, leading to plume formation. Space-time analyses demonstrate coherent rotational dynamics, with predominantly inward-directed motion near the spiral core and bidirectional motion further out. Introducing confinement by sealing the upper boundary with an air-impermeable wall triggers dramatic pattern transitions due to oxygen depletion: initially stable arrangements reorganize into new structures with significantly reduced wavelengths. Complementary numerical simulations, based on incompressible Navier-Stokes equations incorporating negative buoyancy and active swimmer stress, successfully replicate initial pattern formation, subsequent instability, fragmentation into plumes, and emergence of strong vortical flows—nearly an order of magnitude faster than individual cell swimming. However, these models do not capture oxygen depletion-driven transitions observed experimentally. Our results highlight that geometric confinement, oxygen availability, and metabolic transitions critically regulate bioconvection dynamics, offering novel strategies for controlling microbial self-organization and fluid transport.
-  biography: |
-    Dr Azam Gholami received her bachelor's degree in physics from Sharif University in Tehran and her master's degree in physics from the Institute for Advanced Studies in Basic Sciences (IASBS) in Zanjan, Iran. In 2007, she graduated with a PhD in biophysics from Ludwig-Maximilians University in Munich, Germany. As a postdoctoral fellow, she worked at the Max Planck Institute for Dynamics and Self-Organization (MPIDS) in Göttingen. From September 2011, she became a group leader at the MPIDS Göttingen and led the group "Pattern Formation in Biological Systems" for about ten years.
-  links:
-    speaker: https://nyuad.nyu.edu/en/academics/divisions/science/faculty/azam-gholami.html
-  tags: [Bioconvection, Active Matter, Microbial Motility, Chlamydomonas reinhardtii, Pattern Formation, Nonlinear Dynamics, Fluid Dynamics, Navier-Stokes, Negative Gravitaxis, Oxygen Depletion, Geometric Confinement, Vortical Flows, Plume Formation, Numerical Simulations, Experiments]
-
-- series: fin
-  speaker: Adil Reghai
-  affiliation: Abu Dhabi Investment Authority
-  affiliationUrl: https://www.adia.ae/
-  title: "SPX, VIX and scale-invariant LSV"
+- series: ug
+  speaker: Dr Frederico Brito
+  affiliation: Technology Innovation Institute
+  affiliationUrl: https://www.tii.ae/
+  title: "Turing Test 2.0: The Possibility, Usefulness and Challenges of Imitating a Specific User through Generative AI"
   status: confirmed  # Optional field, defaults to "confirmed" if not specified\
-  start: 2025-11-14T10:00:00+04:00
-  end: 2025-11-14T11:00:00+04:00
-  location: Main Campus, R02013
+  start: 2025-11-20T17:00:00+04:00
+  end: 2025-11-20T18:00:00+04:00
+  location: Main Campus, L02012
   abstract: |
-    This talk examines the convergence of physics, data, and mathematics to model the mechanical link between VIX and the S&P 500. Using the Buckingham-Π theorem, we construct dimensionless variables and identify an optimal kernel that relates VIX to a smoothed price index. The estimated kernel follows a power-law shape, and a simple quadratic in the dimensionless index explains most VIX variation, achieving out-of-sample R2 near 88-89%. Residuals exhibit fast mean reversion, enabling a clean separation between structural drivers and market noise. Embedding the kernel in a local-stochastic-volatility framework then allows the generation of plausible market scenarios and the assessment of volatility and barrier products. Overall, the approach shows how dimensional reasoning, grounded in data, yields parsimonious, interpretable, and operationally effective models for risk management.
+    Quantum computers promise to revolutionize the way we process information by harnessing the unfamiliar laws of quantum mechanics. But behind this new technology lies a rich mathematical foundation - from linear algebra and complex numbers to probability and information theory. In this talk, we will explore how mathematics shapes our understanding of quantum bits, quantum logic, and the remarkable power of quantum algorithms. No prior knowledge of quantum physics is required - just curiosity! Through simple examples and visual explanations, we will see how abstract mathematical ideas translate into real technological advances, opening the door to new ways of thinking about computation, science, and the future.
   biography: |
-    Adil Reghai is the Quantitative Research and Development Lead within ADIA’s Q Team, where he designs, develops, and oversees advanced allocation and graduation algorithms aimed at identifying the most robust and performant strategies for production. His work is central to building a reliable, scalable, and data-driven investment platform that ensures systematic strategies transition into production with strong statistical validation and controlled risk. In parallel, Adil contributes extensively to the valuation and hedging of derivative options across all asset classes. His expertise spans local and stochastic volatility models, numerical methods, automatic differentiation, and model-risk management-bridging theoretical finance with industrial-grade implementation. He has authored several influential articles in Wilmott, Risk Magazine, and ESAIM Proceedings, covering topics such as volatility modeling, geometric enhancements to SABR and LSV, neural-network-based variance reduction, risk analysis, and robust model calibration. He is also the author of two reference books published by Springer and Palgrave Macmillan on financial model production and foundational quantitative finance.
+    Prof. Frederico Brito obtained his Ph.D. from the University of Campinas and held a postdoctoral position at IBM T. J. Watson Research Center in Yorktown Heights. He later served as a Research Staff Member at D-Wave Systems and is currently a tenured Associate Professor of Physics at the University of São Paulo, where he leads the group on Open Quantum Systems and Superconducting Device Theory. Since July 2025, he has been the Director of TII's Quantum Computing Hardware Laboratory. His research focuses on quantum computation and quantum thermodynamics, particularly the dynamics of open quantum systems and the modeling of superconducting devices.
   links:
-    speaker: https://www.linkedin.com/in/adil-reghai-17aabb31/
-    teams: https://teams.microsoft.com/l/meetup-join/19%3ameeting_ODE1N2Q3MmYtMTNlNi00NWE1LTg3ZTctZmIwZDVhMDdiOGRm%40thread.v2/0?context=%7b%22Tid%22%3a%2208fe1c0a-19f5-4f24-a662-fdd5dd460025%22%2c%22Oid%22%3a%22eb04c3c5-beb4-4057-8f3b-e01c9f48f510%22%7d
-  tags: [VIX, S&P 500, Dimensional Analysis, Buckingham Pi Theorem, Scale Invariance, Local-Stochastic Volatility, LSV, Volatility Modeling, Mean Reversion, Barrier Options, Option Pricing, Quantitative Finance, Risk Management, Power Law]
+    speaker: https://www.tii.ae/team/prof-dr-frederico-brito
+  tags: [Generative AI, Turing Test, User Imitation, Quantum Computing, Quantum Bits, Quantum Logic, Quantum Algorithms, Linear Algebra, Complex Numbers, Probability Theory, Information Theory, Quantum Mechanics, Undergraduate Seminar]
 
-interviews:
-  - candidate: Dr Jorge Cely Garcia
-    candidateUrl: https://www.researchgate.net/profile/Jorge-Cely-2
-    position: Lecturer
-    interviewType: teaching
-    mode: virtual
-    start: 2025-11-11T10:00:00+04:00
-    end: 2025-11-11T10:45:00+04:00
-    location: Virtual (Microsoft Teams)
-    organizedBy:
-      - Prof Ahmed Ameur
-      - Dr. Denys Dutykh
-    notes: >
-      30-minute live presentations (15 min each) on two undergraduate topics of candidate choice
-    links:
-      meeting: https://teams.microsoft.com/meet/31491054442728?p=Y6Fo4Pyg0xGkhB7KpN
-      cv: https://www.genealogy.math.ndsu.nodak.edu/id.php?id=210222
+- series: grad
+  speaker: Azamkhon Alisher Ugli Azamov
+  affiliation: New Uzbekistan University
+  affiliationUrl: https://newuu.uz/
+  title: "Deep Reinforcement Learning for Dynamic CVRP under Demand and Traffic Uncertainty"
+  status: confirmed  # Optional field, defaults to "confirmed" if not specified\
+  start: 2025-11-21T10:00:00+04:00
+  end: 2025-11-21T11:00:00+04:00
+  location: Main Campus, R01002
+  abstract: |
+    This talk presents a deep reinforcement learning framework for the capacitated VRP under dual uncertainty in customer demand and time-varying traffic. The method encodes the routing graph with attention-based graph neural networks, models dynamics as a POMDP, enforces feasibility via action masking, and trains policies with PPO. Two hybrid variants combine learning with a k-nearest greedy mask and a Clarke-Wright-guided mask. Across seven scenarios on grid environments with up to 200 customers, the learned policies reduce travel cost versus classical heuristics and greedy baselines, keep inference practical, and generalize beyond training scales.
+  biography: |
+    Azamkhon Azamov is a Bachelor of Applied Mathematics student at New Uzbekistan University with work at the intersection of reinforcement learning and operations research. He is a co-author of “Deep Reinforcement Learning for Dynamic Vehicle Routing with Demand and Traffic Uncertainty,” published in Operations Research Perspectives in 2025. His experience includes Python development at UzbekSpace, where he used machine learning and GIS tools on satellite imagery for agricultural and environmental analysis, and service at the Ministry of Higher Education supporting AI policy, ethics, and program coordination. His research interests include epidemic modeling and combinatorial optimization.
+  links:
+    speaker: https://www.linkedin.com/in/azamhon-azamov-a1a076244/
+  tags: [Deep Reinforcement Learning, Capacitated Vehicle Routing Problem, CVRP, Demand Uncertainty, Traffic Uncertainty, Graph Neural Networks, Attention Mechanisms, Partially Observable Markov Decision Process, POMDP, Action Masking, Proximal Policy Optimization, PPO, Operations Research, Combinatorial Optimization, Logistics Optimization]
