@@ -64,7 +64,7 @@ seminars:
   status: confirmed  # Optional field, defaults to "confirmed" if not specified
   start: 2025-11-17T14:00:00+04:00
   end: 2025-11-17T15:00:00+04:00
-  location: Main Campus, R03014
+  location: Main Campus, R02013
   abstract: |
     Privacy primitives like BaseSAP restore unlinkability, but the digital economy can fail when block producers bias or delay inclusion. This talk introduces a neutrality-aware, agentic AI stack that detects censorship risk in post-Merge PBS, adapts execution through relay diversification, inclusion lists, and local-build fallback, and feeds latency and inclusion signals into trading and payments agents. The talk quantifies how such turbulence compresses anonymity sets, distorts prices, and erodes profits, and then demonstrates controls that restore autonomy and performance. The outcome is a deployable framework for censorship-resilient, turbulence-resistant on-chain agentic AI operations. No part of this talk should be interpreted as financial or investment advice.
   biography: |
