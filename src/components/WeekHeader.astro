@@ -68,29 +68,48 @@ const weekRange = formatWeekRange(week.start, week.end, week.isoWeek, week.timez
         </p>
       </div>
       
-      <!-- Right side - Controls only -->
-      <div class="flex justify-center md:justify-end items-center gap-2 mt-2 md:mt-0 no-print">
-        <Button
-          variant="outline"
-          size="sm"
-          id="theme-toggle"
-          ariaLabel="Toggle theme"
-          class="theme-toggle"
+      <!-- Right side - Math Logo and Controls -->
+      <div class="flex flex-col items-center md:items-end gap-3 mt-2 md:mt-0">
+        <!-- Math Department Logo -->
+        <a
+          href="https://www.ku.ac.ae/academics/college-of-computing-and-mathematical-sciences/department/department-of-mathematics/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="group"
         >
-          <span class="dark:hidden"><Moon size={16} /></span>
-          <span class="hidden dark:block"><Sun size={16} /></span>
-        </Button>
-        
-        <Button
-          variant="outline"
-          size="sm"
-          id="export-pdf-button"
-          ariaLabel="Export PDF poster"
-          class="export-pdf-button"
-        >
-          <Printer size={16} class="mr-2" />
-          Export PDF
-        </Button>
+          <div class="p-4 bg-gradient-to-br from-ku-primary/20 to-ku-accent/15 rounded-2xl border-2 border-ku-primary/30 shadow-large group-hover:shadow-xl group-hover:border-ku-accent/50 transition-all duration-300 group-hover:scale-105">
+            <img
+              src="/assets/KUMathLogo-transparent.png"
+              alt="Mathematics Department"
+              class="h-14 md:h-16 w-auto"
+            />
+          </div>
+        </a>
+
+        <!-- Controls -->
+        <div class="flex justify-center md:justify-end items-center gap-2 no-print">
+          <Button
+            variant="outline"
+            size="sm"
+            id="theme-toggle"
+            ariaLabel="Toggle theme"
+            class="theme-toggle"
+          >
+            <span class="dark:hidden"><Moon size={16} /></span>
+            <span class="hidden dark:block"><Sun size={16} /></span>
+          </Button>
+
+          <Button
+            variant="outline"
+            size="sm"
+            id="export-pdf-button"
+            ariaLabel="Export PDF poster"
+            class="export-pdf-button"
+          >
+            <Printer size={16} class="mr-2" />
+            Export PDF
+          </Button>
+        </div>
       </div>
     </div>
   </div>

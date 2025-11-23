@@ -17,12 +17,12 @@
 # Note: To skip a seminar series entirely for a week, simply omit it from the seminars list
 
 week:
-  isoWeek: 47
-  start: November 17, 2025
-  end: November 23, 2025
+  isoWeek: 48
+  start: November 24, 2025
+  end: November 30, 2025
   timezone: Asia/Dubai
   status: open
-  note: "Welcome to a new and busy week!"
+  note: "Welcome to a new and busy week at KU!"
 
 series:
   - code: ccms
@@ -57,89 +57,101 @@ series:
 seminars:
 
 - series: ccms
-  speaker: Dr Davor Svetinovic
-  affiliation: Khalifa University
-  affiliationUrl: https://www.ku.ac.ae/
-  title: "Agentic AI for Digital Economy: Uncensorability and Turbulence Resistance"
+  speaker: Dr. Anwer Al-Dulaimi
+  affiliation: Zayed University
+  affiliationUrl: https://www.zu.ac.ae/
+  title: "Transitioning to 6G: Emerging Use Cases, Testing Frameworks, and the UAE 6G Innovation Hub"
   status: confirmed  # Optional field, defaults to "confirmed" if not specified
-  start: 2025-11-17T14:00:00+04:00
-  end: 2025-11-17T15:00:00+04:00
-  location: Main Campus, R02013
+  start: 2025-11-24T14:00:00+04:00
+  end: 2025-11-24T15:00:00+04:00
+  location: Main campus, G01011
   abstract: |
-    Privacy primitives like BaseSAP restore unlinkability, but the digital economy can fail when block producers bias or delay inclusion. This talk introduces a neutrality-aware, agentic AI stack that detects censorship risk in post-Merge PBS, adapts execution through relay diversification, inclusion lists, and local-build fallback, and feeds latency and inclusion signals into trading and payments agents. The talk quantifies how such turbulence compresses anonymity sets, distorts prices, and erodes profits, and then demonstrates controls that restore autonomy and performance. The outcome is a deployable framework for censorship-resilient, turbulence-resistant on-chain agentic AI operations. No part of this talk should be interpreted as financial or investment advice.
+    The transition from fifth-generation (5G) networks to sixth-generation (6G) communications represents a transformative rise toward intelligent, adaptive, and sustainable connectivity. While 5G achieved remarkable advances in data throughput, latency, and reliability, 6G will extend these capabilities to enable AI-native, energy-efficient, and sensing-integrated networks. This new generation will seamlessly merge the physical and digital realms, empowering real-time digital twins, immersive holographic experiences, autonomous mobility, etc. A major challenge in this transition lies in testing and validation. The integration of distributed architecture that incorporates terrestrial, aerial, and satellite systems demands federated testbeds capable of modeling complex real-world environments. These testbeds are crucial to benchmarking real-network key performance indicators (KPIs), ensuring interoperability, reinforcing security, and accelerating the standardization of 6G systems. This seminar aims to cover those technologies, challenges as well as introduce the UAE 6G Innovation Hub, a pioneering platform for advance 6G experimentation, integrated sensing, and quantum-secure networking. The discussion will explore the 6G roadmap, emerging use cases, and how the UAE's federated testbed model is shaping the nation's leadership in global 6G innovation.
   biography: |
-    Dr. Davor Svetinovic is a computer science faculty at Khalifa University, Abu Dhabi, UAE. He is a globally recognized research leader, innovator, and a fellow at the Adia Lab, Abu Dhabi, specializing in Blockchain, DeFi, AI, and Cybersecurity. Recognized as a World Top 2% Scientist (Stanford/Elsevier), he has a distinguished track record of transforming foundational research into high-impact, real-world applications with significant economic value. Dr. Svetinovic's research has directly influenced the core infrastructure of major global platforms. His seminal works on blockchain security and stealth addresses led to significant privacy-enhancing protocol enhancements being implemented into the Ethereum blockchain. This contribution is projected to have a profound economic impact, potentially increasing the market cap of the Ethereum ecosystem - which underpins numerous UAE-based companies. His expertise lies in building secure, trustworthy, and decentralized systems that drive economic growth and technological sovereignty. His work aligns directly with the strategic vision of Abu Dhabi and the UAE. Dr. Svetinovic is a Senior Member of IEEE, a Lifetime Member of ACM, and an affiliate of the Mohammed Bin Rashid Academy of Scientists.
+    Dr. Anwer Al-Dulaimi is an Associate Professor at the College of Technological Innovation, Zayed University, Abu Dhabi, and the Principal Investigator of the UAE 6G Innovation Hub. He received his Ph.D. in Electronic and Computer Engineering from Brunel University London (U.K.) in 2012, following B.Sc. and M.Sc. (Honors) degrees in Communication Engineering. He was a Postdoctoral Fellow at the University of Toronto, sponsored by BlackBerry's Advanced Research Team. Before joining academia, Anwer spent several years in industry as Senior Manager of Emerging Technologies and Innovations at the CTO Office of EXFO, Canada, where he contributed to the development of advanced solutions for network service assurance, and cloud-native network transformation. This experience continues to inform his work at the intersection of research, innovation, and industry-standard development. He currently chairs the IEEE 5G/6G Innovation Testbed Project and the IEEE P1932.1 Standard for Licensed/Unlicensed Spectrum Interoperability. He serves as Editor of the IEEE Future Networks Series on 6G (IEEE Vehicular Technology Magazine) and as Guest Editor for multiple IEEE journals, including the IEEE Internet of Things Journal and IEEE Communications Standards Magazine. He is also a Fellow of the Institution of Engineering and Technology (FIET) and a Chartered Engineer (CEng) registered with the U.K. Engineering Council since 2010, voting member of the IEEE MobiNet-SC and an IEEE VTS Distinguished Lecturer. He has authored several books, contributed to global IEEE standards, and holds patents in next-generation mobile networking and network monitoring.
   links:
-    speaker: https://www.ku.ac.ae/college-people/davor-svetinovic/
-    teams: https://teams.microsoft.com/l/meetup-join/19%3ameeting_Y2YyMTkzMDItNDUwMS00NWM1LWJlOTMtZmIyYzBmZjU3OGEx%40thread.v2/0?context=%7b%22Tid%22%3a%2208fe1c0a-19f5-4f24-a662-fdd5dd460025%22%2c%22Oid%22%3a%22aba525f2-e024-4b7d-b19f-d522948dead5%22%7d
-  tags: [Agentic AI, Blockchain, Ethereum, Proposer-Builder Separation, Censorship Resistance, Uncensorability, DeFi, On-chain Systems, Relay Diversification, Inclusion Lists, Latency, Trading Agents, Privacy, Unlinkability, Digital Economy]
+    speaker: https://www.zu.ac.ae/main/en/colleges/colleges/__college_of_technological_innovation/faculty_and_staff/_profiles/anwer_al-dulaimi/
+    teams: https://teams.microsoft.com/l/meetup-join/19%3ameeting_OWU1YTE5ZTQtZGQ0OS00YzUwLTk5YzgtMjg2Y2VlYzA3Nzcx%40thread.v2/0?context=%7b%22Tid%22%3a%2208fe1c0a-19f5-4f24-a662-fdd5dd460025%22%2c%22Oid%22%3a%22aba525f2-e024-4b7d-b19f-d522948dead5%22%7d
+  tags:
+    - 6G
+    - Telecommunications
+    - Wireless Networks
+    - Emerging Technologies
+    - Testing & Validation
+    - AI-Driven Systems
+    - Quantum Security
+
+- series: ccms
+  speaker: Dr. Hazim Ekenel
+  affiliation: Istanbul Technical University
+  affiliationUrl: https://itu.edu.tr/en
+  title: "Human Centered Computer Vision"
+  status: confirmed  # Optional field, defaults to "confirmed" if not specified\
+  start: 2025-11-26T14:00:00+04:00
+  end: 2025-11-26T15:00:00+04:00
+  location: Main campus, L02012
+  abstract: |
+    Facial image processing and analysis is the task of automatically analyzing face images in order to acquire information about the depicted persons. This includes a person's identity, emotional state, facial gestures, age, and gender. The large number of European projects that involves facial image processing as a part shows its crucial role in a wide range of application domains, such as security, smart environments, human-computer interfaces, and content-based image and video analysis. Considering the advanced security needs of the society and the shift to the paradigm of human-centered computing for natural interfaces, the interest in face processing is expected to continue with increasing pace. In this talk Dr. Ekenel is going to present an overview of computer vision research activities @ Smart Interaction and Machine Intelligence (SiMiT) Lab. The topics will include but not limited to face recognition, facial expression analysis, face anonymization, face generation, and their applications.
+  biography: |
+    Dr. Ekenel is a visiting Professor at the Division of Engineering of New York University Abu Dhabi and a full Professor at the Department of Computer Engineering in Istanbul Technical University.  His research interest covers computer vision and machine learning with a focus on face analysis and human perception. He has published more than 100 peer reviewed publications in prestigious international journals, conferences, and workshops in the related fields. He received his Ph.D. degree in Computer Science from the University of Karlsruhe (TH) in 2009. He has founded the Facial Image Processing and Analysis group at the Department of Computer Science in Karlsruhe Institute of Technology. He has received the EBF European Biometric Research Award in 2008 for his contributions to the field of face recognition. He is also a recipient of the Science Academy Turkey's Young Scientist Award 2018 and IEEE Turkey Chapter Research Award 2019. He is one of the general chairs of IEEE International Conference on Automatic Face and Gesture Recognition 2024.
+  links:
+    speaker: https://web.itu.edu.tr/ekenel/
+    teams: https://teams.microsoft.com/l/meetup-join/19%3ameeting_OWE4NDIyOWItMzdmOS00OTI1LWI5MGUtZWQxMDlkZDgxMzdi%40thread.v2/0?context=%7b%22Tid%22%3a%2208fe1c0a-19f5-4f24-a662-fdd5dd460025%22%2c%22Oid%22%3a%22aba525f2-e024-4b7d-b19f-d522948dead5%22%7d
+  tags:
+    - Computer Vision
+    - Face Recognition
+    - Human-Centered Computing
+    - Machine Learning
+    - Human-Computer Interaction
+    - Security Applications
+    - Smart Environments
  
 - series: math
-  speaker: Dr Carlile Lavor
-  affiliation: University of Campinas, Brazil
-  affiliationUrl: https://unicamp.br/en/
-  title: "Different Models for 3D Space in Molecular Geometry"
+  speaker: Dr. Nareshpal Singh Saini
+  affiliation: Guru Nanak Dev University
+  affiliationUrl: https://online.gndu.ac.in/
+  title: "Derivation of Nonlinear Schrödinger Equation for Rogue Waves in a Dusty Plasma"
   status: confirmed  # Optional field, defaults to "confirmed" if not specified\
-  start: 2025-11-18T12:00:00+04:00
-  end: 2025-11-18T13:00:00+04:00
-  location: Main Campus, L03007
+  start: 2025-11-25T15:00:00+04:00
+  end: 2025-11-25T16:00:00+04:00
+  location: Main campus, R01013
   abstract: |
-    This talk will explore the utilization of two different geometric approaches (homogeneous and conformal models) for computing interatomic distances, and their derivatives, in terms of internal coordinates of molecules. While the traditional Euclidean model has long been employed to represent 3D space in molecular dynamics, the homogeneous coordinate system introduces an extra dimension that allows for a unified algebraic representation of molecular transformations, such as translations and rotations. The conformal model further extends this framework by adding an additional dimension for scale and uniquely enables the orthogonal representation of rotations and translations. We will discuss how these two models may enhance the efficiency of modeling molecular geometry and transformations.
+    Dusty plasmas are ubiquitous not only in laboratory, space and astrophysical environments but also have potential applications in industry, technology and other areas of modern science. The existence of different kinds of wave modes and their coupling have made it possible to understand the plasma collective oscillations at different scales and the salient features of associated nonlinear waves and instabilities in these plasma environments. Starting from the normalized fluid equations for an unmagnetized dusty plasma containing electrons, ions, and charged dust grains, the nonlinear Schrödinger equation (NLSE) has been derived by using multiple-scale perturbation method. Further, the rational solutions of NLSE are discussed to study the existence of different kinds of rogue waves. In this study, we also explore the intricate interplay between the nonthermal enhancement of polarization forces and their impact on the modulational instability (MI) of dust acoustic waves (DAWs), as well as on various types of dust acoustic rogue waves (DARWs). The rational solutions of NLSE bring to light the emergence of DA  rogue waves. This theoretical exploration sheds light on the significant role of nonlinear dynamics in generating various DARWs, offering valuable insights for experimental observations and understanding phenomena in different space environments, such as planetary spokes and cometary tails.
   biography: |
-    Carlile Lavor graduated in Mathematics from the University of Campinas in 1996, and received a PhD in Computer Science from the Federal University of Rio de Janeiro, in 2001. He was a visiting professor at prestigious institutions like École Polytechnique (2008-2009) and Duke University (2013-2014). Since 2005, he has been working at the University of Campinas, where he is now a full professor. His research on distance geometry in the last 15 years culminated in the publication of a paper in SIAM Review (first published in 2014), which was awarded the Notable Article Prize from the ACM Computing Reviews in 2015. He is co-author of the book "Euclidean Distance Geometry" and co-editor of "Distance Geometry: Theory, Methods and Applications" book, both by Springer.
+    Dr. N. S. Saini has retired as a Professor and presently associated with the department of Physics, Guru Nanak Dev University, Amritsar, India to continue his research activities. He has more than 33 years experience of teaching and research. He was Chairman, Department of Physics and Board of studies in Physics from July 01 2016 to June 30, 2019. Prof. Saini was an elected President of Plasma Science Society of India (PSSI) from Dec. 2021 to Dec. 2023. He is an expert  member of various decision making academic as well as administrative committee. He has published over 150 research articles in SCOPUS/SCI journals and participated in around 100 National/International conferences. The quality of his research work reflects that the total citations of his research work  are around 4123 with h-index 33 and i10-index 80.  Prof. Saini was awarded a  prestigious Post Doctoral Research Fellowship at Centre of Plasma Physics, Queens University Belfast, Northern Ireland, UK from  March 10, 2008 to March 09, 2010. He has supervised 16 Ph.D. students and some of his students are awarded prestigious Post Doctoral Research Fellowships in USA and other countries.
   links:
-    speaker: https://cemeai.icmc.usp.br/carlile-lavor/
+    speaker: https://scholar.google.com/citations?user=cHdLZUIAAAAJ&hl=en
     teams: https://teams.microsoft.com/l/meetup-join/19%3ameeting_MWQzNjk2MDQtZjA4Ni00OWNkLWFhYjctYTZjZTE3MGJmOTZi%40thread.v2/0?context=%7b%22Tid%22%3a%2208fe1c0a-19f5-4f24-a662-fdd5dd460025%22%2c%22Oid%22%3a%22aba525f2-e024-4b7d-b19f-d522948dead5%22%7d
-  tags: [Molecular Geometry, Distance Geometry, Homogeneous Coordinates, Conformal Geometric Algebra, Internal Coordinates, Interatomic Distances, Molecular Dynamics, Rotations and Translations, Computational Chemistry, Geometric Modeling]
+  tags:
+    - Plasma Physics
+    - Nonlinear Waves
+    - Rogue Waves
+    - Dusty Plasma
+    - Mathematical Physics
+    - Space Environments
+    - Modulation Instability
 
 - series: math
-  speaker: Dr Ibrahim (Abe) M. Elfadel
+  speaker: Dr. Mohd Halim Bin Mohd Shariff
   affiliation: Khalifa University
   affiliationUrl: https://www.ku.ac.ae/
-  title: "Symbolic Modeling in Micro-electromechanical Systems"
+  title: "On Solving an Open Problem in Continuum Mechanics"
   status: confirmed  # Optional field, defaults to "confirmed" if not specified\
-  start: 2025-11-20T15:00:00+04:00
-  end: 2025-11-20T16:00:00+04:00
+  start: 2025-11-27T15:00:00+04:00
+  end: 2025-11-27T16:00:00+04:00
   location: SAN Campus, ADCO Auditorium
   abstract: |
-    The use of tapered beams is ubiquitous in the sensing and actuation elements of micro-electromechanical systems (MEMS). Yet the distinct advantages of the tapered beam over the traditional rectangular one are often left unarticulated due to the blind trust in the finite-element models of MEMS devices. In this talk, I will take a fundamental, physics-based approach to the modeling of tapered beams in MEMS that is based on a rigorous perturbation analysis of the traditional Euler-Bernoulli beam. I will demonstrate how perturbation methods combined with symbolic modeling and the tools of computer algebra enable the development of semi-analytical models for tapered-beam MEMS elements. I will pay particular attention to the application of these novel models to piezoelectric MEMS energy harvesters, including the development of lumped-parameter circuit models that can be readily used for fast, highly accurate, electro-mechanical simulations. This talk is based on our recently published monograph: Wajih U. Syed and Ibrahim (Abe) M. Elfadel, 'Tapered Beams in MEMS: A Symbolic Modeling Framework with Applications to Energy Harvesting', Springer, 2024.
+    In this talk, I will briefly describe my journey, along with the trials and tribulations, of developing smart materials with wide-ranging real-world applications. In the course of this work, I developed several models, algorithms, and principles, as well as a parallel finite-element software package, and I solved an open problem in continuum mechanics. Interestingly, solving that open problem turned out to be the easiest part of my research. To make the presentation accessible, even to a six-year-old, I will demonstrate several physical experiments (appropriate for audiences aged 18 and over) during the seminar. As Einstein famously said, "If you can't explain it to a six-year-old, you don't understand it yourself." I will do my best to rise to that challenge.
   biography: |
-    Dr. Ibrahim (Abe) M. Elfadel is Professor of Computer and Information Engineering at Khalifa University. He leads the Secure Intelligent Systems Lab with a broad portfolio of research projects covering various aspects of the hardware and software of cyber physical systems. He was most recently recognized with the Khalifa University Service Excellence Award and is the Editor in Chief of the newly established Springer book series: "Synthesis Lectures on Circuits and Systems for Artificial Intelligence."
+    Dr. M. H. B. M. Shariff is a faculty member in mathematics at Khalifa University in Abu Dhabi, UAE. Although there is nothing exceptional about him, he is the primary or sole author of most of his publications, having independently (effectively wrote the papers by himself) contributed to a broad range of research areas. His work spans the finite element method, numerical algorithms, parallel computing, digital phase-locked loops (in electrical engineering), and continuum mechanics, including biomechanics, electromagnetic fields, and damage mechanics.
   links:
-    speaker: https://www.ku.ac.ae/college-people/ibrahim-elfadel
+    speaker: https://www.ku.ac.ae/college-people/mohd-halim-bin-mohd-shariff
     teams: https://teams.microsoft.com/l/meetup-join/19%3ameeting_MWQzNjk2MDQtZjA4Ni00OWNkLWFhYjctYTZjZTE3MGJmOTZi%40thread.v2/0?context=%7b%22Tid%22%3a%2208fe1c0a-19f5-4f24-a662-fdd5dd460025%22%2c%22Oid%22%3a%22aba525f2-e024-4b7d-b19f-d522948dead5%22%7d
-  tags: [Micro-electromechanical Systems, MEMS Modeling, Tapered Beams, Perturbation Methods, Symbolic Modeling, Computer Algebra, Piezoelectric Energy Harvesters, Semi-analytical Models, Electro-mechanical Simulation, Euler-Bernoulli Beam]
-
-- series: ug
-  speaker: Dr Frederico Brito
-  affiliation: Technology Innovation Institute
-  affiliationUrl: https://www.tii.ae/
-  title: "Mathematics at the Heart of Quantum Computing"
-  status: confirmed  # Optional field, defaults to "confirmed" if not specified\
-  start: 2025-11-20T17:00:00+04:00
-  end: 2025-11-20T18:00:00+04:00
-  location: Main Campus, L02012
-  abstract: |
-    Quantum computers promise to revolutionize the way we process information by harnessing the unfamiliar laws of quantum mechanics. But behind this new technology lies a rich mathematical foundation — from linear algebra and complex numbers to probability and information theory. In this talk, we will explore how mathematics shapes our understanding of quantum bits, quantum logic, and the remarkable power of quantum algorithms. No prior knowledge of quantum physics is required — just curiosity! Through simple examples and visual explanations, we will see how abstract mathematical ideas translate into real technological advances, opening the door to new ways of thinking about computation, science, and the future.
-  biography: |
-    Prof. Frederico Brito obtained his Ph.D. from the University of Campinas and held a postdoctoral position at IBM T. J. Watson Research Center in Yorktown Heights. He later served as a Research Staff Member at D-Wave Systems and is currently a tenured Associate Professor of Physics at the University of São Paulo, where he leads the group on Open Quantum Systems and Superconducting Device Theory. Since July 2025, he has been the Director of TII's Quantum Computing Hardware Laboratory. His research focuses on quantum computation and quantum thermodynamics, particularly the dynamics of open quantum systems and the modeling of superconducting devices.
-  links:
-    speaker: https://www.tii.ae/team/prof-dr-frederico-brito
-  tags: [Quantum Computing, Mathematics, Quantum Algorithms, Quantum Bits, Quantum Logic, Linear Algebra, Complex Numbers, Probability Theory, Information Theory, Quantum Mechanics, STEM Outreach]
-
-- series: grad
-  speaker: Azamkhon Alisher Ugli Azamov
-  affiliation: New Uzbekistan University
-  affiliationUrl: https://newuu.uz/
-  title: "Deep Reinforcement Learning for Dynamic CVRP under Demand and Traffic Uncertainty"
-  status: confirmed  # Optional field, defaults to "confirmed" if not specified\
-  start: 2025-11-21T10:00:00+04:00
-  end: 2025-11-21T11:00:00+04:00
-  location: Main Campus, R01002
-  abstract: |
-    This talk presents a deep reinforcement learning framework for the capacitated VRP under dual uncertainty in customer demand and time-varying traffic. The method encodes the routing graph with attention-based graph neural networks, models dynamics as a POMDP, enforces feasibility via action masking, and trains policies with PPO. Two hybrid variants combine learning with a k-nearest greedy mask and a Clarke-Wright-guided mask. Across seven scenarios on grid environments with up to 200 customers, the learned policies reduce travel cost versus classical heuristics and greedy baselines, keep inference practical, and generalize beyond training scales.
-  biography: |
-    Azamkhon Azamov is a Bachelor of Applied Mathematics student at New Uzbekistan University with work at the intersection of reinforcement learning and operations research. He is a co-author of “Deep Reinforcement Learning for Dynamic Vehicle Routing with Demand and Traffic Uncertainty,” published in Operations Research Perspectives in 2025. His experience includes Python development at UzbekSpace, where he used machine learning and GIS tools on satellite imagery for agricultural and environmental analysis, and service at the Ministry of Higher Education supporting AI policy, ethics, and program coordination. His research interests include epidemic modeling and combinatorial optimization.
-  links:
-    speaker: https://www.linkedin.com/in/azamhon-azamov-a1a076244/
-  tags: [Deep Reinforcement Learning, Capacitated Vehicle Routing Problem, CVRP, Demand Uncertainty, Traffic Uncertainty, Graph Neural Networks, Attention Mechanisms, Partially Observable Markov Decision Process, POMDP, Action Masking, Proximal Policy Optimization, PPO, Operations Research, Combinatorial Optimization, Logistics Optimization]
+  tags:
+    - Continuum Mechanics
+    - Smart Materials
+    - Finite Element Methods
+    - Computational Mechanics
+    - Numerical Algorithms
+    - Experimental Demonstrations
+    - Applied Mathematics

@@ -1,0 +1,145 @@
+# KU Math Seminars - Week Data
+# Author: Dr. Denys Dutykh (Khalifa University of Science and Technology, Abu Dhabi, UAE)
+#
+# Seminar Status Options:
+# - confirmed (default): The seminar is confirmed and will take place as scheduled
+# - cancelled: The seminar has been cancelled
+# - postponed: The seminar has been postponed to a later date
+# - tentative: The seminar is tentatively scheduled but not yet confirmed
+#
+# Week Status Options:
+# - open (default): Regular seminar week
+# - holiday: University-wide holiday, seminars paused
+# - break: Academic break, seminars paused
+# - exams: Examination period, seminars paused
+# - cancelled: Entire seminar week cancelled
+#
+# Note: To skip a seminar series entirely for a week, simply omit it from the seminars list
+
+week:
+  isoWeek: 47
+  start: November 17, 2025
+  end: November 23, 2025
+  timezone: Asia/Dubai
+  status: open
+  note: "Welcome to a new and busy week!"
+
+series:
+  - code: ccms
+    label: CCMS College Seminar
+    organisedBy: Dr Denys Dutykh, Julian Barreiro-Gomez, and Sajid Javed
+    organisedByUrl: https://www.denys-dutykh.com/
+  - code: math
+    label: KU Math Seminar
+    organisedBy: Dr Denys Dutykh, Erkko Lehtonen, Yerkin Kitapbayev, Julian Barreiro-Gomez, and Meryem Rhadbane
+    organisedByUrl: https://www.denys-dutykh.com/
+  - code: fin
+    label: Data and Stochastic Analysis in Finance, Energy and Digital Economy
+    organisedBy: Prof Giorgio Consigli, Yerkin Kitapbayev, and Jorge Zubelli
+    organisedByUrl: https://www.ku.ac.ae/academics/college-of-computing-and-mathematical-sciences/department/department-of-mathematics/
+  - code: bio
+    label: Math Biology Seminar
+    organisedBy: Dr Haralampos Hatzikirou
+    organisedByUrl: https://www.ku.ac.ae/college-people/haralampos-hatzikirou/
+  - code: grad
+    label: CCMS Graduate Seminar
+    organisedBy: Prof Hadi Susanto, Julian Barreiro-Gomez, and Sajid Javed
+    organisedByUrl: https://hs-info.github.io/
+  - code: ug
+    label: Beyond Math Seminar
+    organisedBy: Ms Nesma Khalil, Prof Partha Guha, and Mr Mahmoud Yassin
+    organisedByUrl: https://www.ku.ac.ae/college-people/nesma-khalil/
+  - code: rescomp
+    label: Research Computing Webinar
+    organisedBy: Mr Wadud Miah
+    organisedByUrl: https://www.ku.ac.ae/research-offices/research-computing/
+
+seminars:
+
+- series: ccms
+  speaker: Dr Davor Svetinovic
+  affiliation: Khalifa University
+  affiliationUrl: https://www.ku.ac.ae/
+  title: "Agentic AI for Digital Economy: Uncensorability and Turbulence Resistance"
+  status: confirmed  # Optional field, defaults to "confirmed" if not specified
+  start: 2025-11-17T14:00:00+04:00
+  end: 2025-11-17T15:00:00+04:00
+  location: Main Campus, R02013
+  abstract: |
+    Privacy primitives like BaseSAP restore unlinkability, but the digital economy can fail when block producers bias or delay inclusion. This talk introduces a neutrality-aware, agentic AI stack that detects censorship risk in post-Merge PBS, adapts execution through relay diversification, inclusion lists, and local-build fallback, and feeds latency and inclusion signals into trading and payments agents. The talk quantifies how such turbulence compresses anonymity sets, distorts prices, and erodes profits, and then demonstrates controls that restore autonomy and performance. The outcome is a deployable framework for censorship-resilient, turbulence-resistant on-chain agentic AI operations. No part of this talk should be interpreted as financial or investment advice.
+  biography: |
+    Dr. Davor Svetinovic is a computer science faculty at Khalifa University, Abu Dhabi, UAE. He is a globally recognized research leader, innovator, and a fellow at the Adia Lab, Abu Dhabi, specializing in Blockchain, DeFi, AI, and Cybersecurity. Recognized as a World Top 2% Scientist (Stanford/Elsevier), he has a distinguished track record of transforming foundational research into high-impact, real-world applications with significant economic value. Dr. Svetinovic's research has directly influenced the core infrastructure of major global platforms. His seminal works on blockchain security and stealth addresses led to significant privacy-enhancing protocol enhancements being implemented into the Ethereum blockchain. This contribution is projected to have a profound economic impact, potentially increasing the market cap of the Ethereum ecosystem - which underpins numerous UAE-based companies. His expertise lies in building secure, trustworthy, and decentralized systems that drive economic growth and technological sovereignty. His work aligns directly with the strategic vision of Abu Dhabi and the UAE. Dr. Svetinovic is a Senior Member of IEEE, a Lifetime Member of ACM, and an affiliate of the Mohammed Bin Rashid Academy of Scientists.
+  links:
+    speaker: https://www.ku.ac.ae/college-people/davor-svetinovic/
+    teams: https://teams.microsoft.com/l/meetup-join/19%3ameeting_Y2YyMTkzMDItNDUwMS00NWM1LWJlOTMtZmIyYzBmZjU3OGEx%40thread.v2/0?context=%7b%22Tid%22%3a%2208fe1c0a-19f5-4f24-a662-fdd5dd460025%22%2c%22Oid%22%3a%22aba525f2-e024-4b7d-b19f-d522948dead5%22%7d
+  tags: [Agentic AI, Blockchain, Ethereum, Proposer-Builder Separation, Censorship Resistance, Uncensorability, DeFi, On-chain Systems, Relay Diversification, Inclusion Lists, Latency, Trading Agents, Privacy, Unlinkability, Digital Economy]
+ 
+- series: math
+  speaker: Dr Carlile Lavor
+  affiliation: University of Campinas, Brazil
+  affiliationUrl: https://unicamp.br/en/
+  title: "Different Models for 3D Space in Molecular Geometry"
+  status: confirmed  # Optional field, defaults to "confirmed" if not specified\
+  start: 2025-11-18T12:00:00+04:00
+  end: 2025-11-18T13:00:00+04:00
+  location: Main Campus, L03007
+  abstract: |
+    This talk will explore the utilization of two different geometric approaches (homogeneous and conformal models) for computing interatomic distances, and their derivatives, in terms of internal coordinates of molecules. While the traditional Euclidean model has long been employed to represent 3D space in molecular dynamics, the homogeneous coordinate system introduces an extra dimension that allows for a unified algebraic representation of molecular transformations, such as translations and rotations. The conformal model further extends this framework by adding an additional dimension for scale and uniquely enables the orthogonal representation of rotations and translations. We will discuss how these two models may enhance the efficiency of modeling molecular geometry and transformations.
+  biography: |
+    Carlile Lavor graduated in Mathematics from the University of Campinas in 1996, and received a PhD in Computer Science from the Federal University of Rio de Janeiro, in 2001. He was a visiting professor at prestigious institutions like École Polytechnique (2008-2009) and Duke University (2013-2014). Since 2005, he has been working at the University of Campinas, where he is now a full professor. His research on distance geometry in the last 15 years culminated in the publication of a paper in SIAM Review (first published in 2014), which was awarded the Notable Article Prize from the ACM Computing Reviews in 2015. He is co-author of the book "Euclidean Distance Geometry" and co-editor of "Distance Geometry: Theory, Methods and Applications" book, both by Springer.
+  links:
+    speaker: https://cemeai.icmc.usp.br/carlile-lavor/
+    teams: https://teams.microsoft.com/l/meetup-join/19%3ameeting_MWQzNjk2MDQtZjA4Ni00OWNkLWFhYjctYTZjZTE3MGJmOTZi%40thread.v2/0?context=%7b%22Tid%22%3a%2208fe1c0a-19f5-4f24-a662-fdd5dd460025%22%2c%22Oid%22%3a%22aba525f2-e024-4b7d-b19f-d522948dead5%22%7d
+  tags: [Molecular Geometry, Distance Geometry, Homogeneous Coordinates, Conformal Geometric Algebra, Internal Coordinates, Interatomic Distances, Molecular Dynamics, Rotations and Translations, Computational Chemistry, Geometric Modeling]
+
+- series: math
+  speaker: Dr Ibrahim (Abe) M. Elfadel
+  affiliation: Khalifa University
+  affiliationUrl: https://www.ku.ac.ae/
+  title: "Symbolic Modeling in Micro-electromechanical Systems"
+  status: confirmed  # Optional field, defaults to "confirmed" if not specified\
+  start: 2025-11-20T15:00:00+04:00
+  end: 2025-11-20T16:00:00+04:00
+  location: SAN Campus, ADCO Auditorium
+  abstract: |
+    The use of tapered beams is ubiquitous in the sensing and actuation elements of micro-electromechanical systems (MEMS). Yet the distinct advantages of the tapered beam over the traditional rectangular one are often left unarticulated due to the blind trust in the finite-element models of MEMS devices. In this talk, I will take a fundamental, physics-based approach to the modeling of tapered beams in MEMS that is based on a rigorous perturbation analysis of the traditional Euler-Bernoulli beam. I will demonstrate how perturbation methods combined with symbolic modeling and the tools of computer algebra enable the development of semi-analytical models for tapered-beam MEMS elements. I will pay particular attention to the application of these novel models to piezoelectric MEMS energy harvesters, including the development of lumped-parameter circuit models that can be readily used for fast, highly accurate, electro-mechanical simulations. This talk is based on our recently published monograph: Wajih U. Syed and Ibrahim (Abe) M. Elfadel, 'Tapered Beams in MEMS: A Symbolic Modeling Framework with Applications to Energy Harvesting', Springer, 2024.
+  biography: |
+    Dr. Ibrahim (Abe) M. Elfadel is Professor of Computer and Information Engineering at Khalifa University. He leads the Secure Intelligent Systems Lab with a broad portfolio of research projects covering various aspects of the hardware and software of cyber physical systems. He was most recently recognized with the Khalifa University Service Excellence Award and is the Editor in Chief of the newly established Springer book series: "Synthesis Lectures on Circuits and Systems for Artificial Intelligence."
+  links:
+    speaker: https://www.ku.ac.ae/college-people/ibrahim-elfadel
+    teams: https://teams.microsoft.com/l/meetup-join/19%3ameeting_MWQzNjk2MDQtZjA4Ni00OWNkLWFhYjctYTZjZTE3MGJmOTZi%40thread.v2/0?context=%7b%22Tid%22%3a%2208fe1c0a-19f5-4f24-a662-fdd5dd460025%22%2c%22Oid%22%3a%22aba525f2-e024-4b7d-b19f-d522948dead5%22%7d
+  tags: [Micro-electromechanical Systems, MEMS Modeling, Tapered Beams, Perturbation Methods, Symbolic Modeling, Computer Algebra, Piezoelectric Energy Harvesters, Semi-analytical Models, Electro-mechanical Simulation, Euler-Bernoulli Beam]
+
+- series: ug
+  speaker: Dr Frederico Brito
+  affiliation: Technology Innovation Institute
+  affiliationUrl: https://www.tii.ae/
+  title: "Mathematics at the Heart of Quantum Computing"
+  status: confirmed  # Optional field, defaults to "confirmed" if not specified\
+  start: 2025-11-20T17:00:00+04:00
+  end: 2025-11-20T18:00:00+04:00
+  location: Main Campus, L02012
+  abstract: |
+    Quantum computers promise to revolutionize the way we process information by harnessing the unfamiliar laws of quantum mechanics. But behind this new technology lies a rich mathematical foundation — from linear algebra and complex numbers to probability and information theory. In this talk, we will explore how mathematics shapes our understanding of quantum bits, quantum logic, and the remarkable power of quantum algorithms. No prior knowledge of quantum physics is required — just curiosity! Through simple examples and visual explanations, we will see how abstract mathematical ideas translate into real technological advances, opening the door to new ways of thinking about computation, science, and the future.
+  biography: |
+    Prof. Frederico Brito obtained his Ph.D. from the University of Campinas and held a postdoctoral position at IBM T. J. Watson Research Center in Yorktown Heights. He later served as a Research Staff Member at D-Wave Systems and is currently a tenured Associate Professor of Physics at the University of São Paulo, where he leads the group on Open Quantum Systems and Superconducting Device Theory. Since July 2025, he has been the Director of TII's Quantum Computing Hardware Laboratory. His research focuses on quantum computation and quantum thermodynamics, particularly the dynamics of open quantum systems and the modeling of superconducting devices.
+  links:
+    speaker: https://www.tii.ae/team/prof-dr-frederico-brito
+  tags: [Quantum Computing, Mathematics, Quantum Algorithms, Quantum Bits, Quantum Logic, Linear Algebra, Complex Numbers, Probability Theory, Information Theory, Quantum Mechanics, STEM Outreach]
+
+- series: grad
+  speaker: Azamkhon Alisher Ugli Azamov
+  affiliation: New Uzbekistan University
+  affiliationUrl: https://newuu.uz/
+  title: "Deep Reinforcement Learning for Dynamic CVRP under Demand and Traffic Uncertainty"
+  status: confirmed  # Optional field, defaults to "confirmed" if not specified\
+  start: 2025-11-21T10:00:00+04:00
+  end: 2025-11-21T11:00:00+04:00
+  location: Main Campus, R01002
+  abstract: |
+    This talk presents a deep reinforcement learning framework for the capacitated VRP under dual uncertainty in customer demand and time-varying traffic. The method encodes the routing graph with attention-based graph neural networks, models dynamics as a POMDP, enforces feasibility via action masking, and trains policies with PPO. Two hybrid variants combine learning with a k-nearest greedy mask and a Clarke-Wright-guided mask. Across seven scenarios on grid environments with up to 200 customers, the learned policies reduce travel cost versus classical heuristics and greedy baselines, keep inference practical, and generalize beyond training scales.
+  biography: |
+    Azamkhon Azamov is a Bachelor of Applied Mathematics student at New Uzbekistan University with work at the intersection of reinforcement learning and operations research. He is a co-author of “Deep Reinforcement Learning for Dynamic Vehicle Routing with Demand and Traffic Uncertainty,” published in Operations Research Perspectives in 2025. His experience includes Python development at UzbekSpace, where he used machine learning and GIS tools on satellite imagery for agricultural and environmental analysis, and service at the Ministry of Higher Education supporting AI policy, ethics, and program coordination. His research interests include epidemic modeling and combinatorial optimization.
+  links:
+    speaker: https://www.linkedin.com/in/azamhon-azamov-a1a076244/
+  tags: [Deep Reinforcement Learning, Capacitated Vehicle Routing Problem, CVRP, Demand Uncertainty, Traffic Uncertainty, Graph Neural Networks, Attention Mechanisms, Partially Observable Markov Decision Process, POMDP, Action Masking, Proximal Policy Optimization, PPO, Operations Research, Combinatorial Optimization, Logistics Optimization]
