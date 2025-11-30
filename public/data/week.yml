@@ -17,9 +17,9 @@
 # Note: To skip a seminar series entirely for a week, simply omit it from the seminars list
 
 week:
-  isoWeek: 48
-  start: November 24, 2025
-  end: November 30, 2025
+  isoWeek: 49
+  start: December 1, 2025
+  end: December 7, 2025
   timezone: Asia/Dubai
   status: open
   note: "Welcome to a new and busy week at KU!"
@@ -55,103 +55,28 @@ series:
     organisedByUrl: https://www.ku.ac.ae/research-offices/research-computing/
 
 seminars:
-
-- series: ccms
-  speaker: Dr. Anwer Al-Dulaimi
-  affiliation: Zayed University
-  affiliationUrl: https://www.zu.ac.ae/
-  title: "Transitioning to 6G: Emerging Use Cases, Testing Frameworks, and the UAE 6G Innovation Hub"
-  status: confirmed  # Optional field, defaults to "confirmed" if not specified
-  start: 2025-11-24T14:00:00+04:00
-  end: 2025-11-24T15:00:00+04:00
-  location: Main campus, G01011
-  abstract: |
-    The transition from fifth-generation (5G) networks to sixth-generation (6G) communications represents a transformative rise toward intelligent, adaptive, and sustainable connectivity. While 5G achieved remarkable advances in data throughput, latency, and reliability, 6G will extend these capabilities to enable AI-native, energy-efficient, and sensing-integrated networks. This new generation will seamlessly merge the physical and digital realms, empowering real-time digital twins, immersive holographic experiences, autonomous mobility, etc. A major challenge in this transition lies in testing and validation. The integration of distributed architecture that incorporates terrestrial, aerial, and satellite systems demands federated testbeds capable of modeling complex real-world environments. These testbeds are crucial to benchmarking real-network key performance indicators (KPIs), ensuring interoperability, reinforcing security, and accelerating the standardization of 6G systems. This seminar aims to cover those technologies, challenges as well as introduce the UAE 6G Innovation Hub, a pioneering platform for advance 6G experimentation, integrated sensing, and quantum-secure networking. The discussion will explore the 6G roadmap, emerging use cases, and how the UAE's federated testbed model is shaping the nation's leadership in global 6G innovation.
-  biography: |
-    Dr. Anwer Al-Dulaimi is an Associate Professor at the College of Technological Innovation, Zayed University, Abu Dhabi, and the Principal Investigator of the UAE 6G Innovation Hub. He received his Ph.D. in Electronic and Computer Engineering from Brunel University London (U.K.) in 2012, following B.Sc. and M.Sc. (Honors) degrees in Communication Engineering. He was a Postdoctoral Fellow at the University of Toronto, sponsored by BlackBerry's Advanced Research Team. Before joining academia, Anwer spent several years in industry as Senior Manager of Emerging Technologies and Innovations at the CTO Office of EXFO, Canada, where he contributed to the development of advanced solutions for network service assurance, and cloud-native network transformation. This experience continues to inform his work at the intersection of research, innovation, and industry-standard development. He currently chairs the IEEE 5G/6G Innovation Testbed Project and the IEEE P1932.1 Standard for Licensed/Unlicensed Spectrum Interoperability. He serves as Editor of the IEEE Future Networks Series on 6G (IEEE Vehicular Technology Magazine) and as Guest Editor for multiple IEEE journals, including the IEEE Internet of Things Journal and IEEE Communications Standards Magazine. He is also a Fellow of the Institution of Engineering and Technology (FIET) and a Chartered Engineer (CEng) registered with the U.K. Engineering Council since 2010, voting member of the IEEE MobiNet-SC and an IEEE VTS Distinguished Lecturer. He has authored several books, contributed to global IEEE standards, and holds patents in next-generation mobile networking and network monitoring.
-  links:
-    speaker: https://www.zu.ac.ae/main/en/colleges/colleges/__college_of_technological_innovation/faculty_and_staff/_profiles/anwer_al-dulaimi/
-    teams: https://teams.microsoft.com/l/meetup-join/19%3ameeting_OWU1YTE5ZTQtZGQ0OS00YzUwLTk5YzgtMjg2Y2VlYzA3Nzcx%40thread.v2/0?context=%7b%22Tid%22%3a%2208fe1c0a-19f5-4f24-a662-fdd5dd460025%22%2c%22Oid%22%3a%22aba525f2-e024-4b7d-b19f-d522948dead5%22%7d
-  tags:
-    - 6G
-    - Telecommunications
-    - Wireless Networks
-    - Emerging Technologies
-    - Testing & Validation
-    - AI-Driven Systems
-    - Quantum Security
-
-- series: ccms
-  speaker: Dr. Hazim Ekenel
-  affiliation: Istanbul Technical University
-  affiliationUrl: https://itu.edu.tr/en
-  title: "Human Centered Computer Vision"
-  status: confirmed  # Optional field, defaults to "confirmed" if not specified\
-  start: 2025-11-26T14:00:00+04:00
-  end: 2025-11-26T15:00:00+04:00
-  location: Main campus, L02012
-  abstract: |
-    Facial image processing and analysis is the task of automatically analyzing face images in order to acquire information about the depicted persons. This includes a person's identity, emotional state, facial gestures, age, and gender. The large number of European projects that involves facial image processing as a part shows its crucial role in a wide range of application domains, such as security, smart environments, human-computer interfaces, and content-based image and video analysis. Considering the advanced security needs of the society and the shift to the paradigm of human-centered computing for natural interfaces, the interest in face processing is expected to continue with increasing pace. In this talk Dr. Ekenel is going to present an overview of computer vision research activities @ Smart Interaction and Machine Intelligence (SiMiT) Lab. The topics will include but not limited to face recognition, facial expression analysis, face anonymization, face generation, and their applications.
-  biography: |
-    Dr. Ekenel is a visiting Professor at the Division of Engineering of New York University Abu Dhabi and a full Professor at the Department of Computer Engineering in Istanbul Technical University.  His research interest covers computer vision and machine learning with a focus on face analysis and human perception. He has published more than 100 peer reviewed publications in prestigious international journals, conferences, and workshops in the related fields. He received his Ph.D. degree in Computer Science from the University of Karlsruhe (TH) in 2009. He has founded the Facial Image Processing and Analysis group at the Department of Computer Science in Karlsruhe Institute of Technology. He has received the EBF European Biometric Research Award in 2008 for his contributions to the field of face recognition. He is also a recipient of the Science Academy Turkey's Young Scientist Award 2018 and IEEE Turkey Chapter Research Award 2019. He is one of the general chairs of IEEE International Conference on Automatic Face and Gesture Recognition 2024.
-  links:
-    speaker: https://web.itu.edu.tr/ekenel/
-    teams: https://teams.microsoft.com/l/meetup-join/19%3ameeting_OWE4NDIyOWItMzdmOS00OTI1LWI5MGUtZWQxMDlkZDgxMzdi%40thread.v2/0?context=%7b%22Tid%22%3a%2208fe1c0a-19f5-4f24-a662-fdd5dd460025%22%2c%22Oid%22%3a%22aba525f2-e024-4b7d-b19f-d522948dead5%22%7d
-  tags:
-    - Computer Vision
-    - Face Recognition
-    - Human-Centered Computing
-    - Machine Learning
-    - Human-Computer Interaction
-    - Security Applications
-    - Smart Environments
  
 - series: math
-  speaker: Dr. Nareshpal Singh Saini
-  affiliation: Guru Nanak Dev University
-  affiliationUrl: https://online.gndu.ac.in/
-  title: "Derivation of Nonlinear Schrödinger Equation for Rogue Waves in a Dusty Plasma"
-  status: confirmed  # Optional field, defaults to "confirmed" if not specified\
-  start: 2025-11-25T15:00:00+04:00
-  end: 2025-11-25T16:00:00+04:00
-  location: Main campus, R01013
-  abstract: |
-    Dusty plasmas are ubiquitous not only in laboratory, space and astrophysical environments but also have potential applications in industry, technology and other areas of modern science. The existence of different kinds of wave modes and their coupling have made it possible to understand the plasma collective oscillations at different scales and the salient features of associated nonlinear waves and instabilities in these plasma environments. Starting from the normalized fluid equations for an unmagnetized dusty plasma containing electrons, ions, and charged dust grains, the nonlinear Schrödinger equation (NLSE) has been derived by using multiple-scale perturbation method. Further, the rational solutions of NLSE are discussed to study the existence of different kinds of rogue waves. In this study, we also explore the intricate interplay between the nonthermal enhancement of polarization forces and their impact on the modulational instability (MI) of dust acoustic waves (DAWs), as well as on various types of dust acoustic rogue waves (DARWs). The rational solutions of NLSE bring to light the emergence of DA  rogue waves. This theoretical exploration sheds light on the significant role of nonlinear dynamics in generating various DARWs, offering valuable insights for experimental observations and understanding phenomena in different space environments, such as planetary spokes and cometary tails.
-  biography: |
-    Dr. N. S. Saini has retired as a Professor and presently associated with the department of Physics, Guru Nanak Dev University, Amritsar, India to continue his research activities. He has more than 33 years experience of teaching and research. He was Chairman, Department of Physics and Board of studies in Physics from July 01 2016 to June 30, 2019. Prof. Saini was an elected President of Plasma Science Society of India (PSSI) from Dec. 2021 to Dec. 2023. He is an expert  member of various decision making academic as well as administrative committee. He has published over 150 research articles in SCOPUS/SCI journals and participated in around 100 National/International conferences. The quality of his research work reflects that the total citations of his research work  are around 4123 with h-index 33 and i10-index 80.  Prof. Saini was awarded a  prestigious Post Doctoral Research Fellowship at Centre of Plasma Physics, Queens University Belfast, Northern Ireland, UK from  March 10, 2008 to March 09, 2010. He has supervised 16 Ph.D. students and some of his students are awarded prestigious Post Doctoral Research Fellowships in USA and other countries.
-  links:
-    speaker: https://scholar.google.com/citations?user=cHdLZUIAAAAJ&hl=en
-    teams: https://teams.microsoft.com/l/meetup-join/19%3ameeting_MWQzNjk2MDQtZjA4Ni00OWNkLWFhYjctYTZjZTE3MGJmOTZi%40thread.v2/0?context=%7b%22Tid%22%3a%2208fe1c0a-19f5-4f24-a662-fdd5dd460025%22%2c%22Oid%22%3a%22aba525f2-e024-4b7d-b19f-d522948dead5%22%7d
-  tags:
-    - Plasma Physics
-    - Nonlinear Waves
-    - Rogue Waves
-    - Dusty Plasma
-    - Mathematical Physics
-    - Space Environments
-    - Modulation Instability
-
-- series: math
-  speaker: Dr. Mohd Halim Bin Mohd Shariff
-  affiliation: Khalifa University
+  speaker: Dr Alrazi Abdeljabbar
+  affiliation: Khalifa University of Science and Technology
   affiliationUrl: https://www.ku.ac.ae/
-  title: "On Solving an Open Problem in Continuum Mechanics"
+  title: "Pfaffian and Wronskian Techniques for Exact Solutions of Nonlinear PDEs"
   status: confirmed  # Optional field, defaults to "confirmed" if not specified\
-  start: 2025-11-27T15:00:00+04:00
-  end: 2025-11-27T16:00:00+04:00
-  location: SAN Campus, ADCO Auditorium
+  start: 2025-12-04T15:00:00+04:00
+  end: 2025-12-04T16:00:00+04:00
+  location: SAN campus, ADCO Auditorium
   abstract: |
-    In this talk, I will briefly describe my journey, along with the trials and tribulations, of developing smart materials with wide-ranging real-world applications. In the course of this work, I developed several models, algorithms, and principles, as well as a parallel finite-element software package, and I solved an open problem in continuum mechanics. Interestingly, solving that open problem turned out to be the easiest part of my research. To make the presentation accessible, even to a six-year-old, I will demonstrate several physical experiments (appropriate for audiences aged 18 and over) during the seminar. As Einstein famously said, "If you can't explain it to a six-year-old, you don't understand it yourself." I will do my best to rise to that challenge.
+    This talk explores exact solution techniques for nonlinear partial differential equations using Wronskian and Pfaffian structures. I introduce the historical development of soliton theory and outline how bilinear forms and Hirota operators enable constructive solution methods. I present explicit Wronskian and Pfaffian solutions to the variable-coefficient generalized KP equation, including both Wronski-type and Gramm-type Pfaffianizations. I also derive double Wronskian solutions for a (2+1)-dimensional Boussinesq system and show how determinantal identities support these constructions. The results demonstrate how determinantal and Pfaffian frameworks provide a unified and efficient approach for generating multi-soliton solutions in higher dimensional integrable systems.
   biography: |
-    Dr. M. H. B. M. Shariff is a faculty member in mathematics at Khalifa University in Abu Dhabi, UAE. Although there is nothing exceptional about him, he is the primary or sole author of most of his publications, having independently (effectively wrote the papers by himself) contributed to a broad range of research areas. His work spans the finite element method, numerical algorithms, parallel computing, digital phase-locked loops (in electrical engineering), and continuum mechanics, including biomechanics, electromagnetic fields, and damage mechanics.
+    Dr. Alrazi Abdeljabbar is an Associate Professor of Mathematics at Khalifa University. He obtained his PhD in Applied and Abstract Mathematics from the University of South Florida in 2012. His research interests include soliton theory, nonlinear partial differential equations, fractional differential equations, and applications of functional analysis to evolution equations. He has more than 20 years of teaching experience at institutions including the University of South Florida, the University of Jordan, Savannah State University, and Khalifa University.
   links:
-    speaker: https://www.ku.ac.ae/college-people/mohd-halim-bin-mohd-shariff
+    speaker: https://www.ku.ac.ae/college-people/alrazi-abdeljabbar/
     teams: https://teams.microsoft.com/l/meetup-join/19%3ameeting_MWQzNjk2MDQtZjA4Ni00OWNkLWFhYjctYTZjZTE3MGJmOTZi%40thread.v2/0?context=%7b%22Tid%22%3a%2208fe1c0a-19f5-4f24-a662-fdd5dd460025%22%2c%22Oid%22%3a%22aba525f2-e024-4b7d-b19f-d522948dead5%22%7d
   tags:
-    - Continuum Mechanics
-    - Smart Materials
-    - Finite Element Methods
-    - Computational Mechanics
-    - Numerical Algorithms
-    - Experimental Demonstrations
-    - Applied Mathematics
+    - Nonlinear PDEs
+    - Soliton Theory
+    - Wronskian Methods
+    - Pfaffian Techniques
+    - Integrable Systems
+    - Exact Solutions
+    - Mathematical Physics
