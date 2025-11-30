@@ -53,6 +53,10 @@ series:
     label: Research Computing Webinar
     organisedBy: Mr Wadud Miah
     organisedByUrl: https://www.ku.ac.ae/research-offices/research-computing/
+  - code: nonlin
+    label: Nonlinear Applied Analysis and Soliton Theory
+    organisedBy: Drs Alrazi Abdeljabbar, Ioannis Kourakis, Berihu Teklu, and Hadi Susanto
+    organisedByUrl: https://www.ku.ac.ae/college-people/alrazi-abdeljabbar/
 
 seminars:
  
