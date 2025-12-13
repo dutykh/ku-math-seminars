@@ -51,6 +51,7 @@ All colors MUST be HSL.
     --status-holiday: 261 75% 62%;   /* Soft purple */
     --status-break: 35 85% 55%;      /* Warm amber */
     --status-exams: 358 75% 58%;     /* Soft red */
+    --status-standby: 207 65% 52%;   /* Calm blue for standby/off-season */
     --status-cancelled: 207 8% 48%;  /* Muted gray */
     
     /* Seminar status colors */

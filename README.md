@@ -90,7 +90,10 @@ week:
   start: August 18, 2025   # Week start date (Month DD, YYYY)
   end: August 24, 2025     # Week end date (Month DD, YYYY)
   timezone: Asia/Dubai     # IANA timezone
-  status: open             # open|holiday|break|exams|cancelled
+  status: open             # open|holiday|break|exams|standby|cancelled
+  semester: Fall 2025      # Optional current semester label
+  nextSemester: Spring 2026 # Optional upcoming semester label
+  resumeDate: January 19, 2026 # Optional resume target date (display only)
   note: ""                 # Optional status message
 
 series:
@@ -151,6 +154,7 @@ The site automatically displays appropriate banners for the entire week:
 - `holiday` - University holiday
 - `break` - Spring/summer break
 - `exams` - Examination period
+- `standby` - Between semesters/exams; seminars paused with a season wrap-up/resume notice
 - `cancelled` - Week cancelled
 
 Each banner can include a custom message via the `week.note` field. When no seminars are scheduled, the page shows an explanatory card that reuses the same note so visitors understand why the schedule is empty.
@@ -158,6 +162,10 @@ Each banner can include a custom message via the `week.note` field. When no semi
 ### Empty Week Handling
 - Setting `seminars: []` (or omitting the list) renders a polished “No seminars scheduled” card instead of leaving the page blank.
 - The card displays the note supplied in `week.note`, making it easy to announce holidays, academic breaks, or other pauses.
+
+### Standby / Semester Transition Mode
+- Use `status: standby` with `semester`, `nextSemester`, and (optionally) `resumeDate` to place the site in an off-season state during exams.
+- The header and status banner highlight that the previous semester has concluded and announce when/which semester resumes, while keeping the rest of the UI and PWA assets intact.
 
 ### Weekly Summary Overview
 

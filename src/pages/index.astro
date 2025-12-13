@@ -4,7 +4,7 @@
  * Author: Dr. Denys Dutykh (Khalifa University of Science and Technology, Abu Dhabi, UAE)
  * License: GNU General Public License v3.0
  */
-import type { WeekData, WeekStatus } from "../lib/types";
+import type { WeekData, WeekStatus, WeekInfo } from "../lib/types";
 import { formatWeekRange } from '../lib/time';
 import '../index.css';
 import WeekHeader from '../components/WeekHeader.astro';
@@ -55,6 +55,9 @@ const allSeries = [
 ];
 
 const timezone = weekData.week.timezone || 'Asia/Dubai';
+const currentSemester = weekData.week.semester?.trim();
+const nextSemester = weekData.week.nextSemester?.trim();
+const resumeDate = weekData.week.resumeDate?.trim();
 const weekRangeSummary = formatWeekRange(
   weekData.week.start,
   weekData.week.end,
@@ -68,6 +71,32 @@ type WeekStatusBanner = {
   icon: string;
   className: string;
   titleClass: string;
+  getMessage?: (week: WeekInfo) => string;
+};
+
+const buildStandbyMessage = (week: WeekInfo) => {
+  const semester = week.semester?.trim();
+  const upcoming = week.nextSemester?.trim();
+  const targetDate = week.resumeDate?.trim();
+  
+  const parts = [];
+  if (semester) {
+    parts.push(`${semester} seminar season has concluded.`);
+  } else {
+    parts.push('The current seminar season has concluded.');
+  }
+  
+  if (upcoming && targetDate) {
+    parts.push(`Seminars resume in ${upcoming} on ${targetDate} after exams.`);
+  } else if (upcoming) {
+    parts.push(`Seminars resume in ${upcoming} after exams.`);
+  } else if (targetDate) {
+    parts.push(`Seminars resume on ${targetDate} after exams.`);
+  } else {
+    parts.push('Seminars will resume after the examination period.');
+  }
+
+  return parts.join(' ');
 };
 
 const weekStatus = (weekData.week.status || 'open') as WeekStatus;
@@ -94,6 +123,14 @@ const weekStatusBanners: Record<WeekStatus, WeekStatusBanner | null> = {
     className: 'bg-status-exams/10 border-status-exams/40',
     titleClass: 'text-status-exams'
   },
+  standby: {
+    title: 'Seminars on Standby',
+    defaultMessage: 'Seminars are paused between semesters while exams are underway.',
+    icon: '⏳',
+    className: 'bg-status-standby/10 border-status-standby/40',
+    titleClass: 'text-status-standby',
+    getMessage: buildStandbyMessage
+  },
   cancelled: {
     title: 'Week Cancelled',
     defaultMessage: "This week's seminar programme is cancelled.",
@@ -105,7 +142,7 @@ const weekStatusBanners: Record<WeekStatus, WeekStatusBanner | null> = {
 
 const statusInfo = weekStatusBanners[weekStatus];
 const statusNote = typeof weekData.week.note === 'string' ? weekData.week.note.trim() : '';
-const statusMessage = statusNote || statusInfo?.defaultMessage || '';
+const statusMessage = statusNote || statusInfo?.getMessage?.(weekData.week) || statusInfo?.defaultMessage || '';
 
 // Generate dynamic SEO content
 const seminarCount = seminarsList.length;
@@ -119,9 +156,37 @@ const hasSeminars = seminarCount > 0;
 const hasInterviews = interviewCount > 0;
 const hasEvents = totalEvents > 0;
 
+const standbyDescription = weekStatus === 'standby'
+  ? (statusMessage || (() => {
+      const intro = currentSemester
+        ? `${currentSemester} seminar season has concluded.`
+        : 'The current seminar season has concluded.';
+      let resumeText = '';
+      if (nextSemester && resumeDate) {
+        resumeText = `Seminars resume in ${nextSemester} (targeting ${resumeDate}) after examinations.`;
+      } else if (nextSemester) {
+        resumeText = `Seminars resume in ${nextSemester} after examinations.`;
+      } else if (resumeDate) {
+        resumeText = `Seminars resume on ${resumeDate} after examinations.`;
+      } else {
+        resumeText = 'Seminars resume after examinations.';
+      }
+      return `${intro} ${resumeText}`;
+    })())
+  : '';
+
+const noEventsDescription = weekStatus === 'standby'
+  ? standbyDescription
+  : `Mathematics Department seminars for Week ${weekNumber}, ${currentYear} at Khalifa University, Abu Dhabi, UAE.`;
+
+const defaultTitle = `Week ${weekNumber} - Mathematics Department, Khalifa University`;
+const standbyTitle = weekStatus === 'standby'
+  ? `${nextSemester || 'Upcoming semester'} seminars resume soon – Khalifa University`
+  : defaultTitle;
+
 const dynamicTitle = hasEvents 
   ? `Week ${weekNumber} Academic Events (${totalEvents}) - Mathematics Department, Khalifa University`
-  : `Week ${weekNumber} - Mathematics Department, Khalifa University`;
+  : standbyTitle;
 
 const featuredSpeakers = seminarsList.slice(0, 3).map(s => s.speaker);
 const featuredCandidates = interviewsList.slice(0, 2).map(i => i.candidate);
@@ -129,12 +194,13 @@ const featuredNames = [...featuredSpeakers, ...featuredCandidates].filter(Boolea
 
 const dynamicDescription = hasEvents
   ? `Join us for ${seminarCount} mathematics seminars${hasInterviews ? ` and ${interviewCount} faculty job interviews` : ''} in Week ${weekNumber}, ${currentYear}. Featured participants: ${featuredNames || 'international guests'}. Abu Dhabi, UAE.`
-  : `Mathematics Department seminars for Week ${weekNumber}, ${currentYear} at Khalifa University, Abu Dhabi, UAE.`;
+  : noEventsDescription;
 
 // Academic keywords based on current seminars
 const seminarKeywords = seminarsList.map(s => s.tags || []).flat().join(', ') || '';
 const interviewKeywords = interviewsList.map(i => i.position).join(', ');
-const dynamicKeywords = `mathematics, seminars, Khalifa University, Abu Dhabi, research, talks, academic events, job interviews, faculty recruitment${seminarKeywords ? `, ${seminarKeywords}` : ''}${interviewKeywords ? `, ${interviewKeywords}` : ''}`.replace(/,\s*,/g, ',').replace(/,\s*$/, '');
+const seasonKeywords = [currentSemester, nextSemester].filter(Boolean).join(', ');
+const dynamicKeywords = `mathematics, seminars, Khalifa University, Abu Dhabi, research, talks, academic events, job interviews, faculty recruitment${seminarKeywords ? `, ${seminarKeywords}` : ''}${interviewKeywords ? `, ${interviewKeywords}` : ''}${seasonKeywords ? `, ${seasonKeywords}` : ''}`.replace(/,\s*,/g, ',').replace(/,\s*$/, '');
 
 // Cache-busting token for OG images to force social scrapers to refresh
 const ogVersion = `${currentYear}-${weekNumber}`;

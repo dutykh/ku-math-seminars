@@ -3,7 +3,7 @@
  * Author: Dr. Denys Dutykh (Khalifa University of Science and Technology, Abu Dhabi, UAE)
  */
 
-export type WeekStatus = "open" | "holiday" | "break" | "exams" | "cancelled";
+export type WeekStatus = "open" | "holiday" | "break" | "exams" | "cancelled" | "standby";
 
 export type SeminarStatus = "confirmed" | "cancelled" | "postponed" | "tentative";
 
@@ -16,6 +16,9 @@ export interface WeekInfo {
   end: string;   // Month DD, YYYY (e.g., "August 24, 2025")
   timezone?: string; // IANA timezone, defaults to Asia/Dubai
   status: WeekStatus;
+  semester?: string; // Current semester label (e.g., "Fall 2025")
+  nextSemester?: string; // Upcoming semester label (e.g., "Spring 2026")
+  resumeDate?: string; // Optional resume target (e.g., "January 19, 2026")
   note?: string; // optional status note
 }
 

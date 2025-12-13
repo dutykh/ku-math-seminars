@@ -18,6 +18,9 @@ export interface Props {
 const { weekData } = Astro.props;
 const { week } = weekData;
 const weekRange = formatWeekRange(week.start, week.end, week.isoWeek, week.timezone || 'Asia/Dubai');
+const headerTagline = week.status === 'standby'
+  ? `Seminars are on standby during exams; ${week.nextSemester || 'the next semester'} begins soon${week.resumeDate ? ` (target ${week.resumeDate})` : ''}.`
+  : 'Current seminar schedule • Abu Dhabi (GST)';
 ---
 
 <header class="bg-gradient-to-r from-ku-primary/15 via-surface/95 to-ku-accent/15 backdrop-blur-lg border-b-2 border-ku-primary/25 print-header sticky top-0 z-50 shadow-large">
@@ -213,8 +216,22 @@ const weekRange = formatWeekRange(week.start, week.end, week.isoWeek, week.timez
           {weekRange}
         </h2>
         <div class="flex items-center justify-center gap-2 text-sm text-foreground-secondary">
-          <span class="font-medium">Current seminar schedule • Abu Dhabi (GST)</span>
+          <span class="font-medium text-center">{headerTagline}</span>
         </div>
+        {(week.semester || week.nextSemester) && (
+          <div class="mt-2 flex flex-wrap items-center justify-center gap-2 text-xs text-foreground-secondary">
+            {week.semester && (
+              <span class="px-3 py-1 rounded-full bg-surface-elevated/70 border border-border-subtle font-semibold">
+                Recent: {week.semester}
+              </span>
+            )}
+            {week.nextSemester && (
+              <span class="px-3 py-1 rounded-full bg-surface-elevated/70 border border-border-subtle font-semibold">
+                Next: {week.nextSemester}{week.resumeDate ? ` (from ${week.resumeDate})` : ''}
+              </span>
+            )}
+          </div>
+        )}
       </div>
     </div>
   </div>

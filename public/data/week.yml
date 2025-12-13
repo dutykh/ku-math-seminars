@@ -12,17 +12,26 @@
 # - holiday: University-wide holiday, seminars paused
 # - break: Academic break, seminars paused
 # - exams: Examination period, seminars paused
+# - standby: Between semesters/exams; seminars are temporarily paused
 # - cancelled: Entire seminar week cancelled
+#
+# Semester metadata (optional):
+# - semester: Current semester label (e.g., "Fall 2025")
+# - nextSemester: Upcoming semester label (e.g., "Spring 2026")
+# - resumeDate: Target date for resuming seminars (e.g., "January 19, 2026")
 #
 # Note: To skip a seminar series entirely for a week, simply omit it from the seminars list
 
 week:
-  isoWeek: 49
-  start: December 1, 2025
-  end: December 7, 2025
+  isoWeek: 3
+  start: January 12, 2026
+  end: January 18, 2026
   timezone: Asia/Dubai
-  status: open
-  note: "Welcome to a new and busy week at KU!"
+  status: standby
+  semester: Fall 2025
+  nextSemester: Spring 2026
+  resumeDate: January 19, 2026
+  note: "The Fall 2025 seminar season has concluded. We are pausing for exams and will reopen with the Spring 2026 seminars starting the week of January 19."
 
 series:
   - code: ccms
@@ -58,29 +67,6 @@ series:
     organisedBy: Drs Alrazi Abdeljabbar, Ioannis Kourakis, Hadi Susanto, and Berihu Teklu
     organisedByUrl: https://www.ku.ac.ae/college-people/alrazi-abdeljabbar/
 
-seminars:
- 
-- series: math
-  speaker: Dr Alrazi Abdeljabbar
-  affiliation: Khalifa University of Science and Technology
-  affiliationUrl: https://www.ku.ac.ae/
-  title: "Pfaffian and Wronskian Techniques for Exact Solutions of Nonlinear PDEs"
-  status: confirmed  # Optional field, defaults to "confirmed" if not specified\
-  start: 2025-12-04T15:00:00+04:00
-  end: 2025-12-04T16:00:00+04:00
-  location: SAN campus, ADCO Auditorium
-  abstract: |
-    This talk explores exact solution techniques for nonlinear partial differential equations using Wronskian and Pfaffian structures. I introduce the historical development of soliton theory and outline how bilinear forms and Hirota operators enable constructive solution methods. I present explicit Wronskian and Pfaffian solutions to the variable-coefficient generalized KP equation, including both Wronski-type and Gramm-type Pfaffianizations. I also derive double Wronskian solutions for a (2+1)-dimensional Boussinesq system and show how determinantal identities support these constructions. The results demonstrate how determinantal and Pfaffian frameworks provide a unified and efficient approach for generating multi-soliton solutions in higher dimensional integrable systems.
-  biography: |
-    Dr. Alrazi Abdeljabbar is an Associate Professor of Mathematics at Khalifa University. He obtained his PhD in Applied and Abstract Mathematics from the University of South Florida in 2012. His research interests include soliton theory, nonlinear partial differential equations, fractional differential equations, and applications of functional analysis to evolution equations. He has more than 20 years of teaching experience at institutions including the University of South Florida, the University of Jordan, Savannah State University, and Khalifa University.
-  links:
-    speaker: https://www.ku.ac.ae/college-people/alrazi-abdeljabbar/
-    teams: https://teams.microsoft.com/l/meetup-join/19%3ameeting_MWQzNjk2MDQtZjA4Ni00OWNkLWFhYjctYTZjZTE3MGJmOTZi%40thread.v2/0?context=%7b%22Tid%22%3a%2208fe1c0a-19f5-4f24-a662-fdd5dd460025%22%2c%22Oid%22%3a%22aba525f2-e024-4b7d-b19f-d522948dead5%22%7d
-  tags:
-    - Nonlinear PDEs
-    - Soliton Theory
-    - Wronskian Methods
-    - Pfaffian Techniques
-    - Integrable Systems
-    - Exact Solutions
-    - Mathematical Physics
+seminars: []
+
+interviews: []

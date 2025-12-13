@@ -70,6 +70,7 @@ export default {
                     holiday: 'hsl(var(--status-holiday))',
                     break: 'hsl(var(--status-break))',
                     exams: 'hsl(var(--status-exams))',
+                    standby: 'hsl(var(--status-standby))',
                     cancelled: 'hsl(var(--status-cancelled))'
                 },
                 
