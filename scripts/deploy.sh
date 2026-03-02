@@ -27,9 +27,9 @@ pnpm install
 echo "Building project..."
 pnpm run build
 
-# Restart PM2 processes
-echo "Restarting PM2 processes..."
-pm2 restart all
-pm2 reset all
+# Restart only project-related PM2 processes (avoid affecting unrelated apps)
+echo "Restarting PM2 processes for ku-math-seminars..."
+pm2 restart "events-website" || echo "events-website process not found; skipping"
+pm2 restart "ku-math-seminars-webhook" || echo "ku-math-seminars-webhook process not found; skipping"
 
 echo "Deployment completed successfully at $(date)"

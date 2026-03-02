@@ -1,61 +1,69 @@
-# Restoring ku-math-seminars Website
+# Restore Guide
 
-This guide explains how to restore the ku-math-seminars website that was taken offline on 2026-01-24.
+This guide restores the KU Math Seminars website and webhook deployment service after they were stopped.
 
-## What was stopped
+## Services
 
-1. **PM2 Process: events-website** - Astro preview server running on port 3004
-2. **PM2 Process: ku-math-seminars-webhook** - GitHub webhook listener
+- `events-website`: Astro preview/static service (port `3004`)
+- `ku-math-seminars-webhook`: GitHub webhook listener (port `3005`)
+
+## Prerequisites
+
+- Project directory exists (example: `/home/dds/www/ku-math-seminars`)
+- `pnpm` dependencies installed
+- `pm2` installed
+- `GITHUB_WEBHOOK_SECRET` configured for webhook process
 
 ## Quick Restore
 
-To restore the website, run these commands from the ku-math-seminars directory:
-
 ```bash
 cd /home/dds/www/ku-math-seminars
 
-# Start the webhook listener
+# Ensure dependencies and build are current
+pnpm install
+ASTRO_TELEMETRY_DISABLED=1 pnpm build
+
+# Start webhook listener (requires secret in ecosystem/env)
 pm2 start ecosystem.webhook.config.cjs
 
-# Start the Astro preview server
+# Start website
 pm2 start pnpm --name "events-website" -- start
 
-# Save the PM2 configuration
+# Persist PM2 process list
 pm2 save
 ```
 
-## Verification
-
-After starting, verify the processes are running:
+## Verify
 
 ```bash
 pm2 list
-ps aux | grep -E "(ku-math|seminars|3004)"
+pm2 logs events-website --lines 50
+pm2 logs ku-math-seminars-webhook --lines 50
+curl -fsS http://127.0.0.1:3005/health
 ```
 
-## Notes
+Expected:
 
-- The website files remain intact in `/home/dds/www/ku-math-seminars`
-- The Git repository is preserved
-- All dependencies in `node_modules` are still available
-- No nginx configuration changes were made (check if nginx config exists)
-- The domain was: events.denys-dutykh.com (port 3004)
+- Both PM2 processes are `online`
+- Webhook health endpoint returns: `Webhook server is running`
 
-## Full Setup (if needed)
+## If Webhook Fails
 
-If you need to rebuild from scratch:
+Common cause: missing `GITHUB_WEBHOOK_SECRET`.
+
+The webhook server now rejects requests when this secret is absent. Configure it in `ecosystem.webhook.config.cjs` or your process environment, then restart:
+
+```bash
+pm2 restart ku-math-seminars-webhook
+```
+
+## Full Rebuild Path
 
 ```bash
 cd /home/dds/www/ku-math-seminars
-
-# Install dependencies
 pnpm install
-
-# Build the site
-pnpm build
-
-# Start services
-pm2 start ecosystem.webhook.config.cjs
-pm2 start pnpm --name "events-website" -- start
+ASTRO_TELEMETRY_DISABLED=1 pnpm build
+pm2 restart events-website
+pm2 restart ku-math-seminars-webhook
 pm2 save
 ```

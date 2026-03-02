@@ -6,6 +6,9 @@
 
 import type { Seminar, SeminarStatus } from '../lib/types';
 import { formatTimeRange, getTimePosition } from '../lib/time';
+import { marked } from 'marked';
+import { JSDOM } from 'jsdom';
+import createDOMPurify from 'dompurify';
 import ExternalLink from './icons/ExternalLink.astro';
 import Video from './icons/Video.astro';
 import ChevronRight from './icons/ChevronRight.astro';
@@ -57,43 +60,40 @@ const statusConfig = {
 
 const currentStatus = statusConfig[status];
 
-// Process markdown to HTML server-side (using simple markdown parser)
-function parseMarkdown(text: string | undefined): string {
-  if (!text) return '';
-  
-  let html = text
-    // Bold **text**
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    // Italic *text*
-    .replace(/\*(.*?)\*/g, '<em>$1</em>')
-    // Code `text`
-    .replace(/`([^`]+)`/g, '<code>$1</code>')
-    // Links [text](url)
-    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
-    // Line breaks
-    .replace(/\n\s*\n/g, '</p><p>')
-    .replace(/\n/g, '<br>');
-  
-  // Wrap in paragraphs if not already
-  if (!html.includes('<p>')) {
-    html = '<p>' + html + '</p>';
-  }
-  
-  return html;
-}
+const purifierWindow = new JSDOM('').window;
+const DOMPurify = createDOMPurify(purifierWindow);
 
-// Sanitize HTML (basic sanitization)
-function sanitizeHTML(html: string): string {
-  // This is a simplified version - in production, use a proper sanitizer
+function addSafeLinkAttrs(html: string): string {
   return html
-    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
-    .replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, '')
-    .replace(/on\w+\s*=\s*"[^"]*"/gi, '')
-    .replace(/on\w+\s*=\s*'[^']*'/gi, '');
+    .replace(/<a\s+([^>]*href=['"][^'"]+['"][^>]*)>/gi, (_full, attrs) => {
+      let nextAttrs = attrs;
+      if (!/\btarget=/i.test(nextAttrs)) {
+        nextAttrs += ' target="_blank"';
+      }
+      if (!/\brel=/i.test(nextAttrs)) {
+        nextAttrs += ' rel="noopener noreferrer"';
+      }
+      return `<a ${nextAttrs}>`;
+    });
 }
 
-const abstractHtml = sanitizeHTML(parseMarkdown(seminar.abstract));
-const biographyHtml = seminar.biography ? sanitizeHTML(parseMarkdown(seminar.biography)) : '';
+function renderMarkdown(markdown: string | undefined): string {
+  if (!markdown) return '';
+
+  const parsed = marked.parse(markdown, { gfm: true, breaks: true });
+  const parsedHtml = typeof parsed === 'string' ? parsed : '';
+
+  const sanitized = DOMPurify.sanitize(parsedHtml, {
+    USE_PROFILES: { html: true },
+    FORBID_TAGS: ['script', 'style', 'iframe', 'object', 'embed', 'form'],
+    FORBID_ATTR: ['style']
+  });
+
+  return addSafeLinkAttrs(sanitized);
+}
+
+const abstractHtml = renderMarkdown(seminar.abstract);
+const biographyHtml = renderMarkdown(seminar.biography);
 
 const cardId = anchorId || `seminar-card-${index}`;
 const abstractId = `abstract-${index}`;

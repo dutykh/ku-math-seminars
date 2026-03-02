@@ -1,271 +1,184 @@
 # KU Math Seminars Website
 
-A minimal, static website for displaying the weekly programme of Mathematics Department seminars and faculty job interviews at Khalifa University, including an at-a-glance weekly summary.
+Static Astro website for publishing weekly Mathematics Department seminars and faculty interview events at Khalifa University.
 
-**Author:** Dr. Denys Dutykh (Khalifa University of Science and Technology, Abu Dhabi, UAE)  
-**License:** GNU General Public License v3.0
+## Stack
 
-## Overview
+- Astro 5 + TypeScript
+- Tailwind CSS
+- YAML data source (`public/data/week.yml`)
+- Server-side Markdown rendering: `marked`
+- Server-side HTML sanitization: `DOMPurify` + `jsdom`
+- PDF export in browser: jsPDF (CDN)
+- Optional runtime services: Express static server, GitHub webhook deployment server
 
-This site displays the current week's mathematics seminars across multiple series:
-- CCMS Seminar (College of Computing and Mathematical Sciences)
-- Math Seminar (General Mathematics Department)
-- Financial Math Seminar
-- Graduate Math Seminar
-- Undergraduate Math Seminar
+## Project Structure
 
-The homepage opens with a weekly summary that highlights the timetable and status of upcoming seminars and interviews, followed by detailed sections for talks and recruitment events.
-
-## Architecture
-
-- **Build-time data load**: `src/pages/index.astro` reads `public/data/week.yml` using Node `fs` and the `yaml` package, parses into `WeekData` (see `src/lib/types.ts`).
-- **Rendering**: Astro pages/components render static HTML with small interactive islands when needed. Main composition is in `index.astro` using components:
-  - `src/components/WeekHeader.astro` – week banner, theme controls.
-  - `src/components/WeeklySummary.astro` – “week at a glance” table of contents combining seminars and interviews.
-  - `src/components/SeriesSection.astro` – section per seminar series.
-  - `src/components/SeminarCard.astro` – individual seminar card with status, links, abstract/biography toggles.
-  - `src/components/JobInterviewsSection.astro` – recruitment spotlight listing the week's interviews.
-  - `src/components/JobInterviewCard.astro` – detailed card for each candidate, including virtual meeting links.
-- **Styling**: Tailwind CSS via `@astrojs/tailwind` with custom design tokens and utilities defined in `tailwind.config.ts`. Global styles in `src/index.css`. Print stylesheet in `public/styles/print.css`.
-- **Time/formatting utilities**: `src/lib/time.ts` for week range, time ranges, timezone labels, timeline positions.
-- **PDF generation**: Two options
-  - Client-side export in `src/pages/index.astro` using jsPDF from CDN for a quick printable summary and detail pages.
-  - A typed generator `src/lib/pdfGenerator.ts` providing a class-based, multi-page A4 poster builder using `jspdf` (imported via ESM).
-- **SEO/metadata**: `index.astro` generates dynamic `<title>`, `<meta>` and JSON-LD structured data for Organization, WebSite, CollectionPage, and each Event.
-- **Build output**: Astro static build to `dist/` (see `astro.config.mjs`). Optional Express server (`server.js`) can serve the static output.
-
-## Technical Stack
-
-- **Astro 5** – Static site generator, islands architecture.
-- **TypeScript** – Strict config via `astro/tsconfigs/strict`.
-- **YAML** – Content source in `public/data/week.yml` parsed with `yaml`.
-- **Tailwind CSS 3** – Integrated via `@astrojs/tailwind`; PostCSS + Autoprefixer.
-- **jsPDF** – PDF generation (ESM in `src/lib/pdfGenerator.ts` and CDN in `index.astro`).
-- **Express 5 (optional)** – Static server for `dist/` in `server.js`.
-- Tooling: **PostCSS**, **Autoprefixer**, **pnpm**.
+```text
+src/
+  components/
+    WeekHeader.astro
+    WeeklySummary.astro
+    SeriesSection.astro
+    SeminarCard.astro
+    JobInterviewsSection.astro
+    JobInterviewCard.astro
+  lib/
+    anchors.ts
+    time.ts
+    types.ts
+    pdfGenerator.ts
+  pages/
+    index.astro
+public/
+  data/week.yml
+  assets/
+  styles/print.css
+scripts/
+  gen-og.js
+  deploy.sh
+server.js
+webhook-server.js
+RESTORE.md
+```
 
 ## Local Development
 
-### Prerequisites
-- Node.js ≥ 20
-- pnpm (recommended) or npm
+Prerequisites:
 
-### Setup
+- Node.js 20+
+- pnpm
+
+Commands:
 
 ```bash
-# Install dependencies
 pnpm install
-
-# Start development server
 pnpm dev
 ```
 
-The site will be available at http://localhost:4321
+App URL: `http://localhost:4321`
 
-### Build for Production
+## Build and Preview
 
 ```bash
-# Generate static files
-pnpm build
+# Recommended in CI/restricted environments
+ASTRO_TELEMETRY_DISABLED=1 pnpm build
 
-# Preview production build
 pnpm preview
 ```
 
-## Weekly Content Management
+`prebuild` runs `scripts/gen-og.js` to regenerate `public/assets/og-image.png` from `public/assets/og-image.svg`.
 
-### Editing Seminar Data
+## Data Source
 
-1. Open `public/data/week.yml`
-2. Update the week information (dates, status, etc.)
-3. Modify the seminars list with current week's talks
-4. (Optional) Update the `interviews` list with any faculty recruitment sessions, including `links.meeting` for virtual rooms
-5. Save the file - changes are reflected immediately in dev mode
+Weekly content is fully driven by:
 
-### YAML Schema
+- `public/data/week.yml`
+
+High-level schema:
 
 ```yaml
 week:
-  isoWeek: 34              # ISO week number
-  start: August 18, 2025   # Week start date (Month DD, YYYY)
-  end: August 24, 2025     # Week end date (Month DD, YYYY)
-  timezone: Asia/Dubai     # IANA timezone
-  status: open             # open|holiday|break|exams|standby|cancelled
-  semester: Fall 2025      # Optional current semester label
-  nextSemester: Spring 2026 # Optional upcoming semester label
-  resumeDate: January 19, 2026 # Optional resume target date (display only)
-  note: ""                 # Optional status message
+  isoWeek: 3
+  start: January 12, 2026
+  end: January 18, 2026
+  timezone: Asia/Dubai
+  status: open # open|holiday|break|exams|standby|cancelled
+  semester: Fall 2025
+  nextSemester: Spring 2026
+  resumeDate: January 19, 2026
+  note: Optional message
 
 series:
-  - code: ccms             # Series identifier
-    label: CCMS Seminar    # Display name
-    organisedBy: Centre... # Optional organizer
+  - code: ccms
+    label: CCMS College Seminar
+    organisedBy: Organizer names
+    organisedByUrl: https://...
 
 seminars:
-  - series: ccms           # Must match series code
+  - series: ccms
     speaker: Dr Jane Smith
     affiliation: University X
-    title: Talk Title
-    status: confirmed      # Optional: confirmed|cancelled|postponed|tentative
-    start: 2025-08-20T12:00:00+04:00  # ISO 8601 with timezone
-    end: 2025-08-20T13:00:00+04:00    # Optional
-    location: Building A, Room 301
-    abstract: |            # Markdown supported
-      Abstract text here...
-    links:                 # All optional
+    affiliationUrl: https://...
+    title: Talk title
+    start: 2026-01-14T12:00:00+04:00
+    end: 2026-01-14T13:00:00+04:00
+    location: Room / virtual
+    status: confirmed # confirmed|cancelled|postponed|tentative
+    abstract: |
+      Markdown supported
+    biography: |
+      Markdown supported
+    links:
       speaker: https://...
       slides: https://...
       teams: https://...
-    tags: [PDE, Analysis]  # Optional
+      zoom: https://...
+      video: https://...
+    tags: [PDE, Analysis]
 
 interviews:
   - candidate: Dr Jane Smith
     candidateUrl: https://...
-    position: Assistant Professor (Analysis)
-    interviewType: teaching      # teaching|research
-    mode: virtual                # virtual|in-person
-    start: 2025-08-21T09:00:00+04:00
-    end: 2025-08-21T09:45:00+04:00
-    location: Virtual (Microsoft Teams)
-    organizedBy:
-      - Prof Ahmed Ameur
-      - Dr. Denys Dutykh
-    notes: >
-      30-minute teaching demo followed by Q&A with the panel.
+    position: Assistant Professor
+    interviewType: teaching # teaching|research
+    mode: virtual # virtual|in-person
+    start: 2026-01-15T09:00:00+04:00
+    end: 2026-01-15T09:45:00+04:00
+    location: Virtual (Teams)
+    organizedBy: [Panel member 1, Panel member 2]
+    notes: Optional notes
     links:
-      meeting: https://teams.microsoft.com/...
+      meeting: https://...
       cv: https://...
+      profile: https://...
 ```
 
-## Features
+## Security Notes
 
-### Seminar Status Handling
-Individual seminars can have status indicators:
-- `confirmed` (default) - Normal display
-- `cancelled` - Shows with [CANCELLED] prefix, strike-through text, and red accent
-- `postponed` - Shows with [POSTPONED] prefix and orange accent
-- `tentative` - Shows with [TENTATIVE] prefix, dashed border, and blue accent
+- Abstract/biography Markdown is converted with `marked` and sanitized server-side with `DOMPurify` (`jsdom` window).
+- Script/style/iframe/object/embed/form tags are blocked in rendered seminar content.
+- External links use `target="_blank"` + `rel="noopener noreferrer"`.
+- Webhook deployment endpoint now fails closed if `GITHUB_WEBHOOK_SECRET` is missing and rejects invalid signatures.
 
-To skip a seminar series entirely for a week, simply omit it from the seminars list.
+## Runtime Services
 
-### Week Status Banners
-The site automatically displays appropriate banners for the entire week:
-- `open` - Default state, no banner shown
-- `holiday` - University holiday
-- `break` - Spring/summer break
-- `exams` - Examination period
-- `standby` - Between semesters/exams; seminars paused with a season wrap-up/resume notice
-- `cancelled` - Week cancelled
-
-Each banner can include a custom message via the `week.note` field. When no seminars are scheduled, the page shows an explanatory card that reuses the same note so visitors understand why the schedule is empty.
-
-### Empty Week Handling
-- Setting `seminars: []` (or omitting the list) renders a polished “No seminars scheduled” card instead of leaving the page blank.
-- The card displays the note supplied in `week.note`, making it easy to announce holidays, academic breaks, or other pauses.
-
-### Standby / Semester Transition Mode
-- Use `status: standby` with `semester`, `nextSemester`, and (optionally) `resumeDate` to place the site in an off-season state during exams.
-- The header and status banner highlight that the previous semester has concluded and announce when/which semester resumes, while keeping the rest of the UI and PWA assets intact.
-
-### Weekly Summary Overview
-
-- The `WeeklySummary.astro` component generates a “Week at a glance” section that aggregates seminars and interviews, shows timezone context, and links to detailed cards via anchor navigation.
-- Status badges highlight postponed/cancelled seminars and distinguish between teaching vs. research interviews for quick scanning.
-
-### Job Interview Spotlight
-
-- `JobInterviewsSection.astro` renders a dedicated recruitment spotlight with cards for each candidate, displaying mode (virtual/on-campus), panel members, and duration.
-- Virtual interviews can include a `links.meeting` URL which produces a prominent “Join virtual room” button in the UI.
-
-### Print/PDF Export
-- Click "Print / Save PDF" button
-- Browser opens print dialog
-- Abstracts auto-expand in print version
-- URLs shown after links for paper reference
-- A4 page formatting applied
-
-### Accessibility
-- Semantic HTML structure
-- Keyboard navigation for all interactive elements
-- Screen reader compatible
-- High contrast color scheme
-- ARIA live regions for dynamic updates
-
-### Security
-
-- Abstract/biography HTML is minimally sanitized in `SeminarCard.astro` (`sanitizeHTML()`), and links use `rel="noopener noreferrer"`.
-- No database or dynamic server required for the site. For stronger sanitization, consider integrating DOMPurify (package is available in dependencies) in the rendering path.
-
-## Deployment
-
-This is a static site. Deploy the contents of `dist/` to any static host (Nginx/Apache/Vercel/Netlify/etc.).
+### Static server (optional)
 
 ```bash
-# Build static files
-pnpm build
-
-# Preview locally
-pnpm preview
-
-# Optional: serve dist/ with Express (useful on a bare VM)
 node server.js
 ```
 
-## File Structure
+Default port: `3004` (override with `PORT`).
 
-```text
-ku-math-seminars/
-├── src/
-│   ├── components/
-│   │   ├── WeekHeader.astro         # Week banner and controls
-│   │   ├── SeriesSection.astro      # Group per series
-│   │   ├── SeminarCard.astro        # Seminar card w/ status, abstract, links
-│   │   └── icons/                    # Icon components (Astro SVGs)
-│   ├── lib/
-│   │   ├── types.ts                 # YAML schema types (WeekData, Seminar, ...)
-│   │   ├── time.ts                  # Date/time formatting utilities
-│   │   └── pdfGenerator.ts          # Class-based jsPDF poster generator
-│   ├── pages/
-│   │   └── index.astro              # Main page, YAML load, SEO/JSON-LD
-│   └── index.css                    # Global styles (Tailwind layers, tokens)
-├── public/
-│   ├── data/week.yml                # Weekly seminars data (edit weekly)
-│   ├── assets/                      # Logos, icons, favicons
-│   └── styles/print.css             # Print styles for A4 export
-├── astro.config.mjs                 # Astro config (+ Tailwind integration)
-├── tailwind.config.ts               # Tailwind theme, tokens, animations
-├── postcss.config.mjs               # PostCSS + Autoprefixer
-├── server.js                        # Optional Express static server for dist/
-├── package.json                     # Scripts and dependencies
-├── pnpm-lock.yaml                   # Lockfile
-└── tsconfig.json                    # TS configuration
+### Webhook deployment server (optional)
+
+```bash
+GITHUB_WEBHOOK_SECRET=... node webhook-server.js
 ```
 
-## Data Flow and Content Model
+Default port: `3005` (override with `WEBHOOK_PORT`).
 
-- **Source**: `public/data/week.yml` holds `week`, optional `series[]`, and `seminars[]`.
-- **Types**: Defined in `src/lib/types.ts` with `WeekStatus` and `SeminarStatus` enums.
-- **Grouping**: `index.astro` groups seminars by `series` and renders known + unknown series in a stable order.
-- **Status handling**: Cards reflect `confirmed|cancelled|postponed|tentative` with distinct visuals.
+Webhook behavior:
 
-## SEO and Accessibility
+- Accepts GitHub `push` events only.
+- Triggers deployment only for `refs/heads/main` or `refs/heads/master`.
+- Executes `scripts/deploy.sh`.
+- Deployment script restarts only `events-website` and `ku-math-seminars-webhook` PM2 processes.
 
-- **SEO**: Dynamic title/description, meta keywords, OG/Twitter cards, JSON-LD for Organization, Website, CollectionPage, and Events generated in `index.astro`.
-- **A11y**: Semantic structure, keyboard support for details/summary, skip links, high-contrast theme, ARIA live regions for dynamic updates.
+## PDF / Print
 
-## Troubleshooting
+- Header includes two export buttons (mobile + desktop), both bound to the same PDF export logic.
+- Browser print stylesheet is in `public/styles/print.css`.
+- Exported PDF includes overview + detail pages.
 
-### YAML Not Loading
-- Check browser console for errors
-- Verify YAML syntax at [yamllint.com](https://www.yamllint.com/)
-- Ensure file is saved as `public/data/week.yml`
+## Quality Checks
 
-### Print Issues
-- Use Chrome/Edge for best PDF results
-- Check print preview before saving
-- Abstracts should auto-expand in print view
+```bash
+pnpm astro check
+ASTRO_TELEMETRY_DISABLED=1 pnpm build
+```
 
-### Development Server Issues
-- Clear browser cache
-- Restart dev server: `pnpm dev`
-- Check Node.js version ≥ 20
+## License
+
+GNU General Public License v3.0 (see `LICENSE`).
