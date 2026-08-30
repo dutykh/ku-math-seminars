@@ -35,7 +35,7 @@ const sortedSeminars = [...seminars].sort((a, b) =>
 <section class="series-section">
   <!-- Series header card - sophisticated design -->
   <div class="mb-12 flex justify-center">
-    <div class="relative bg-gradient-to-br from-ku-primary/10 via-surface to-ku-accent/5 border border-ku-primary/20 rounded-2xl p-8 shadow-large max-w-3xl text-center overflow-hidden backdrop-blur-sm">
+    <div class="relative bg-gradient-to-br from-ku-primary/10 via-surface to-ku-accent/5 border border-ku-primary/20 rounded-2xl p-8 shadow-large max-w-3xl text-center overflow-hidden backdrop-blur-xs">
       <!-- Background pattern -->
       <div class="absolute inset-0 bg-gradient-to-r from-ku-primary/5 to-ku-accent/5 rounded-2xl"></div>
       <div class="absolute top-0 right-0 w-32 h-32 bg-ku-accent/10 rounded-full blur-2xl transform translate-x-16 -translate-y-16"></div>
@@ -47,7 +47,7 @@ const sortedSeminars = [...seminars].sort((a, b) =>
           {series?.label || seriesCode.toUpperCase()}
         </h2>
         {series?.organisedBy && (
-          <p class="text-foreground-secondary font-semibold text-lg bg-surface-elevated/60 px-6 py-2 rounded-full border border-border-subtle/50 inline-block backdrop-blur-sm">
+          <p class="text-foreground-secondary font-semibold text-lg bg-surface-elevated/60 px-6 py-2 rounded-full border border-border-subtle/50 inline-block backdrop-blur-xs">
             Organized by: {series.organisedByUrl ? (
               <a 
                 href={series.organisedByUrl} 

@@ -4,286 +4,235 @@
  * License: GNU General Public License v3.0
  */
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Inter, self-hosted (no third-party font request). */
+@import "@fontsource-variable/inter/index.css";
 
-@layer base {
-  :root {
-    /* Enhanced KU Academic Color System */
-    --ku-primary: 207 85% 22%;       /* Rich deep blue */
-    --ku-accent: 168 76% 42%;        /* Elegant teal */
-    --ku-secondary: 207 35% 65%;     /* Sophisticated blue-gray */
-    
-    /* Refined background system */
-    --background: 0 0% 99%;          /* Warm white */
-    --background-subtle: 210 30% 98%; /* Slight blue tint */
-    --surface: 0 0% 100%;            /* Pure white for cards */
-    --surface-elevated: 210 20% 99%; /* Elevated surface */
-    
-    /* Typography colors */
-    --foreground: 207 20% 12%;       /* Rich dark */
-    --foreground-secondary: 207 15% 35%; /* Secondary text */
-    --muted: 207 12% 55%;            /* Muted text */
-    --muted-foreground: 207 10% 48%; /* Subtle text */
-    
-    /* Border system */
-    --border: 210 15% 92%;           /* Soft borders */
-    --border-subtle: 210 15% 95%;    /* Very subtle borders */
-    --border-accent: 168 76% 42% / 0.3; /* Accent borders */
-    
-    /* Surface colors */
-    --card: var(--surface);
-    --card-foreground: var(--foreground);
-    
-    /* Interactive states */
-    --primary: var(--ku-primary);
-    --primary-foreground: 0 0% 100%;
-    --accent: var(--ku-accent);
-    --accent-foreground: 0 0% 100%;
-    
-    /* Week status colors - softer palette */
-    --status-open: 142 65% 45%;      /* Sage green */
-    --status-holiday: 261 75% 62%;   /* Soft purple */
-    --status-break: 35 85% 55%;      /* Warm amber */
-    --status-exams: 358 75% 58%;     /* Soft red */
-    --status-standby: 207 65% 52%;   /* Calm blue for standby/off-season */
-    --status-cancelled: 207 8% 48%;  /* Muted gray */
-    
-    /* Seminar status colors */
-    --seminar-confirmed: 142 65% 45%;    /* Green - confirmed */
-    --seminar-cancelled: 358 75% 58%;    /* Red - cancelled */
-    --seminar-postponed: 35 85% 55%;     /* Amber - postponed */
-    --seminar-tentative: 207 40% 55%;    /* Blue-gray - tentative */
-    
-    /* Shadow system */
-    --shadow-subtle: 0 1px 3px 0 hsl(207 20% 12% / 0.05);
-    --shadow-medium: 0 4px 6px -1px hsl(207 20% 12% / 0.08), 0 2px 4px -1px hsl(207 20% 12% / 0.03);
-    --shadow-large: 0 10px 15px -3px hsl(207 20% 12% / 0.08), 0 4px 6px -2px hsl(207 20% 12% / 0.03);
-    
-    /* System colors */
-    --input: var(--border);
-    --ring: var(--ku-primary);
-    --radius: 0.75rem;               /* Slightly more rounded */
-    
-    /* Timeline - enhanced */
-    --timeline-line: var(--ku-secondary) / 0.4;
-    --timeline-dot: var(--ku-primary);
-    
-    /* Grid visibility */
-    --grid-main-opacity: 0.25; /* Light theme main grid lines */
-    --grid-sub-opacity: 0.12;  /* Light theme secondary lines */
-    
-    /* Mathematical background system */
-    --math-grid-primary: var(--ku-primary) / 0.08;
-    --math-grid-secondary: var(--ku-secondary) / 0.05;
-    --math-grid-accent: var(--ku-accent) / 0.06;
-    --math-pattern-opacity: 0.04;
-    --math-depth-gradient: var(--ku-primary) / 0.03;
-    --golden-ratio: 1.618;
-    
-    /* Transitions */
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-quick: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+/* ---------------------------------------------------------------------------
+ * Design tokens.
+ *
+ * Raw values live in --ku-*, --background, ... as bare HSL channel triplets, so
+ * that the same channels can be reused with an alpha in gradients and borders.
+ * The Tailwind theme colours below wrap them in hsl().
+ * ------------------------------------------------------------------------- */
+
+:root {
+  /* KU academic colour system */
+  --ku-primary: 207 85% 22%;       /* Rich deep blue */
+  --ku-accent: 168 76% 42%;        /* Elegant teal */
+  --ku-secondary: 207 35% 65%;     /* Sophisticated blue-gray */
+
+  /* Background system */
+  --background: 0 0% 99%;          /* Warm white */
+  --background-subtle: 210 30% 98%; /* Slight blue tint */
+  --surface: 0 0% 100%;            /* Pure white for cards */
+  --surface-elevated: 210 20% 99%; /* Elevated surface */
+
+  /* Typography colours */
+  --foreground: 207 20% 12%;
+  --foreground-secondary: 207 15% 35%;
+  --muted: 207 12% 55%;
+  --muted-foreground: 207 10% 48%;
+
+  /* Borders */
+  --border: 210 15% 92%;
+  --border-subtle: 210 15% 95%;
+  --border-accent: 168 76% 42%;
+
+  /* Interactive states */
+  --primary: var(--ku-primary);
+  --primary-foreground: 0 0% 100%;
+  --accent: var(--ku-accent);
+  --accent-foreground: 0 0% 100%;
+  --card: var(--surface);
+  --card-foreground: var(--foreground);
+  --input: var(--border);
+  --ring: var(--ku-primary);
+
+  /* Week status colours */
+  --status-open: 142 65% 45%;
+  --status-holiday: 261 75% 62%;
+  --status-break: 35 85% 55%;
+  --status-exams: 358 75% 58%;
+  --status-standby: 207 65% 52%;
+  --status-cancelled: 207 8% 48%;
+
+  /* Timeline */
+  --timeline-line: 207 35% 65%;
+  --timeline-dot: var(--ku-primary);
+
+  --radius: 0.75rem;
+
+  /* Mathematical backdrop */
+  --math-grid-primary: hsl(var(--ku-primary) / 0.08);
+  --math-grid-secondary: hsl(var(--ku-secondary) / 0.05);
+  --math-grid-accent: hsl(var(--ku-accent) / 0.06);
+  --math-pattern-opacity: 0.04;
+  --math-depth-gradient: hsl(var(--ku-primary) / 0.03);
+}
+
+
+@theme {
+  /* Colours */
+  --color-border: hsl(var(--border));
+  --color-border-subtle: hsl(var(--border-subtle));
+  --color-border-accent: hsl(var(--border-accent) / 0.3);
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --color-background: hsl(var(--background));
+  --color-background-subtle: hsl(var(--background-subtle));
+  --color-surface: hsl(var(--surface));
+  --color-surface-elevated: hsl(var(--surface-elevated));
+
+  --color-foreground: hsl(var(--foreground));
+  --color-foreground-secondary: hsl(var(--foreground-secondary));
+
+  --color-ku-primary: hsl(var(--ku-primary));
+  --color-ku-accent: hsl(var(--ku-accent));
+  --color-ku-secondary: hsl(var(--ku-secondary));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --color-status-open: hsl(var(--status-open));
+  --color-status-holiday: hsl(var(--status-holiday));
+  --color-status-break: hsl(var(--status-break));
+  --color-status-exams: hsl(var(--status-exams));
+  --color-status-standby: hsl(var(--status-standby));
+  --color-status-cancelled: hsl(var(--status-cancelled));
+
+  --color-timeline-line: hsl(var(--timeline-line));
+  --color-timeline-dot: hsl(var(--timeline-dot));
+
+  /* Typography */
+  --font-sans: 'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1.5;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.6;
+  --text-base: 1rem;
+  --text-base--line-height: 1.6;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.6;
+  --text-xl: 1.25rem;
+  --text-xl--line-height: 1.5;
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: 1.4;
+  --text-3xl: 1.875rem;
+  --text-3xl--line-height: 1.3;
+  --text-4xl: 2.25rem;
+  --text-4xl--line-height: 1.25;
+
+  /* Spacing additions carried over from the v3 config */
+  --spacing-18: 4.5rem;
+  --spacing-88: 22rem;
+
+  /* Shadows */
+  --shadow-subtle: 0 1px 3px 0 hsl(207 20% 12% / 0.05);
+  --shadow-medium: 0 4px 6px -1px hsl(207 20% 12% / 0.08), 0 2px 4px -1px hsl(207 20% 12% / 0.03);
+  --shadow-large: 0 10px 15px -3px hsl(207 20% 12% / 0.08), 0 4px 6px -2px hsl(207 20% 12% / 0.03);
+
+  /* Radii */
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  /* Animations */
+  --animate-fade-in: fadeIn 0.4s ease-out;
+  --animate-fade-in-up: fadeInUp 0.5s ease-out;
+  --animate-slide-down: slideDown 0.3s ease-out;
+  --animate-scale-in: scaleIn 0.2s ease-out;
+  --animate-bounce-subtle: bounceSubtle 0.6s ease-out;
+
+  @keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(-8px); }
+    100% { opacity: 1; transform: translateY(0); }
   }
+  @keyframes fadeInUp {
+    0% { opacity: 0; transform: translateY(24px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes slideDown {
+    0% { height: 0; opacity: 0; }
+    100% { height: auto; opacity: 1; }
+  }
+  @keyframes scaleIn {
+    0% { transform: scale(0.95); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  @keyframes bounceSubtle {
+    0%, 20%, 53%, 80%, 100% { transform: translate3d(0, 0, 0); }
+    40%, 43% { transform: translate3d(0, -8px, 0); }
+    70% { transform: translate3d(0, -4px, 0); }
+    90% { transform: translate3d(0, -2px, 0); }
+  }
+}
 
-  .dark {
-    /* Enhanced dark theme */
-    --background: 207 18% 6%;        /* Deep, rich dark */
-    --background-subtle: 207 15% 8%; /* Subtle variation */
-    --surface: 207 15% 9%;           /* Card surface */
-    --surface-elevated: 207 12% 12%; /* Elevated surface */
-    
-    --foreground: 210 10% 92%;       /* Soft white */
-    --foreground-secondary: 210 8% 78%; /* Secondary text */
-    --muted: 207 8% 55%;             /* Muted text */
-    --muted-foreground: 207 6% 65%;  /* Subtle text */
-    
-    --border: 207 15% 18%;           /* Soft dark borders */
-    --border-subtle: 207 15% 15%;    /* Very subtle borders */
-    --border-accent: 168 65% 58% / 0.3; /* Accent borders */
-    
-    --card: var(--surface);
-    --card-foreground: var(--foreground);
-    
-    --ku-primary: 207 85% 68%;       /* Bright blue */
-    --ku-accent: 168 65% 58%;        /* Bright teal */
-    --ku-secondary: 207 25% 72%;     /* Light blue-gray */
-    
-    --primary: var(--ku-primary);
-    --primary-foreground: 207 18% 6%;
-    --accent: var(--ku-accent);
-    --accent-foreground: 207 18% 6%;
-    
-    --shadow-subtle: 0 1px 3px 0 hsl(0 0% 0% / 0.15);
-    --shadow-medium: 0 4px 6px -1px hsl(0 0% 0% / 0.2), 0 2px 4px -1px hsl(0 0% 0% / 0.1);
-    --shadow-large: 0 10px 15px -3px hsl(0 0% 0% / 0.25), 0 4px 6px -2px hsl(0 0% 0% / 0.1);
-    
-    --timeline-line: var(--ku-secondary) / 0.3;
-    --timeline-dot: var(--ku-primary);
-    
-    /* Mathematical background system - dark theme */
-    --math-grid-primary: var(--ku-primary) / 0.12;
-    --math-grid-secondary: var(--ku-secondary) / 0.08;
-    --math-grid-accent: var(--ku-accent) / 0.10;
-    --math-pattern-opacity: 0.06;
-    --math-depth-gradient: var(--ku-primary) / 0.05;
+/* v3 `container` (center + 2rem padding + 1400px cap) has no v4 config
+   equivalent, so it is reproduced explicitly. */
+@utility container {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: 2rem;
+  @media (width >= 1400px) {
+    max-width: 1400px;
   }
 }
 
 @layer base {
-  * {
-    @apply border-border;
+  /* v4 defaults borders to currentColor; keep the v3 token-driven default. */
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-border);
   }
 
   body {
-    @apply bg-background text-foreground;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+    background-color: var(--color-background);
+    color: var(--color-foreground);
     font-feature-settings: "rlig" 1, "calt" 1;
     line-height: 1.6;
     letter-spacing: -0.01em;
     position: relative;
   }
-  
+
+  /* Layered mathematical backdrop. background-size/-position must be declared
+     on the same element that paints the layers, or every gradient falls back to
+     `auto` and the grid collapses into a couple of stray 1px lines. */
   body::before {
     content: '';
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     z-index: -1;
     pointer-events: none;
-    background: var(--mathematical-background);
-  }
-
-  /* Enhanced Typography */
-  h1, h2, h3, h4, h5, h6 {
-    font-weight: 600;
-    line-height: 1.3;
-    letter-spacing: -0.025em;
-    color: hsl(var(--foreground));
-  }
-
-  h1 { font-size: 2.25rem; }
-  h2 { font-size: 1.875rem; }
-  h3 { font-size: 1.5rem; }
-  h4 { font-size: 1.25rem; }
-
-  /* Focus styles for accessibility */
-  :focus-visible {
-    outline: 2px solid hsl(var(--ring));
-    outline-offset: 2px;
-    border-radius: 4px;
-  }
-
-  /* Smooth scrolling */
-  html {
-    scroll-behavior: smooth;
-  }
-
-  /* Print optimizations */
-  @media print {
-    * {
-      color-adjust: exact !important;
-      print-color-adjust: exact !important;
-    }
-    
-    body {
-      background: white !important;
-      color: black !important;
-    }
-    
-    body::before {
-      display: none !important;
-    }
-    
-    footer {
-      display: none !important;
-    }
-  }
-}
-
-@layer components {
-  /* Enhanced card styles */
-  .card-elevated {
-    background: hsl(var(--surface-elevated));
-    box-shadow: var(--shadow-medium);
-    border: 1px solid hsl(var(--border-subtle));
-  }
-
-  .card-elevated:hover {
-    box-shadow: var(--shadow-large);
-    border-color: hsl(var(--border-accent));
-  }
-
-  /* Timeline visual */
-  .timeline-visual::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 2px;
-    height: 100%;
-    background: hsl(var(--timeline-line));
-    border-radius: 1px;
-  }
-
-  /* Gradient text */
-  .gradient-text {
-    background: linear-gradient(135deg, hsl(var(--ku-primary)) 0%, hsl(var(--ku-accent)) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    color: transparent;
-  }
-
-  /* Enhanced gradient backgrounds */
-  .gradient-bg-primary {
-    background: linear-gradient(135deg, hsl(var(--ku-primary)) 0%, hsl(var(--ku-primary)) 50%, hsl(var(--ku-accent)) 100%);
-  }
-
-  .gradient-bg-subtle {
-    background: linear-gradient(135deg, hsl(var(--ku-primary) / 0.1) 0%, hsl(var(--surface)) 50%, hsl(var(--ku-accent) / 0.1) 100%);
-  }
-
-
-  /* Glass effect */
-  .glass-effect {
-    background: hsl(var(--background) / 0.8);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-  }
-
-  /* Mathematical Background System */
-  :root {
-    --mathematical-background: 
-      /* Depth gradient - atmospheric perspective */
-      radial-gradient(ellipse 120% 80% at 50% 0%, hsl(var(--math-depth-gradient)), transparent 70%),
-      /* 3D perspective grid - primary */
-      linear-gradient(0deg, hsl(var(--math-grid-primary)) 1px, transparent 1px),
-      linear-gradient(90deg, hsl(var(--math-grid-primary)) 1px, transparent 1px),
-      /* Secondary mathematical grid - smaller scale */
-      linear-gradient(0deg, hsl(var(--math-grid-secondary)) 1px, transparent 1px),
-      linear-gradient(90deg, hsl(var(--math-grid-secondary)) 1px, transparent 1px),
-      /* Geometric accent patterns */
-      radial-gradient(circle at 25% 25%, hsl(var(--math-grid-accent)) 2px, transparent 2px),
-      radial-gradient(circle at 75% 75%, hsl(var(--math-grid-accent)) 1px, transparent 1px),
-      /* Golden ratio fibonacci spiral hint */
+    background-image:
+      radial-gradient(ellipse 120% 80% at 50% 0%, var(--math-depth-gradient), transparent 70%),
+      linear-gradient(0deg, var(--math-grid-primary) 1px, transparent 1px),
+      linear-gradient(90deg, var(--math-grid-primary) 1px, transparent 1px),
+      linear-gradient(0deg, var(--math-grid-secondary) 1px, transparent 1px),
+      linear-gradient(90deg, var(--math-grid-secondary) 1px, transparent 1px),
+      radial-gradient(circle at 25% 25%, var(--math-grid-accent) 2px, transparent 2px),
+      radial-gradient(circle at 75% 75%, var(--math-grid-accent) 1px, transparent 1px),
       radial-gradient(ellipse 200% 100% at 0% 50%, transparent 40%, hsl(var(--ku-accent) / var(--math-pattern-opacity)) 41%, transparent 42%),
       radial-gradient(ellipse 100% 200% at 50% 0%, transparent 60%, hsl(var(--ku-primary) / var(--math-pattern-opacity)) 61%, transparent 62%),
-      /* Base gradient */
-      linear-gradient(135deg, 
-        hsl(var(--background)) 0%, 
-        hsl(var(--background-subtle)) 50%, 
+      linear-gradient(135deg,
+        hsl(var(--background)) 0%,
+        hsl(var(--background-subtle)) 50%,
         hsl(var(--background)) 100%);
-    
-    --mathematical-background-size:
+    background-size:
       100% 100%,
       80px 80px,
       80px 80px,
@@ -294,20 +243,97 @@ All colors MUST be HSL.
       100% 100%,
       100% 100%,
       100% 100%;
-    
-    --mathematical-background-position:
-      0 0,
-      0 0,
-      0 0,
-      0 0,
-      0 0,
-      0 0,
-      0 0,
-      0 0,
-      0 0,
-      0 0;
-    
-    background-size: var(--mathematical-background-size);
-    background-position: var(--mathematical-background-position);
+    background-position: 0 0;
+    background-repeat: repeat;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.025em;
+    color: var(--color-foreground);
+  }
+
+  h1 { font-size: 2.25rem; }
+  h2 { font-size: 1.875rem; }
+  h3 { font-size: 1.5rem; }
+  h4 { font-size: 1.25rem; }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  @media print {
+    * {
+      print-color-adjust: exact !important;
+    }
+    body {
+      background: white !important;
+      color: black !important;
+    }
+    body::before { display: none !important; }
+    footer { display: none !important; }
+  }
+}
+
+@layer components {
+  .card-elevated {
+    background: var(--color-surface-elevated);
+    box-shadow: var(--shadow-medium);
+    border: 1px solid var(--color-border-subtle);
+  }
+
+  .card-elevated:hover {
+    box-shadow: var(--shadow-large);
+    border-color: var(--color-border-accent);
+  }
+
+  .timeline-visual::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 100%;
+    background: var(--color-timeline-line);
+    border-radius: 1px;
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, hsl(var(--ku-primary)) 0%, hsl(var(--ku-accent)) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .gradient-bg-primary {
+    background: linear-gradient(135deg, hsl(var(--ku-primary)) 0%, hsl(var(--ku-primary)) 50%, hsl(var(--ku-accent)) 100%);
+  }
+
+  .gradient-bg-subtle {
+    background: linear-gradient(135deg, hsl(var(--ku-primary) / 0.1) 0%, hsl(var(--surface)) 50%, hsl(var(--ku-accent) / 0.1) 100%);
+  }
+
+  .glass-effect {
+    background: hsl(var(--background) / 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
   }
 }

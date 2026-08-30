@@ -137,12 +137,17 @@ export function formatTimeRange(
 }
 
 /**
- * Get timezone abbreviation
+ * Get a timezone abbreviation.
+ *
+ * Intl reports Asia/Dubai as "GMT+4", but the department refers to it as GST,
+ * so the common zones are mapped explicitly and anything else falls back to
+ * Intl's short name.
+ *
  * @param timezone IANA timezone identifier
- * @returns Timezone abbreviation (e.g., GST for Asia/Dubai)
+ * @param at Instant to resolve the abbreviation at (matters for DST zones)
+ * @returns Timezone abbreviation (e.g. GST for Asia/Dubai)
  */
-function getTimezoneAbbreviation(timezone: string): string {
-  // Common timezone abbreviations
+export function getTimezoneAbbreviation(timezone: string, at: Date = new Date()): string {
   const abbreviations: Record<string, string> = {
     'Asia/Dubai': 'GST',
     'Asia/Abu_Dhabi': 'GST',
@@ -154,8 +159,14 @@ function getTimezoneAbbreviation(timezone: string): string {
     'Asia/Tokyo': 'JST',
     'Australia/Sydney': 'AEDT/AEST'
   };
-  
-  return abbreviations[timezone] || timezone;
+
+  if (abbreviations[timezone]) return abbreviations[timezone];
+
+  const part = new Intl.DateTimeFormat('en-US', { timeZone: timezone, timeZoneName: 'short' })
+    .formatToParts(at)
+    .find((p) => p.type === 'timeZoneName');
+
+  return part?.value || timezone;
 }
 
 /**

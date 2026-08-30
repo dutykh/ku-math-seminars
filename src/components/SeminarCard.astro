@@ -6,9 +6,7 @@
 
 import type { Seminar, SeminarStatus } from '../lib/types';
 import { formatTimeRange, getTimePosition } from '../lib/time';
-import { marked } from 'marked';
-import { JSDOM } from 'jsdom';
-import createDOMPurify from 'dompurify';
+import { renderMarkdown } from '../lib/markdown';
 import ExternalLink from './icons/ExternalLink.astro';
 import Video from './icons/Video.astro';
 import ChevronRight from './icons/ChevronRight.astro';
@@ -40,57 +38,25 @@ const statusConfig = {
   },
   cancelled: {
     badge: 'CANCELLED',
-    badgeClass: 'bg-gradient-to-r from-red-500/20 to-red-600/20 text-red-700 dark:text-red-400 border-red-500/30',
+    badgeClass: 'bg-gradient-to-r from-red-500/20 to-red-600/20 text-red-700 border-red-500/30',
     cardClass: 'opacity-75',
     titlePrefix: '[CANCELLED] '
   },
   postponed: {
     badge: 'POSTPONED',
-    badgeClass: 'bg-gradient-to-r from-amber-500/20 to-amber-600/20 text-amber-700 dark:text-amber-400 border-amber-500/30',
+    badgeClass: 'bg-gradient-to-r from-amber-500/20 to-amber-600/20 text-amber-700 border-amber-500/30',
     cardClass: '',
     titlePrefix: '[POSTPONED] '
   },
   tentative: {
     badge: 'TENTATIVE',
-    badgeClass: 'bg-gradient-to-r from-blue-500/20 to-blue-600/20 text-blue-700 dark:text-blue-400 border-blue-500/30',
+    badgeClass: 'bg-gradient-to-r from-blue-500/20 to-blue-600/20 text-blue-700 border-blue-500/30',
     cardClass: 'border-dashed',
     titlePrefix: '[TENTATIVE] '
   }
 };
 
 const currentStatus = statusConfig[status];
-
-const purifierWindow = new JSDOM('').window;
-const DOMPurify = createDOMPurify(purifierWindow);
-
-function addSafeLinkAttrs(html: string): string {
-  return html
-    .replace(/<a\s+([^>]*href=['"][^'"]+['"][^>]*)>/gi, (_full, attrs) => {
-      let nextAttrs = attrs;
-      if (!/\btarget=/i.test(nextAttrs)) {
-        nextAttrs += ' target="_blank"';
-      }
-      if (!/\brel=/i.test(nextAttrs)) {
-        nextAttrs += ' rel="noopener noreferrer"';
-      }
-      return `<a ${nextAttrs}>`;
-    });
-}
-
-function renderMarkdown(markdown: string | undefined): string {
-  if (!markdown) return '';
-
-  const parsed = marked.parse(markdown, { gfm: true, breaks: true });
-  const parsedHtml = typeof parsed === 'string' ? parsed : '';
-
-  const sanitized = DOMPurify.sanitize(parsedHtml, {
-    USE_PROFILES: { html: true },
-    FORBID_TAGS: ['script', 'style', 'iframe', 'object', 'embed', 'form'],
-    FORBID_ATTR: ['style']
-  });
-
-  return addSafeLinkAttrs(sanitized);
-}
 
 const abstractHtml = renderMarkdown(seminar.abstract);
 const biographyHtml = renderMarkdown(seminar.biography);
@@ -104,10 +70,9 @@ const biographyId = `biography-${index}`;
   id={cardId}
   class={`
     seminar-card relative bg-gradient-to-br from-surface via-background-subtle to-ku-secondary/8 
-    border-2 border-ku-secondary/30 dark:border-ku-secondary/40 rounded-2xl p-8 shadow-large
-    transition-all duration-500 hover:shadow-xl hover:border-ku-accent/50 dark:hover:border-ku-accent/60
-    hover:-translate-y-2 group backdrop-blur-sm overflow-hidden
-    dark:bg-gradient-to-br dark:from-surface dark:via-surface-elevated dark:to-ku-secondary/12
+    border-2 border-ku-secondary/30 rounded-2xl p-8 shadow-large
+    transition-all duration-500 hover:shadow-xl hover:border-ku-accent/50:border-ku-accent/60
+    hover:-translate-y-2 group backdrop-blur-xs overflow-hidden
     ${showTimeline ? 'ml-8 relative' : ''}
     ${currentStatus.cardClass}
   `}
@@ -127,7 +92,7 @@ const biographyId = `biography-${index}`;
       <div 
         class="absolute -left-8 w-5 h-5 bg-gradient-to-br from-ku-primary to-ku-accent rounded-full border-3 border-background shadow-large transition-all duration-500 group-hover:scale-150 group-hover:shadow-xl z-20"
         style="top: 2rem;"
-      />
+      ></div>
     )}
   
     <!-- Speaker info -->
@@ -151,14 +116,14 @@ const biographyId = `biography-${index}`;
               href={seminar.affiliationUrl}
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 text-sm text-foreground-secondary font-semibold bg-gradient-to-r from-ku-secondary/15 to-ku-accent/10 px-4 py-2 rounded-full border border-ku-secondary/20 backdrop-blur-sm hover:from-ku-secondary/20 hover:to-ku-accent/15 hover:border-ku-secondary/30 transition-all duration-300 transform hover:scale-105"
+              class="inline-flex items-center gap-2 text-sm text-foreground-secondary font-semibold bg-gradient-to-r from-ku-secondary/15 to-ku-accent/10 px-4 py-2 rounded-full border border-ku-secondary/20 backdrop-blur-xs hover:from-ku-secondary/20 hover:to-ku-accent/15 hover:border-ku-secondary/30 transition-all duration-300 transform hover:scale-105"
               title={`Visit ${seminar.affiliation} website`}
             >
               {seminar.affiliation}
               <ExternalLink size={12} />
             </a>
           ) : (
-            <span class="text-sm text-foreground-secondary font-semibold bg-gradient-to-r from-ku-secondary/15 to-ku-accent/10 px-4 py-2 rounded-full border border-ku-secondary/20 backdrop-blur-sm">
+            <span class="text-sm text-foreground-secondary font-semibold bg-gradient-to-r from-ku-secondary/15 to-ku-accent/10 px-4 py-2 rounded-full border border-ku-secondary/20 backdrop-blur-xs">
               {seminar.affiliation}
             </span>
           )
@@ -172,11 +137,11 @@ const biographyId = `biography-${index}`;
   
     <!-- Meta information -->
     <div class="flex flex-col sm:flex-row sm:items-center gap-4 mb-6 text-sm justify-center">
-      <div class="flex items-center gap-2 text-foreground-secondary bg-gradient-to-r from-ku-primary/8 to-ku-secondary/8 px-5 py-3 rounded-xl border border-ku-primary/15 backdrop-blur-sm group-hover:from-ku-primary/12 group-hover:to-ku-secondary/12 transition-all duration-300">
+      <div class="flex items-center gap-2 text-foreground-secondary bg-gradient-to-r from-ku-primary/8 to-ku-secondary/8 px-5 py-3 rounded-xl border border-ku-primary/15 backdrop-blur-xs group-hover:from-ku-primary/12 group-hover:to-ku-secondary/12 transition-all duration-300">
         <Clock size={16} class="text-ku-accent" />
         <span class="font-semibold">{timeRange}</span>
       </div>
-      <div class="flex items-center gap-2 text-foreground-secondary bg-gradient-to-r from-ku-accent/8 to-ku-secondary/8 px-5 py-3 rounded-xl border border-ku-accent/15 backdrop-blur-sm group-hover:from-ku-accent/12 group-hover:to-ku-secondary/12 transition-all duration-300">
+      <div class="flex items-center gap-2 text-foreground-secondary bg-gradient-to-r from-ku-accent/8 to-ku-secondary/8 px-5 py-3 rounded-xl border border-ku-accent/15 backdrop-blur-xs group-hover:from-ku-accent/12 group-hover:to-ku-secondary/12 transition-all duration-300">
         <MapPin size={16} class="text-ku-primary" />
         <span class="font-semibold">{seminar.location}</span>
       </div>
@@ -186,7 +151,7 @@ const biographyId = `biography-${index}`;
     {seminar.tags && seminar.tags.length > 0 && (
       <div class="flex flex-wrap gap-2 mb-6 justify-center">
         {seminar.tags.map((tag) => (
-          <span class="inline-flex items-center px-4 py-2 rounded-full text-xs font-bold bg-gradient-to-r from-ku-accent/20 via-ku-secondary/15 to-ku-primary/20 text-ku-primary border border-ku-accent/25 hover:from-ku-accent/30 hover:to-ku-primary/30 transition-all duration-300 backdrop-blur-sm shadow-medium hover:shadow-large">
+          <span class="inline-flex items-center px-4 py-2 rounded-full text-xs font-bold bg-gradient-to-r from-ku-accent/20 via-ku-secondary/15 to-ku-primary/20 text-ku-primary border border-ku-accent/25 hover:from-ku-accent/30 hover:to-ku-primary/30 transition-all duration-300 backdrop-blur-xs shadow-medium hover:shadow-large">
             {tag}
           </span>
         ))}
@@ -201,7 +166,7 @@ const biographyId = `biography-${index}`;
             href={seminar.links.speaker}
             target="_blank"
             rel="noopener noreferrer"
-            class="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-ku-primary bg-gradient-to-r from-ku-primary/8 to-ku-primary/12 hover:from-ku-primary/15 hover:to-ku-primary/20 border border-ku-primary/25 rounded-xl hover:border-ku-primary/40 transition-all duration-300 shadow-medium hover:shadow-large backdrop-blur-sm transform hover:scale-105"
+            class="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-ku-primary bg-gradient-to-r from-ku-primary/8 to-ku-primary/12 hover:from-ku-primary/15 hover:to-ku-primary/20 border border-ku-primary/25 rounded-xl hover:border-ku-primary/40 transition-all duration-300 shadow-medium hover:shadow-large backdrop-blur-xs transform hover:scale-105"
           >
             <ExternalLink size={16} />
             Speaker page
@@ -212,7 +177,7 @@ const biographyId = `biography-${index}`;
             href={seminar.links.teams || seminar.links.zoom}
             target="_blank"
             rel="noopener noreferrer"
-            class="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-ku-accent bg-gradient-to-r from-ku-accent/8 to-ku-accent/12 hover:from-ku-accent/15 hover:to-ku-accent/20 border border-ku-accent/25 rounded-xl hover:border-ku-accent/40 transition-all duration-300 shadow-medium hover:shadow-large backdrop-blur-sm transform hover:scale-105"
+            class="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-ku-accent bg-gradient-to-r from-ku-accent/8 to-ku-accent/12 hover:from-ku-accent/15 hover:to-ku-accent/20 border border-ku-accent/25 rounded-xl hover:border-ku-accent/40 transition-all duration-300 shadow-medium hover:shadow-large backdrop-blur-xs transform hover:scale-105"
           >
             <Video size={16} />
             Join Teams
@@ -223,7 +188,7 @@ const biographyId = `biography-${index}`;
             href={seminar.links.video}
             target="_blank"
             rel="noopener noreferrer"
-            class="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-ku-primary bg-gradient-to-r from-ku-primary/8 to-ku-primary/12 hover:from-ku-primary/15 hover:to-ku-primary/20 border border-ku-primary/25 rounded-xl hover:border-ku-primary/40 transition-all duration-300 shadow-medium hover:shadow-large backdrop-blur-sm transform hover:scale-105"
+            class="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-ku-primary bg-gradient-to-r from-ku-primary/8 to-ku-primary/12 hover:from-ku-primary/15 hover:to-ku-primary/20 border border-ku-primary/25 rounded-xl hover:border-ku-primary/40 transition-all duration-300 shadow-medium hover:shadow-large backdrop-blur-xs transform hover:scale-105"
           >
             <Video size={16} />
             Recording
@@ -235,15 +200,15 @@ const biographyId = `biography-${index}`;
     <!-- Abstract -->
     {seminar.abstract && (
       <details class="group/abstract" data-abstract-id={abstractId}>
-        <summary class="flex items-center justify-center gap-2 cursor-pointer text-sm font-bold text-ku-primary hover:text-ku-accent transition-all duration-300 no-print px-4 py-3 rounded-xl hover:bg-ku-primary/8 border border-ku-primary/20 hover:border-ku-primary/30 backdrop-blur-sm shadow-medium hover:shadow-large transform hover:scale-105">
+        <summary class="flex items-center justify-center gap-2 cursor-pointer text-sm font-bold text-ku-primary hover:text-ku-accent transition-all duration-300 no-print px-4 py-3 rounded-xl hover:bg-ku-primary/8 border border-ku-primary/20 hover:border-ku-primary/30 backdrop-blur-xs shadow-medium hover:shadow-large transform hover:scale-105">
           <span class="chevron-icon transition-transform duration-300">
             <ChevronRight size={16} />
           </span>
           Abstract
         </summary>
         
-        <div class="abstract-content mt-6 text-sm text-foreground leading-relaxed transition-all duration-500 overflow-hidden bg-gradient-to-br from-background-subtle/80 via-surface/60 to-ku-secondary/5 rounded-xl p-6 border border-ku-secondary/20 backdrop-blur-sm shadow-large">
-          <div class="prose prose-sm max-w-none prose-strong:text-ku-primary prose-p:mb-3 prose-ul:mb-3 prose-li:mb-1" set:html={abstractHtml} />
+        <div class="abstract-content mt-6 text-sm text-foreground leading-relaxed transition-all duration-500 overflow-hidden bg-gradient-to-br from-background-subtle/80 via-surface/60 to-ku-secondary/5 rounded-xl p-6 border border-ku-secondary/20 backdrop-blur-xs shadow-large">
+          <div class="prose prose-sm max-w-none prose-strong:text-ku-primary prose-p:mb-3 prose-ul:mb-3 prose-li:mb-1" set:html={abstractHtml}></div>
         </div>
       </details>
     )}
@@ -251,15 +216,15 @@ const biographyId = `biography-${index}`;
     <!-- Speaker Biography (if field exists) -->
     {biographyHtml && (
       <details class="group/biography mt-4" data-biography-id={biographyId}>
-        <summary class="flex items-center justify-center gap-2 cursor-pointer text-sm font-bold text-ku-accent hover:text-ku-primary transition-all duration-300 no-print px-4 py-3 rounded-xl hover:bg-ku-accent/8 border border-ku-accent/20 hover:border-ku-accent/30 backdrop-blur-sm shadow-medium hover:shadow-large transform hover:scale-105">
+        <summary class="flex items-center justify-center gap-2 cursor-pointer text-sm font-bold text-ku-accent hover:text-ku-primary transition-all duration-300 no-print px-4 py-3 rounded-xl hover:bg-ku-accent/8 border border-ku-accent/20 hover:border-ku-accent/30 backdrop-blur-xs shadow-medium hover:shadow-large transform hover:scale-105">
           <span class="chevron-icon transition-transform duration-300">
             <ChevronRight size={16} />
           </span>
           Speaker Biography
         </summary>
         
-        <div class="biography-content mt-6 text-sm text-foreground leading-relaxed transition-all duration-500 overflow-hidden bg-gradient-to-br from-ku-accent/5 via-surface/60 to-ku-primary/5 rounded-xl p-6 border border-ku-accent/20 backdrop-blur-sm shadow-large">
-          <div class="prose prose-sm max-w-none prose-strong:text-ku-accent prose-p:mb-3 prose-ul:mb-3 prose-li:mb-1" set:html={biographyHtml} />
+        <div class="biography-content mt-6 text-sm text-foreground leading-relaxed transition-all duration-500 overflow-hidden bg-gradient-to-br from-ku-accent/5 via-surface/60 to-ku-primary/5 rounded-xl p-6 border border-ku-accent/20 backdrop-blur-xs shadow-large">
+          <div class="prose prose-sm max-w-none prose-strong:text-ku-accent prose-p:mb-3 prose-ul:mb-3 prose-li:mb-1" set:html={biographyHtml}></div>
         </div>
       </details>
     )}

@@ -1,6 +1,6 @@
 ---
 import type { JobInterview } from '../lib/types';
-import { formatTimeRange } from '../lib/time';
+import { formatTimeRange, getTimezoneAbbreviation } from '../lib/time';
 import Calendar from './icons/Calendar.astro';
 import Clock from './icons/Clock.astro';
 import MapPin from './icons/MapPin.astro';
@@ -28,12 +28,7 @@ const durationMinutes = Math.max(Math.round((endDate.getTime() - startDate.getTi
 const panel = interview.organizedBy?.length ? interview.organizedBy : defaultPanel;
 const anchorId = getInterviewAnchorId(interview);
 
-const tzFormatter = new Intl.DateTimeFormat('en-US', {
-  timeZone: timezone,
-  timeZoneName: 'short'
-});
-const tzPart = tzFormatter.formatToParts(startDate).find((part) => part.type === 'timeZoneName');
-const timezoneAbbr = tzPart?.value || timezone;
+const timezoneAbbr = getTimezoneAbbreviation(timezone, startDate);
 
 const typeLabel = interview.interviewType === 'teaching' ? 'Teaching Interview' : 'Research Interview';
 const typeClass =

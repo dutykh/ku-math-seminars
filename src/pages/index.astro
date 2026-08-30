@@ -4,31 +4,24 @@
  * Author: Dr. Denys Dutykh (Khalifa University of Science and Technology, Abu Dhabi, UAE)
  * License: GNU General Public License v3.0
  */
-import type { WeekData, WeekStatus, WeekInfo } from "../lib/types";
+import type { WeekInfo, WeekStatus } from '../lib/types';
+import { loadCurrentWeek } from '../lib/data';
 import { formatWeekRange } from '../lib/time';
-import '../index.css';
+import BaseLayout from '../layouts/BaseLayout.astro';
 import WeekHeader from '../components/WeekHeader.astro';
 import SeriesSection from '../components/SeriesSection.astro';
 import JobInterviewsSection from '../components/JobInterviewsSection.astro';
 import WeeklySummary from '../components/WeeklySummary.astro';
-import Globe from '../components/icons/Globe.astro';
-import Mail from '../components/icons/Mail.astro';
-import AstroLogo from '../components/icons/AstroLogo.astro';
+import SiteFooter from '../components/SiteFooter.astro';
 import Calendar from '../components/icons/Calendar.astro';
-import yaml from 'yaml';
-import fs from 'fs';
-import path from 'path';
 
-// Load the week data at build time
-const yamlPath = path.join(process.cwd(), 'public', 'data', 'week.yml');
-const yamlContent = fs.readFileSync(yamlPath, 'utf8');
-const weekData = yaml.parse(yamlContent) as WeekData;
+const SITE = 'https://www.events.denys-dutykh.com';
 
-const seminarsList = Array.isArray(weekData.seminars) ? weekData.seminars : [];
-const interviewsList = Array.isArray(weekData.interviews) ? weekData.interviews : [];
-const seriesList = Array.isArray(weekData.series) ? weekData.series : [];
-const knownSeries = new Map(seriesList.map(s => [s.code, s]));
-const groupedSeminars = new Map();
+const weekData = loadCurrentWeek();
+const { week } = weekData;
+const seminarsList = weekData.seminars;
+const interviewsList = weekData.interviews;
+const seriesList = weekData.series;
 
 const interviewPanelDefault = [
   'Dr. Denys Dutykh',
@@ -36,34 +29,30 @@ const interviewPanelDefault = [
   'Prof Mohammad Al-Khaleel'
 ];
 
-seminarsList.forEach(seminar => {
-  if (!groupedSeminars.has(seminar.series)) {
-    groupedSeminars.set(seminar.series, []);
-  }
-  groupedSeminars.get(seminar.series).push(seminar);
-});
+// Group seminars by series, keeping the configured series order and appending
+// any series code that appears in the data but has no metadata entry.
+const groupedSeminars = new Map<string, typeof seminarsList>();
+for (const seminar of seminarsList) {
+  const group = groupedSeminars.get(seminar.series);
+  if (group) group.push(seminar);
+  else groupedSeminars.set(seminar.series, [seminar]);
+}
 
-// Find unknown series codes and sort them
-const unknownCodes = Array.from(
-  new Set(seminarsList.map(s => s.series))
-).filter(code => !knownSeries.has(code)).sort();
+const knownSeries = new Set(seriesList.map((s) => s.code));
+const unknownCodes = [...new Set(seminarsList.map((s) => s.series))]
+  .filter((code) => !knownSeries.has(code))
+  .sort();
 
-// Create complete series order
 const allSeries = [
   ...seriesList,
-  ...unknownCodes.map(code => ({ code, label: code.toUpperCase() }))
+  ...unknownCodes.map((code) => ({ code, label: code.toUpperCase() }))
 ];
 
-const timezone = weekData.week.timezone || 'Asia/Dubai';
-const currentSemester = weekData.week.semester?.trim();
-const nextSemester = weekData.week.nextSemester?.trim();
-const resumeDate = weekData.week.resumeDate?.trim();
-const weekRangeSummary = formatWeekRange(
-  weekData.week.start,
-  weekData.week.end,
-  weekData.week.isoWeek,
-  timezone
-);
+const timezone = week.timezone;
+const currentSemester = week.semester?.trim();
+const nextSemester = week.nextSemester?.trim();
+const resumeDate = week.resumeDate?.trim();
+const weekRangeSummary = formatWeekRange(week.start, week.end, week.isoWeek, timezone);
 
 type WeekStatusBanner = {
   title: string;
@@ -74,18 +63,17 @@ type WeekStatusBanner = {
   getMessage?: (week: WeekInfo) => string;
 };
 
-const buildStandbyMessage = (week: WeekInfo) => {
-  const semester = week.semester?.trim();
-  const upcoming = week.nextSemester?.trim();
-  const targetDate = week.resumeDate?.trim();
-  
-  const parts = [];
-  if (semester) {
-    parts.push(`${semester} seminar season has concluded.`);
-  } else {
-    parts.push('The current seminar season has concluded.');
-  }
-  
+const buildStandbyMessage = (info: WeekInfo) => {
+  const semester = info.semester?.trim();
+  const upcoming = info.nextSemester?.trim();
+  const targetDate = info.resumeDate?.trim();
+
+  const parts = [
+    semester
+      ? `${semester} seminar season has concluded.`
+      : 'The current seminar season has concluded.'
+  ];
+
   if (upcoming && targetDate) {
     parts.push(`Seminars resume in ${upcoming} on ${targetDate} after exams.`);
   } else if (upcoming) {
@@ -99,7 +87,7 @@ const buildStandbyMessage = (week: WeekInfo) => {
   return parts.join(' ');
 };
 
-const weekStatus = (weekData.week.status || 'open') as WeekStatus;
+const weekStatus = week.status;
 const weekStatusBanners: Record<WeekStatus, WeekStatusBanner | null> = {
   open: null,
   holiday: {
@@ -141,1186 +129,353 @@ const weekStatusBanners: Record<WeekStatus, WeekStatusBanner | null> = {
 };
 
 const statusInfo = weekStatusBanners[weekStatus];
-const statusNote = typeof weekData.week.note === 'string' ? weekData.week.note.trim() : '';
-const statusMessage = statusNote || statusInfo?.getMessage?.(weekData.week) || statusInfo?.defaultMessage || '';
+const statusNote = week.note?.trim() ?? '';
+const statusMessage =
+  statusNote || statusInfo?.getMessage?.(week) || statusInfo?.defaultMessage || '';
 
-// Generate dynamic SEO content
+// --- SEO -------------------------------------------------------------------
+
 const seminarCount = seminarsList.length;
 const interviewCount = interviewsList.length;
 const totalEvents = seminarCount + interviewCount;
-const weekNumber = weekData.week.isoWeek || 1;
-const currentYear = weekData.week.start ? new Date(weekData.week.start).getFullYear() : new Date().getFullYear();
-
-// Dynamic title and description
 const hasSeminars = seminarCount > 0;
 const hasInterviews = interviewCount > 0;
 const hasEvents = totalEvents > 0;
+const weekNumber = week.isoWeek;
+const currentYear = new Date(week.start).getFullYear();
 
-const standbyDescription = weekStatus === 'standby'
-  ? (statusMessage || (() => {
-      const intro = currentSemester
-        ? `${currentSemester} seminar season has concluded.`
-        : 'The current seminar season has concluded.';
-      let resumeText = '';
-      if (nextSemester && resumeDate) {
-        resumeText = `Seminars resume in ${nextSemester} (targeting ${resumeDate}) after examinations.`;
-      } else if (nextSemester) {
-        resumeText = `Seminars resume in ${nextSemester} after examinations.`;
-      } else if (resumeDate) {
-        resumeText = `Seminars resume on ${resumeDate} after examinations.`;
-      } else {
-        resumeText = 'Seminars resume after examinations.';
-      }
-      return `${intro} ${resumeText}`;
-    })())
-  : '';
+const standbyDescription = (() => {
+  if (weekStatus !== 'standby') return '';
+  if (statusMessage) return statusMessage;
 
-const noEventsDescription = weekStatus === 'standby'
-  ? standbyDescription
-  : `Mathematics Department seminars for Week ${weekNumber}, ${currentYear} at Khalifa University, Abu Dhabi, UAE.`;
+  const intro = currentSemester
+    ? `${currentSemester} seminar season has concluded.`
+    : 'The current seminar season has concluded.';
+
+  if (nextSemester && resumeDate) {
+    return `${intro} Seminars resume in ${nextSemester} (targeting ${resumeDate}) after examinations.`;
+  }
+  if (nextSemester) return `${intro} Seminars resume in ${nextSemester} after examinations.`;
+  if (resumeDate) return `${intro} Seminars resume on ${resumeDate} after examinations.`;
+  return `${intro} Seminars resume after examinations.`;
+})();
+
+const noEventsDescription =
+  weekStatus === 'standby'
+    ? standbyDescription
+    : `Mathematics Department seminars for Week ${weekNumber}, ${currentYear} at Khalifa University, Abu Dhabi, UAE.`;
 
 const defaultTitle = `Week ${weekNumber} - Mathematics Department, Khalifa University`;
-const standbyTitle = weekStatus === 'standby'
-  ? `${nextSemester || 'Upcoming semester'} seminars resume soon – Khalifa University`
-  : defaultTitle;
+const standbyTitle =
+  weekStatus === 'standby'
+    ? `${nextSemester || 'Upcoming semester'} seminars resume soon – Khalifa University`
+    : defaultTitle;
 
-const dynamicTitle = hasEvents 
+const pageTitle = hasEvents
   ? `Week ${weekNumber} Academic Events (${totalEvents}) - Mathematics Department, Khalifa University`
   : standbyTitle;
 
-const featuredSpeakers = seminarsList.slice(0, 3).map(s => s.speaker);
-const featuredCandidates = interviewsList.slice(0, 2).map(i => i.candidate);
-const featuredNames = [...featuredSpeakers, ...featuredCandidates].filter(Boolean).join(', ');
+const featuredNames = [
+  ...seminarsList.slice(0, 3).map((s) => s.speaker),
+  ...interviewsList.slice(0, 2).map((i) => i.candidate)
+]
+  .filter(Boolean)
+  .join(', ');
 
-const dynamicDescription = hasEvents
-  ? `Join us for ${seminarCount} mathematics seminars${hasInterviews ? ` and ${interviewCount} faculty job interviews` : ''} in Week ${weekNumber}, ${currentYear}. Featured participants: ${featuredNames || 'international guests'}. Abu Dhabi, UAE.`
+const pageDescription = hasEvents
+  ? `Join us for ${seminarCount} mathematics seminars${
+      hasInterviews ? ` and ${interviewCount} faculty job interviews` : ''
+    } in Week ${weekNumber}, ${currentYear}. Featured participants: ${
+      featuredNames || 'international guests'
+    }. Abu Dhabi, UAE.`
   : noEventsDescription;
 
-// Academic keywords based on current seminars
-const seminarKeywords = seminarsList.map(s => s.tags || []).flat().join(', ') || '';
-const interviewKeywords = interviewsList.map(i => i.position).join(', ');
-const seasonKeywords = [currentSemester, nextSemester].filter(Boolean).join(', ');
-const dynamicKeywords = `mathematics, seminars, Khalifa University, Abu Dhabi, research, talks, academic events, job interviews, faculty recruitment${seminarKeywords ? `, ${seminarKeywords}` : ''}${interviewKeywords ? `, ${interviewKeywords}` : ''}${seasonKeywords ? `, ${seasonKeywords}` : ''}`.replace(/,\s*,/g, ',').replace(/,\s*$/, '');
+const keywordParts = [
+  'mathematics',
+  'seminars',
+  'Khalifa University',
+  'Abu Dhabi',
+  'research',
+  'talks',
+  'academic events',
+  'job interviews',
+  'faculty recruitment',
+  ...seminarsList.flatMap((s) => s.tags ?? []),
+  ...interviewsList.map((i) => i.position),
+  currentSemester,
+  nextSemester
+].filter(Boolean);
+const pageKeywords = [...new Set(keywordParts)].join(', ');
 
-// Cache-busting token for OG images to force social scrapers to refresh
-const ogVersion = `${currentYear}-${weekNumber}`;
-const ogImageUrl = `https://www.events.denys-dutykh.com/assets/og-image.png?v=${ogVersion}`;
+// Cache-busting token so social scrapers refresh the preview each week.
+const ogImageUrl = `${SITE}/assets/og-image.png?v=${currentYear}-${weekNumber}`;
 
 const seminarEntities = seminarsList.map((seminar, index) => ({
-  "@type": "Event",
-  "@id": `https://www.events.denys-dutykh.com/#event${index}`,
-  "name": seminar.title,
-  "description": seminar.abstract ? `${seminar.abstract.substring(0, 200).replace(/"/g, '\\"')}...` : 'Mathematics seminar',
-  "startDate": seminar.start,
-  ...(seminar.end && { "endDate": seminar.end }),
-  "eventStatus": seminar.status === 'cancelled' ? 'https://schema.org/EventCancelled' : 
-                seminar.status === 'postponed' ? 'https://schema.org/EventPostponed' : 
-                seminar.status === 'tentative' ? 'https://schema.org/EventScheduled' : 
-                'https://schema.org/EventScheduled',
-  "eventAttendanceMode": "https://schema.org/MixedEventAttendanceMode",
-  "location": {
-    "@type": "Place",
-    "name": seminar.location,
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Abu Dhabi",
-      "addressCountry": "UAE"
+  '@type': 'Event',
+  '@id': `${SITE}/#event${index}`,
+  name: seminar.title,
+  description: seminar.abstract ? `${seminar.abstract.substring(0, 200)}...` : 'Mathematics seminar',
+  startDate: seminar.start,
+  ...(seminar.end && { endDate: seminar.end }),
+  eventStatus:
+    seminar.status === 'cancelled'
+      ? 'https://schema.org/EventCancelled'
+      : seminar.status === 'postponed'
+        ? 'https://schema.org/EventPostponed'
+        : 'https://schema.org/EventScheduled',
+  eventAttendanceMode: 'https://schema.org/MixedEventAttendanceMode',
+  location: {
+    '@type': 'Place',
+    name: seminar.location,
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Abu Dhabi',
+      addressCountry: 'UAE'
     }
   },
-  "organizer": {
-    "@id": "https://www.ku.ac.ae/#organization"
+  organizer: { '@id': 'https://www.ku.ac.ae/#organization' },
+  performer: {
+    '@type': 'Person',
+    name: seminar.speaker,
+    ...(seminar.affiliation && { affiliation: seminar.affiliation }),
+    ...(seminar.affiliationUrl && { url: seminar.affiliationUrl }),
+    jobTitle: 'Researcher'
   },
-  "performer": {
-    "@type": "Person",
-    "name": seminar.speaker,
-    ...(seminar.affiliation && { "affiliation": seminar.affiliation }),
-    ...(seminar.affiliationUrl && { "url": seminar.affiliationUrl }),
-    "jobTitle": "Researcher"
-  },
-  ...(seminar.tags && { "keywords": seminar.tags.join(', ') }),
-  "isAccessibleForFree": true,
-  "audience": {
-    "@type": "EducationalAudience",
-    "educationalRole": "student, faculty, researcher"
+  ...(seminar.tags && { keywords: seminar.tags.join(', ') }),
+  isAccessibleForFree: true,
+  audience: {
+    '@type': 'EducationalAudience',
+    educationalRole: 'student, faculty, researcher'
   }
 }));
 
 const interviewEntities = interviewsList.map((interview, index) => ({
-  "@type": "Event",
-  "@id": `https://www.events.denys-dutykh.com/#jobinterview${index}`,
-  "name": `Job Interview: ${interview.candidate} (${interview.position})`,
-  "description": `Faculty ${interview.interviewType} interview for the ${interview.position} position.`,
-  "startDate": interview.start,
-  "endDate": interview.end,
-  "eventStatus": 'https://schema.org/EventScheduled',
-  "eventAttendanceMode": interview.mode === 'virtual'
-    ? 'https://schema.org/OnlineEventAttendanceMode'
-    : 'https://schema.org/OfflineEventAttendanceMode',
-  "location": {
-    "@type": "Place",
-    "name": interview.location,
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Abu Dhabi",
-      "addressCountry": "UAE"
+  '@type': 'Event',
+  '@id': `${SITE}/#jobinterview${index}`,
+  name: `Job Interview: ${interview.candidate} (${interview.position})`,
+  description: `Faculty ${interview.interviewType} interview for the ${interview.position} position.`,
+  startDate: interview.start,
+  endDate: interview.end,
+  eventStatus: 'https://schema.org/EventScheduled',
+  eventAttendanceMode:
+    interview.mode === 'virtual'
+      ? 'https://schema.org/OnlineEventAttendanceMode'
+      : 'https://schema.org/OfflineEventAttendanceMode',
+  location: {
+    '@type': 'Place',
+    name: interview.location,
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Abu Dhabi',
+      addressCountry: 'UAE'
     }
   },
-  "organizer": {
-    "@id": "https://www.ku.ac.ae/#organization"
-  },
-  "audience": {
-    "@type": "EducationalAudience",
-    "educationalRole": "faculty, recruitment committee"
+  organizer: { '@id': 'https://www.ku.ac.ae/#organization' },
+  audience: {
+    '@type': 'EducationalAudience',
+    educationalRole: 'faculty, recruitment committee'
   }
 }));
 
-// Build structured data object for JSON-LD
 const structuredData = {
-  "@context": "https://schema.org",
-  "@graph": [
+  '@context': 'https://schema.org',
+  '@graph': [
     {
-      "@type": "Organization",
-      "@id": "https://www.ku.ac.ae/#organization",
-      "name": "Khalifa University",
-      "url": "https://www.ku.ac.ae/",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "https://www.events.denys-dutykh.com/assets/KUlogo.png"
+      '@type': 'Organization',
+      '@id': 'https://www.ku.ac.ae/#organization',
+      name: 'Khalifa University',
+      url: 'https://www.ku.ac.ae/',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${SITE}/assets/KUlogo.png`
       },
-      "sameAs": [
-        "https://en.wikipedia.org/wiki/Khalifa_University",
-        "https://x.com/KhalifaUni",
-        "https://www.linkedin.com/school/khalifa-university/"
+      sameAs: [
+        'https://en.wikipedia.org/wiki/Khalifa_University',
+        'https://x.com/KhalifaUni',
+        'https://www.linkedin.com/school/khalifa-university/'
       ],
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "contactType": "Academic Department",
-        "email": "denys.dutykh@ku.ac.ae"
+      contactPoint: {
+        '@type': 'ContactPoint',
+        contactType: 'Academic Department',
+        email: 'denys.dutykh@ku.ac.ae'
       },
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Abu Dhabi",
-        "addressCountry": "UAE"
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Abu Dhabi',
+        addressCountry: 'UAE'
       },
-      "department": {
-        "@type": "Organization",
-        "name": "Mathematics Department",
-        "parentOrganization": {
-          "@id": "https://www.ku.ac.ae/#organization"
-        }
+      department: {
+        '@type': 'Organization',
+        name: 'Mathematics Department',
+        parentOrganization: { '@id': 'https://www.ku.ac.ae/#organization' }
       }
     },
     {
-      "@type": "WebSite",
-      "@id": "https://www.events.denys-dutykh.com/#website",
-      "url": "https://www.events.denys-dutykh.com/",
-      "name": "KU Mathematics Seminars",
-      "description": dynamicDescription,
-      "publisher": {
-        "@id": "https://www.ku.ac.ae/#organization"
-      },
-      "inLanguage": "en-US",
-      "image": {
-        "@type": "ImageObject",
-        "url": ogImageUrl,
-        "width": 1200,
-        "height": 630
+      '@type': 'WebSite',
+      '@id': `${SITE}/#website`,
+      url: `${SITE}/`,
+      name: 'KU Mathematics Seminars',
+      description: pageDescription,
+      publisher: { '@id': 'https://www.ku.ac.ae/#organization' },
+      inLanguage: 'en-US',
+      image: {
+        '@type': 'ImageObject',
+        url: ogImageUrl,
+        width: 1200,
+        height: 630
       }
     },
     {
-      "@type": "CollectionPage",
-      "@id": "https://www.events.denys-dutykh.com/#webpage",
-      "url": "https://www.events.denys-dutykh.com/",
-      "name": dynamicTitle,
-      "description": dynamicDescription,
-      "isPartOf": {
-        "@id": "https://www.events.denys-dutykh.com/#website"
-      },
-      "image": ogImageUrl,
-      "about": {
-        "@type": "Thing",
-        "name": "Mathematics Seminars"
-      },
-      "mainEntity": [
-        ...seminarEntities,
-        ...interviewEntities
-      ]
+      '@type': 'CollectionPage',
+      '@id': `${SITE}/#webpage`,
+      url: `${SITE}/`,
+      name: pageTitle,
+      description: pageDescription,
+      isPartOf: { '@id': `${SITE}/#website` },
+      image: ogImageUrl,
+      about: { '@type': 'Thing', name: 'Mathematics Seminars' },
+      mainEntity: [...seminarEntities, ...interviewEntities]
     }
   ]
 };
 
-declare global {
-  interface ClientWeekData {
-    week: Record<string, unknown>;
-    seminars: Array<Record<string, unknown>>;
-    series: Array<Record<string, unknown>>;
-  }
-
-  interface Window {
-    dataLayer: unknown[];
-    kuSeminarData?: ClientWeekData;
-  }
-}
+// Only the fields the PDF export needs are exposed to the browser.
+const clientWeekData = {
+  week,
+  series: seriesList,
+  seminars: seminarsList
+};
 ---
-<html lang="en">
-  <head>
-    <!-- Google tag (gtag.js) -->
-    <script async is:inline src="https://www.googletagmanager.com/gtag/js?id=G-6ZT85XGX9R"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(...args: unknown[]) {
-        window.dataLayer.push(args);
-      }
-      gtag('js', new Date());
-      gtag('config', 'G-6ZT85XGX9R');
-    </script>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{dynamicTitle}</title>
-    <meta name="description" content={dynamicDescription} />
-    <meta name="author" content="Mathematics Department, Khalifa University" />
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:title" content={dynamicTitle} />
-    <meta property="og:description" content={dynamicDescription} />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.events.denys-dutykh.com/" />
-    <meta property="og:image" content={ogImageUrl} />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:type" content="image/png" />
-    <meta property="og:image:alt" content="KU Mathematics Seminars weekly overview" />
-    <meta property="og:locale" content="en_US" />
-    <meta property="og:locale:alternate" content="ar_AE" />
-    <meta property="og:site_name" content="KU Mathematics Seminars" />
-    <meta property="og:updated_time" content={new Date().toISOString()} />
-    
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@KhalifaUni" />
-    <meta name="twitter:title" content={dynamicTitle} />
-    <meta name="twitter:description" content={dynamicDescription} />
-    <meta name="twitter:image" content={ogImageUrl} />
-    <meta name="twitter:image:alt" content="KU Mathematics Seminars weekly overview" />
-    
-    <!-- Additional Meta Tags -->
-    <meta name="keywords" content={dynamicKeywords} />
-    <meta name="robots" content="index, follow" />
-    <meta name="googlebot" content="index, follow" />
-    <meta name="bingbot" content="index, follow" />
-    <link rel="canonical" href="https://www.events.denys-dutykh.com/" />
-    
-    <!-- Academic Meta Tags -->
-    <meta name="DC.title" content={dynamicTitle} />
-    <meta name="DC.description" content={dynamicDescription} />
-    <meta name="DC.creator" content="Mathematics Department, Khalifa University" />
-    <meta name="DC.subject" content="Mathematics, Seminars, Research, Academic Events" />
-    <meta name="DC.type" content="Event" />
-    <meta name="DC.format" content="text/html" />
-    <meta name="DC.language" content="en" />
-    <meta name="DC.coverage" content="Abu Dhabi, UAE" />
-    <meta name="DC.rights" content="© Khalifa University" />
-    
-    <!-- Educational Meta Tags -->
-    <meta name="audience" content="researchers, faculty, students, academics" />
-    <meta name="content-language" content="en-US" />
-    <meta name="distribution" content="global" />
-    <meta name="rating" content="general" />
-    <meta name="revisit-after" content="1 days" />
-    
-    <!-- Geo Meta Tags -->
-    <meta name="geo.region" content="AE-AZ" />
-    <meta name="geo.placename" content="Abu Dhabi, UAE" />
-    <meta name="geo.position" content="24.4539;54.3773" />
-    <meta name="ICBM" content="24.4539, 54.3773" />
-    
-    <!-- Favicon & icons -->
-    <link rel="icon" type="image/png" sizes="16x16" href="/assets/icon-16.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/assets/icon-32.png" />
-    <link rel="icon" type="image/png" sizes="64x64" href="/assets/icon-64.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
-    <link rel="manifest" href="/site.webmanifest" />
-    <!-- Hint primary page image for crawlers -->
-    <link rel="image_src" href={ogImageUrl} />
-    <meta name="theme-color" content="#1e3a8a" />
-    
-    <!-- Structured Data (JSON-LD) -->
-    <script type="application/ld+json" is:inline set:html={JSON.stringify(structuredData)}></script>
 
-    <!-- Preload critical resources -->
-    <link rel="preload" href="/assets/KUlogo.png" as="image" />
-    <link rel="dns-prefetch" href="//fonts.googleapis.com" />
-    <link rel="dns-prefetch" href="//fonts.gstatic.com" />
-    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com" />
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Print Styles -->
-    <link rel="stylesheet" href="/styles/print.css" media="print">
-    
-    <!-- Performance hints -->
-    <meta http-equiv="x-dns-prefetch-control" content="on">
-    <meta name="format-detection" content="telephone=no,address=no">
-  </head>
-  <body class="min-h-screen bg-background text-foreground font-sans antialiased">
-    <!-- Skip to main content for accessibility -->
-    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-ku-primary text-white px-4 py-2 rounded">
-      Skip to main content
-    </a>
-    
-    <!-- Week Header Component -->
-    <WeekHeader weekData={weekData} />
-    
-    <main id="main-content" class="container max-w-4xl mx-auto px-6 py-8 md:px-8 lg:px-12" role="main">
-      <WeeklySummary
-        seminars={seminarsList}
-        interviews={interviewsList}
-        timezone={timezone}
-        seriesList={seriesList}
-        weekRangeSummary={weekRangeSummary}
-      />
-      <!-- Week Range and Status Banner -->
-      <div class="mb-8 space-y-3">
-        <div id="week-range" class="sr-only">
-          {weekRangeSummary}
-        </div>
-        {statusInfo && (
-          <div
-            id="banner"
-            class={`flex items-start gap-3 rounded-xl border px-4 py-3 text-sm shadow-subtle bg-background-subtle/90 ${statusInfo.className}`}
-            role="status"
-            aria-live="polite"
-          >
-            <span class="text-2xl" aria-hidden="true">{statusInfo.icon}</span>
-            <div class="space-y-1 text-left">
-              <div class={`font-semibold ${statusInfo.titleClass}`}>
-                {statusInfo.title}
-              </div>
-              {statusMessage && (
-                <p class="text-sm text-foreground-secondary font-normal">
-                  {statusMessage}
-                </p>
-              )}
-            </div>
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  keywords={pageKeywords}
+  canonical={`${SITE}/`}
+  ogImage={ogImageUrl}
+  structuredData={structuredData}
+>
+  <WeekHeader weekData={weekData} />
+
+  <main id="main-content" class="container max-w-4xl mx-auto px-6 py-8 md:px-8 lg:px-12">
+    <WeeklySummary
+      seminars={seminarsList}
+      interviews={interviewsList}
+      timezone={timezone}
+      seriesList={seriesList}
+      weekRangeSummary={weekRangeSummary}
+    />
+
+    <div class="mb-8 space-y-3">
+      <div id="week-range" class="sr-only">{weekRangeSummary}</div>
+      {statusInfo && (
+        <div
+          id="banner"
+          class={`flex items-start gap-3 rounded-xl border px-4 py-3 text-sm shadow-subtle bg-background-subtle/90 ${statusInfo.className}`}
+          role="status"
+          aria-live="polite"
+        >
+          <span class="text-2xl" aria-hidden="true">{statusInfo.icon}</span>
+          <div class="space-y-1 text-left">
+            <div class={`font-semibold ${statusInfo.titleClass}`}>{statusInfo.title}</div>
+            {statusMessage && (
+              <p class="text-sm text-foreground-secondary font-normal">{statusMessage}</p>
+            )}
           </div>
-        )}
-      </div>
+        </div>
+      )}
+    </div>
 
-      <!-- Main Content -->
-      <section id="content" aria-live="polite" class="space-y-12">
-        {hasInterviews && (
-          <JobInterviewsSection
-            interviews={interviewsList}
-            timezone={timezone}
-            defaultPanel={interviewPanelDefault}
-          />
-        )}
-        {hasSeminars ? (
-          allSeries.map((seriesMeta, index) => {
-            const seminars = groupedSeminars.get(seriesMeta.code) || [];
-            if (!seminars.length) return null;
-            
-            return (
-              <div>
-                {index > 0 && (
-                  <div class="flex items-center justify-center my-8">
-                    <div class="flex-grow h-px bg-gradient-to-r from-transparent via-ku-secondary/30 to-transparent"></div>
-                    <div class="mx-6 flex items-center space-x-3">
-                      <div class="w-2 h-2 rounded-full bg-ku-accent/40"></div>
-                      <div class="w-1 h-1 rounded-full bg-ku-accent/60"></div>
-                      <div class="w-2 h-2 rounded-full bg-ku-accent/40"></div>
-                    </div>
-                    <div class="flex-grow h-px bg-gradient-to-r from-transparent via-ku-secondary/30 to-transparent"></div>
+    <section id="content" class="space-y-12">
+      {hasInterviews && (
+        <JobInterviewsSection
+          interviews={interviewsList}
+          timezone={timezone}
+          defaultPanel={interviewPanelDefault}
+        />
+      )}
+
+      {hasSeminars ? (
+        allSeries.map((seriesMeta, index) => {
+          const seminars = groupedSeminars.get(seriesMeta.code) ?? [];
+          if (!seminars.length) return null;
+
+          return (
+            <div>
+              {index > 0 && (
+                <div class="flex items-center justify-center my-8" aria-hidden="true">
+                  <div class="grow h-px bg-gradient-to-r from-transparent via-ku-secondary/30 to-transparent"></div>
+                  <div class="mx-6 flex items-center space-x-3">
+                    <div class="w-2 h-2 rounded-full bg-ku-accent/40"></div>
+                    <div class="w-1 h-1 rounded-full bg-ku-accent/60"></div>
+                    <div class="w-2 h-2 rounded-full bg-ku-accent/40"></div>
                   </div>
-                )}
-                <SeriesSection
-                  seriesCode={seriesMeta.code}
-                  seriesInfo={{
-                    series: seriesMeta,
-                    seminars: seminars
-                  }}
-                  timezone={timezone}
-                  showTimeline={false}
-                />
-              </div>
-            );
-          })
-        ) : (
-          !hasInterviews && (
-            <div class="card-elevated rounded-2xl p-8 text-center">
-              <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-ku-primary/10 text-ku-primary">
-                <Calendar size={32} class="stroke-current" />
-              </div>
-              <h3 class="text-xl font-semibold text-foreground mb-2">No seminars scheduled</h3>
-              <p class="text-muted">
-                {statusMessage || 'Check back next week for upcoming events.'}
-              </p>
+                  <div class="grow h-px bg-gradient-to-r from-transparent via-ku-secondary/30 to-transparent"></div>
+                </div>
+              )}
+              <SeriesSection
+                seriesCode={seriesMeta.code}
+                seriesInfo={{ series: seriesMeta, seminars }}
+                timezone={timezone}
+              />
             </div>
-          )
-        )}
-      </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="mt-16 bg-gradient-to-r from-ku-primary/5 via-background-subtle/80 to-ku-accent/5 border-t-2 border-ku-primary/20 backdrop-blur-sm">
-      <div class="container max-w-4xl mx-auto px-6 py-12 md:px-8 lg:px-12">
-        <div class="flex flex-col items-center text-center space-y-8">
-          <!-- Main content -->
-          <div class="space-y-6">
-            <h3 class="text-xl font-bold text-foreground bg-gradient-to-r from-ku-primary to-ku-accent bg-clip-text text-transparent">
-              Website Created by
-            </h3>
-            
-            <!-- Creator info - perfectly centered -->
-            <div class="flex flex-col items-center space-y-4">
-              <!-- Name and department on separate centered lines -->
-              <div class="flex items-center justify-center gap-3">
-                <a 
-                  href="https://www.denys-dutykh.com/" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  class="inline-flex items-center gap-2 text-foreground font-bold text-lg hover:text-ku-primary transition-colors duration-300 group"
-                >
-                  <Globe size={20} class="text-ku-accent group-hover:text-ku-primary transition-colors duration-300" />
-                  Dr. Denys Dutykh
-                </a>
-              </div>
-              
-              <p class="text-foreground-secondary font-semibold">
-                <a 
-                  href="https://www.ku.ac.ae/academics/college-of-computing-and-mathematical-sciences/department/department-of-mathematics/"
-                  target="_blank"
-                  rel="noopener noreferrer" 
-                  class="hover:text-ku-primary transition-colors duration-300"
-                >
-                  Mathematics Department
-                </a>
-              </p>
-              
-              <!-- Contact email - centered -->
-              <div class="flex items-center justify-center gap-2">
-                <span class="text-foreground-secondary text-sm">Contact:</span>
-                <a 
-                  href="mailto:denys.dutykh@ku.ac.ae" 
-                  class="inline-flex items-center gap-2 text-ku-primary hover:text-ku-accent transition-colors duration-300 font-medium group"
-                >
-                  <Mail size={16} class="text-ku-primary group-hover:text-ku-accent transition-colors duration-300" />
-                  denys.dutykh@ku.ac.ae
-                </a>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Elegant divider -->
-          <div class="flex items-center justify-center w-full">
-            <div class="h-px bg-gradient-to-r from-transparent via-ku-secondary/50 to-transparent w-32"></div>
-            <div class="mx-4 w-2 h-2 rounded-full bg-ku-accent/30"></div>
-            <div class="h-px bg-gradient-to-r from-transparent via-ku-secondary/50 to-transparent w-32"></div>
-          </div>
-          
-          <!-- Bottom section - perfectly centered -->
-          <div class="flex flex-col items-center space-y-3">
-            <!-- Copyright and university -->
-            <div class="flex items-center justify-center gap-2 text-sm text-muted">
-              <span>© 2025</span>
-              <a 
-                href="https://www.ku.ac.ae/" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                class="text-ku-primary hover:text-ku-accent transition-colors duration-300 font-medium"
-              >
-                Khalifa University
-              </a>
-              <span class="text-muted-foreground">•</span>
-              <span class="text-muted-foreground">Abu Dhabi, UAE</span>
-            </div>
-            
-            <!-- Technical credits with Astro logo -->
-            <div class="flex items-center justify-center gap-4 text-xs text-muted-foreground">
-              <div class="flex items-center gap-2">
-                <span>Built with</span>
-                <a 
-                  href="https://astro.build/" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  class="inline-flex items-center gap-1.5 text-ku-accent hover:text-ku-primary transition-colors duration-300 font-medium group"
-                >
-                  <AstroLogo size={16} class="group-hover:scale-110 transition-transform duration-300" />
-                  Astro
-                </a>
-              </div>
-              
-              <span>•</span>
-              
-              <div class="flex items-center gap-1">
-                <span>Licensed under</span>
-                <a 
-                  href="https://www.gnu.org/licenses/gpl-3.0.html" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  class="text-ku-primary hover:text-ku-accent transition-colors duration-300 font-medium"
-                >
-                  GPL v3.0
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
-
-    <script is:inline>
-      // Initialize dark mode based on saved preference
-      const html = document.documentElement;
-      const savedTheme = localStorage.getItem('theme') || 'light';
-      if (savedTheme === 'dark') {
-        html.classList.add('dark');
-      }
-    </script>
-
-    <script is:inline>
-      // PDF Export functionality - using CDN version of jsPDF for browser compatibility
-      document.addEventListener('DOMContentLoaded', () => {
-        // Load jsPDF from CDN dynamically
-        if (!window.jsPDF) {
-          const script = document.createElement('script');
-          script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
-          script.onload = initializePDFExport;
-          document.head.appendChild(script);
-        } else {
-          initializePDFExport();
-        }
-        
-        // Helper function to create overview page with table format
-        async function createOverviewPage(doc, seminars, series, pageWidth, margin) {
-          let currentY = 80;
-          
-          // Title
-          doc.setFont('helvetica', 'bold');
-          doc.setFontSize(12);
-          doc.setTextColor(30, 58, 138);
-          doc.text('WEEKLY SEMINARS OVERVIEW', pageWidth / 2, currentY, { align: 'center' });
-          currentY += 20;
-          
-          // Table headers
-          doc.setFont('helvetica', 'bold');
-          doc.setFontSize(10);
-          doc.setTextColor(30, 58, 138);
-          
-          // Improved column layout with better spacing and left padding
-          const leftPadding = 5; // Add padding inside the table border
-          // Adjusted column widths to fit within page boundaries (A4 width = 210mm, margins = 30mm total)
-          const colWidths = [25, 22, 32, 50, 30]; // Date&Time, Series, Speaker, Title, Location - Total: 159mm
-          const colSpacing = 2; // Add 2mm spacing between columns (4 gaps = 8mm)
-          // Calculate column positions with spacing between columns
-          const colX = [
-            margin + leftPadding,                    // Date & Time starts at margin + padding
-            margin + leftPadding + colWidths[0] + colSpacing,     // Series starts after Date & Time + spacing
-            margin + leftPadding + colWidths[0] + colSpacing + colWidths[1] + colSpacing,  // Speaker 
-            margin + leftPadding + colWidths[0] + colSpacing + colWidths[1] + colSpacing + colWidths[2] + colSpacing,  // Title
-            margin + leftPadding + colWidths[0] + colSpacing + colWidths[1] + colSpacing + colWidths[2] + colSpacing + colWidths[3] + colSpacing  // Location
-          ];
-          
-          // Center headers properly within their actual column areas
-          doc.text('Date & Time', colX[0] + colWidths[0]/2, currentY, { align: 'center' });
-          doc.text('Series', colX[1] + colWidths[1]/2, currentY, { align: 'center' });
-          doc.text('Speaker', colX[2] + colWidths[2]/2, currentY, { align: 'center' });
-          doc.text('Title', colX[3] + colWidths[3]/2, currentY, { align: 'center' });
-          doc.text('Location', colX[4] + colWidths[4]/2, currentY, { align: 'center' });
-          
-          // Header underline
-          doc.setDrawColor(30, 58, 138);
-          doc.setLineWidth(0.5);
-          doc.line(margin, currentY + 2, pageWidth - margin, currentY + 2);
-          currentY += 15; // More space after header line
-          
-          // Store initial Y position for vertical lines
-          const tableStartY = currentY;
-          
-          // Sort seminars by start time
-          const sortedSeminars = [...seminars].sort((a, b) => 
-            new Date(a.start || '').getTime() - new Date(b.start || '').getTime()
           );
-          
-          // Seminar rows
-          doc.setFont('helvetica', 'normal');
-          doc.setFontSize(8);
-          doc.setTextColor(31, 41, 55);
-          
-          // Get page height once at the start
-          const pageHeight = doc.internal.pageSize.getHeight();
-          
-          for (const seminar of sortedSeminars) {
-            // Check if we're approaching the bottom of the page
-            if (currentY > pageHeight - 50) break; // Use actual page height, not width
-            
-            const startDate = new Date(seminar.start || '');
-            const endDate = seminar.end ? new Date(seminar.end) : null;
-            
-            const dateStr = startDate.toLocaleDateString('en-GB', { 
-              weekday: 'short', month: 'short', day: 'numeric'
-            });
-            const startTimeStr = startDate.toLocaleTimeString('en-GB', { 
-              hour: '2-digit', minute: '2-digit'
-            });
-            const endTimeStr = endDate ? endDate.toLocaleTimeString('en-GB', { 
-              hour: '2-digit', minute: '2-digit'
-            }) : '';
-            
-            // Create time range string
-            const timeStr = endTimeStr ? `${startTimeStr} – ${endTimeStr}` : startTimeStr;
-            
-            const seriesInfo = series.find(s => s && s.code === seminar.series);
-            const seriesLabel = seriesInfo?.label || seminar.series?.toUpperCase() || '';
-            
-            const status = seminar.status || 'confirmed';
-            const statusPrefix = status !== 'confirmed' ? `[${status.toUpperCase()}] ` : '';
-            
-            // Use text wrapping for better formatting
-            const dateTime = `${dateStr}\n${timeStr}`;
-            const speaker = seminar.speaker || 'TBA';
-            const fullTitle = statusPrefix + (seminar.title || 'TBA');
-            const location = seminar.location || 'TBA';
-            
-            // Split text to fit within column widths
-            const speakerLines = doc.splitTextToSize(speaker, colWidths[2]);
-            const titleLines = doc.splitTextToSize(fullTitle, colWidths[3]);
-            const locationLines = doc.splitTextToSize(location, colWidths[4]);
-            const seriesLines = doc.splitTextToSize(seriesLabel, colWidths[1]);
-            
-            // Calculate row height based on the tallest content
-            const maxLines = Math.max(
-              2, // Date & Time always takes 2 lines
-              speakerLines.length,
-              titleLines.length,
-              locationLines.length,
-              seriesLines.length
-            );
-            
-            // Check if we have enough space for this row - use proper page height
-            const spaceNeeded = currentY + (maxLines * 5) + 15;
-            const spaceAvailable = pageHeight - 40;
-            
-            if (spaceNeeded > spaceAvailable) {
-              break; // Footer note needs space too
-            }
-            
-            // Draw the content
-            doc.text(dateTime, colX[0], currentY);
-            
-            // Series
-            for (let i = 0; i < seriesLines.length; i++) {
-              doc.text(seriesLines[i], colX[1], currentY + (i * 5));
-            }
-            
-            // Speaker
-            for (let i = 0; i < speakerLines.length; i++) {
-              doc.text(speakerLines[i], colX[2], currentY + (i * 5));
-            }
-            
-            // Title
-            for (let i = 0; i < titleLines.length; i++) {
-              doc.text(titleLines[i], colX[3], currentY + (i * 5));
-            }
-            
-            // Location
-            for (let i = 0; i < locationLines.length; i++) {
-              doc.text(locationLines[i], colX[4], currentY + (i * 5));
-            }
-            
-            currentY += (maxLines * 5) + 7; // Add spacing between rows (no separator lines)
-          }
-          
-          // Draw vertical grid lines for table structure
-          const tableEndY = currentY - 2;
-          doc.setDrawColor(229, 231, 235);
-          doc.setLineWidth(0.2);
-          
-          // Vertical lines between columns
-          for (let i = 1; i < colX.length; i++) {
-            doc.line(colX[i] - 2, tableStartY - 5, colX[i] - 2, tableEndY);
-          }
-          
-          // Table border with stronger bottom line
-          doc.setDrawColor(30, 58, 138);
-          doc.setLineWidth(0.3);
-          doc.line(margin, tableStartY - 5, pageWidth - margin, tableStartY - 5); // Top border
-          doc.line(margin, tableStartY - 5, margin, tableEndY); // Left border
-          doc.line(pageWidth - margin, tableStartY - 5, pageWidth - margin, tableEndY); // Right border
-          
-          // Bottom border - make it more prominent
-          doc.setLineWidth(0.5); // Slightly thicker for visibility
-          doc.line(margin, tableEndY, pageWidth - margin, tableEndY); // Bottom border
-          
-          // Footer note
-          currentY += 15;
-          doc.setFont('helvetica', 'italic');
-          doc.setFontSize(9);
-          doc.setTextColor(107, 114, 128);
-          doc.text('Detailed information for each seminar follows on subsequent pages.', pageWidth / 2, currentY, { align: 'center' });
-          
-          // Add main footer with website and contact info
-          addPageFooter(doc, pageWidth, 1);
-        }
-        
-        // Helper function to create detailed seminar page
-        async function createSeminarDetailPage(doc, seminar, series, week, pageWidth, margin, pageNum) {
-          // Add header for detail page
-          await addPageHeader(doc, week, pageWidth);
-          
-          let currentY = 80;
-          
-          // Series label
-          const seriesInfo = series.find(s => s && s.code === seminar.series);
-          const seriesLabel = seriesInfo?.label || seminar.series?.toUpperCase() || '';
-          
-          doc.setFont('helvetica', 'bold');
-          doc.setFillColor(5, 150, 105);
-          doc.rect(margin, currentY, pageWidth - 2 * margin, 12, 'F');
-          doc.setTextColor(255, 255, 255);
-          doc.setFontSize(14);
-          doc.text(seriesLabel, pageWidth / 2, currentY + 8, { align: 'center' });
-          currentY += 25;
+        })
+      ) : (
+        !hasInterviews && (
+          <div class="card-elevated rounded-2xl p-8 text-center">
+            <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-ku-primary/10 text-ku-primary">
+              <Calendar size={32} class="stroke-current" />
+            </div>
+            <h2 class="text-xl font-semibold text-foreground mb-2">No seminars scheduled</h2>
+            <p class="text-muted">
+              {statusMessage || 'Check back next week for upcoming events.'}
+            </p>
+          </div>
+        )
+      )}
+    </section>
+  </main>
 
-          // Organizers line (if available)
-          const organisers = seriesInfo?.organisedBy;
-          if (organisers && typeof organisers === 'string') {
-            doc.setFont('helvetica', 'italic');
-            doc.setFontSize(10);
-            doc.setTextColor(75, 85, 99);
-            const orgText = `Organized by: ${organisers}`;
-            const orgLines = doc.splitTextToSize(orgText, pageWidth - 2 * margin);
-            for (let i = 0; i < orgLines.length; i++) {
-              doc.text(orgLines[i], pageWidth / 2, currentY + (i * 5), { align: 'center' });
-            }
-            currentY += (orgLines.length * 5) + 8;
-          }
+  <SiteFooter />
 
-          // Status badge if not confirmed
-          const status = seminar.status || 'confirmed';
-          if (status !== 'confirmed') {
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(12);
-            let statusColor = [107, 114, 128];
-            if (status === 'cancelled') statusColor = [220, 38, 38];
-            else if (status === 'postponed') statusColor = [217, 119, 6];
-            else if (status === 'tentative') statusColor = [37, 99, 235];
-            
-            doc.setTextColor(statusColor[0], statusColor[1], statusColor[2]);
-            doc.text(`[${status.toUpperCase()}]`, pageWidth / 2, currentY, { align: 'center' });
-            currentY += 15;
-          }
-          
-          // Speaker name
-          doc.setFont('helvetica', 'bold');
-          doc.setFontSize(18);
-          doc.setTextColor(31, 41, 55);
-          doc.text(seminar.speaker || 'TBA', pageWidth / 2, currentY, { align: 'center' });
-          currentY += 12;
-          
-          // Affiliation
-          if (seminar.affiliation) {
-            doc.setFont('helvetica', 'normal');
-            doc.setFontSize(12);
-            doc.setTextColor(107, 114, 128);
-            doc.text(`(${seminar.affiliation})`, pageWidth / 2, currentY, { align: 'center' });
-            currentY += 15;
-          } else {
-            currentY += 10;
-          }
-          
-          // Title
-          doc.setFont('helvetica', 'bold');
-          doc.setFontSize(16);
-          doc.setTextColor(30, 58, 138);
-          const titleLines = doc.splitTextToSize(seminar.title || 'Title TBA', pageWidth - 2 * margin - 20);
-          for (let i = 0; i < titleLines.length; i++) {
-            doc.text(titleLines[i], pageWidth / 2, currentY + (i * 8), { align: 'center' });
-          }
-          currentY += titleLines.length * 8 + 15;
-          
-          // Time and location
-          doc.setFont('helvetica', 'normal');
-          doc.setFontSize(12);
-          doc.setTextColor(75, 85, 99);
-          
-          if (seminar.start) {
-            const startDate = new Date(seminar.start);
-            const dateStr = startDate.toLocaleDateString('en-GB', { 
-              weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-            });
-            const startTime = startDate.toLocaleTimeString('en-GB', { 
-              hour: '2-digit', minute: '2-digit', hour12: true
-            });
-            const endTime = seminar.end ? new Date(seminar.end).toLocaleTimeString('en-GB', { 
-              hour: '2-digit', minute: '2-digit', hour12: true
-            }) : '';
-            const timeRange = endTime ? `${startTime} – ${endTime}` : startTime;
-            
-            doc.text(`Date: ${dateStr}`, pageWidth / 2, currentY, { align: 'center' });
-            currentY += 8;
-            doc.text(`Time: ${timeRange}`, pageWidth / 2, currentY, { align: 'center' });
-            currentY += 8;
-          }
-          
-          doc.text(`Location: ${seminar.location || 'TBA'}`, pageWidth / 2, currentY, { align: 'center' });
-          currentY += 20;
-          
-          // Abstract
-          if (seminar.abstract) {
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(14);
-            doc.setTextColor(30, 58, 138);
-            doc.text('ABSTRACT', pageWidth / 2, currentY, { align: 'center' });
-            currentY += 12;
-            
-            doc.setFont('helvetica', 'normal');
-            doc.setFontSize(10);
-            doc.setTextColor(31, 41, 55);
-            
-            const abstractText = seminar.abstract.replace(/\*\*(.*?)\*\*/g, '$1').replace(/\*(.*?)\*/g, '$1');
-            const abstractLines = doc.splitTextToSize(abstractText, pageWidth - 2 * margin);
-            
-            for (let i = 0; i < abstractLines.length; i++) {
-              const pageHeight = doc.internal.pageSize.getHeight();
-              if (currentY > pageHeight - 50) break; // Use page height, not width, and leave space for footer
-              doc.text(abstractLines[i], margin, currentY);
-              currentY += 5;
-            }
-          }
-          
-          // Add footer with website, contact info, and page number
-          addPageFooter(doc, pageWidth, pageNum);
-        }
-        
-        // Helper function to add page header
-        async function addPageHeader(doc, week, pageWidth) {
-          const headerHeight = 65;
-          const margin = 15;
-          
-          // Clean blue header background with subtle gradient effect
-          doc.setFillColor(30, 58, 138); // KU Primary blue
-          doc.rect(0, 0, pageWidth, headerHeight, 'F');
-          
-          // Optional: Add subtle gradient effect by drawing a lighter rectangle at top
-          doc.setFillColor(45, 73, 153); // Slightly lighter blue
-          doc.rect(0, 0, pageWidth, 2, 'F'); // Thin light stripe at top
-          
-          // Logo section (left side) - final optimized size
-          const logoSection = {
-            x: margin,
-            y: 20,
-            width: 22,
-            height: 22
-          };
-          
-          // Try to add the KU logo with proper sizing (fetch -> dataURL for Chrome compatibility)
-          try {
-            const logoUrl = `${location.origin}/assets/KUlogo.png`;
-            const resp = await fetch(logoUrl, { cache: 'force-cache' });
-            if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-            const blob = await resp.blob();
-            const dataUrl = await new Promise((resolve) => {
-              const reader = new FileReader();
-              reader.onload = () => resolve(reader.result);
-              reader.readAsDataURL(blob);
-            });
+  <!-- Data block for the PDF export. Not executable, so it is inert to CSP. -->
+  <script
+    type="application/json"
+    id="ku-week-data"
+    is:inline
+    set:html={JSON.stringify(clientWeekData)}
+  />
+</BaseLayout>
 
-            // Create an Image to get natural dimensions for aspect ratio
-            const img = await new Promise((resolve, reject) => {
-              const i = new Image();
-              i.onload = () => resolve(i);
-              i.onerror = reject;
-              i.src = typeof dataUrl === 'string' ? dataUrl : String(dataUrl);
-            });
+<script>
+  import type { WeekData } from '../lib/types';
 
-            const naturalW = img && img.width ? img.width : 1;
-            const naturalH = img && img.height ? img.height : 1;
-            const maxSize = 15;
-            const aspectRatio = naturalW / naturalH;
-            let logoWidth = maxSize;
-            let logoHeight = maxSize;
-            if (aspectRatio > 1) {
-              logoHeight = maxSize;
-              logoWidth = logoHeight * aspectRatio;
-            } else {
-              logoWidth = maxSize;
-              logoHeight = logoWidth / aspectRatio;
-            }
+  /** Wire both Export PDF buttons; jsPDF is fetched only on first click. */
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.export-pdf-button');
+  const dataNode = document.getElementById('ku-week-data');
 
-            const logoX = logoSection.x + (logoSection.width - logoWidth) / 2;
-            const logoY = logoSection.y + (logoSection.height - logoHeight) / 2;
+  if (buttons.length && dataNode?.textContent) {
+    const weekData = JSON.parse(dataNode.textContent) as WeekData;
 
-            // Add white background rectangle for better logo visibility
-            const padding = 2;
-            doc.setFillColor(255, 255, 255);
-            doc.roundedRect(
-              logoX - padding,
-              logoY - padding,
-              logoWidth + (padding * 2),
-              logoHeight + (padding * 2),
-              2, 2, 'F'
-            );
+    buttons.forEach((button) => {
+      button.addEventListener('click', async () => {
+        const original = button.textContent;
+        button.disabled = true;
 
-            doc.addImage(typeof dataUrl === 'string' ? dataUrl : String(dataUrl), 'PNG', logoX, logoY, logoWidth, logoHeight);
-          } catch (error) {
-            console.warn('Could not add KU logo:', error);
-            addFallbackLogo(doc, logoSection.x, logoSection.y, 15);
-          }
-          
-          // Text section (right side) - properly calculated to avoid logo
-          const textStartX = 42; // Start text after logo area
-          const textAreaWidth = pageWidth - textStartX - 15; // Available width for text
-          const textCenterX = textStartX + (textAreaWidth / 2); // Center of available text area
-          
-          doc.setTextColor(255, 255, 255);
-          doc.setFont('helvetica', 'bold');
-          doc.setFontSize(20);
-          doc.text('KHALIFA UNIVERSITY', textCenterX, 20, { align: 'center' });
-          
-          doc.setFontSize(14);
-          doc.text('Mathematics Department', textCenterX, 32, { align: 'center' });
-          
-          doc.setFontSize(12);
-          doc.text('Weekly Seminars Schedule', textCenterX, 44, { align: 'center' });
-          
-          // Week range with proper spacing around dash
-          const weekStartStr = week.start ? `${week.start}` : '';
-          const weekEndStr = week.end ? `${week.end}` : '';
-          const weekRangeText = `Week ${week.isoWeek}: ${weekStartStr} — ${weekEndStr}`;
-          
-          doc.setFontSize(10);
-          doc.setFont('helvetica', 'normal');
-          doc.text(weekRangeText, textCenterX, 56, { align: 'center' });
-        }
-        
-        // Fallback logo function
-        function addFallbackLogo(doc, logoX, logoY, logoSize) {
-          // Simple KU text without circle background
-          doc.setTextColor(255, 255, 255); // White text for better visibility on blue
-          doc.setFont('helvetica', 'bold');
-          doc.setFontSize(20);
-          doc.text('KU', logoX + 5, logoY + logoSize/2 + 5);
-        }
-        
-        // Reusable footer function
-        function addPageFooter(doc, pageWidth, pageNum) {
-          const pageHeight = doc.internal.pageSize.getHeight();
-          const margin = 15;
-          
-          // Footer separator line
-          doc.setDrawColor(229, 231, 235);
-          doc.setLineWidth(0.3);
-          doc.line(margin, pageHeight - 25, pageWidth - margin, pageHeight - 25);
-          
-          // Footer content
-          doc.setTextColor(107, 114, 128);
-          doc.setFont('helvetica', 'normal');
-          doc.setFontSize(9);
-          
-          // Website info - centered
-          doc.text('For more information, visit: https://www.events.denys-dutykh.com', pageWidth / 2, pageHeight - 18, { align: 'center' });
-          
-          // Contact info - centered
-          doc.text('Contact: denys.dutykh@ku.ac.ae', pageWidth / 2, pageHeight - 10, { align: 'center' });
-          
-          // Page number - only for detail pages (pageNum > 1)
-          if (pageNum && pageNum > 1) {
-            doc.setFontSize(8);
-            doc.text(`Page ${pageNum}`, pageWidth - margin, pageHeight - 5, { align: 'right' });
-          }
-        }
-
-        function initializePDFExport() {
-          const exportButtons = document.querySelectorAll('.export-pdf-button');
-          exportButtons.forEach((exportButton) => {
-            exportButton.addEventListener('click', async () => {
-              try {
-                // Use the global variable data
-                if (typeof window.kuSeminarData === 'undefined') {
-                  throw new Error('Seminar data not loaded. Please refresh the page and try again.');
-                }
-                
-                const completeWeekData = {
-                  week: window.kuSeminarData.week || { isoWeek: 1, start: 'January 1, 2025', end: 'January 7, 2025', timezone: 'Asia/Dubai' },
-                  seminars: window.kuSeminarData.seminars || [],
-                  series: window.kuSeminarData.series || []
-                };
-
-                // Generate and download PDF using inline PDF generation
-                await generateSeminarPoster(completeWeekData);
-              } catch (error) {
-                console.error('Error generating PDF:', error);
-                alert('Error generating PDF: ' + error.message);
-              }
-            });
-          });
-        }
-        
-        // Inline PDF generation function (simplified version)
-        async function generateSeminarPoster(weekData) {
-          // Validate weekData structure
-          if (!weekData || !weekData.week) {
-            throw new Error('Invalid week data structure');
-          }
-          
-          const { jsPDF } = window.jspdf;
-          const doc = new jsPDF({
-            orientation: 'portrait',
-            unit: 'mm',
-            format: 'a4'
-          });
-          
-          const pageWidth = doc.internal.pageSize.getWidth();
-          const margin = 15;
-          
-          // Header with improved professional design
-          const headerHeight = 65;
-          doc.setFillColor(30, 58, 138); // KU Primary blue
-          doc.rect(0, 0, pageWidth, headerHeight, 'F');
-          
-          // Optional: Add subtle gradient effect by drawing a lighter rectangle at top
-          doc.setFillColor(45, 73, 153); // Slightly lighter blue
-          doc.rect(0, 0, pageWidth, 2, 'F'); // Thin light stripe at top
-          
-          // Logo section (left side) - final optimized size
-          const logoSection = {
-            x: margin,
-            y: 20,
-            width: 22,
-            height: 22
-          };
-          
-          // KU logo (fetch -> dataURL for Chrome compatibility)
-          try {
-            const logoSize = 15;
-
-            const logoUrl = `${location.origin}/assets/KUlogo.png`;
-            const resp = await fetch(logoUrl, { cache: 'force-cache' });
-            if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-            const blob = await resp.blob();
-            const dataUrl = await new Promise((resolve) => {
-              const reader = new FileReader();
-              reader.onload = () => resolve(reader.result);
-              reader.readAsDataURL(blob);
-            });
-
-            // Use an Image to compute aspect ratio
-            const img = await new Promise((resolve, reject) => {
-              const i = new Image();
-              i.onload = () => resolve(i);
-              i.onerror = reject;
-              i.src = typeof dataUrl === 'string' ? dataUrl : String(dataUrl);
-            });
-
-            const naturalW = img && img.width ? img.width : 1;
-            const naturalH = img && img.height ? img.height : 1;
-            const aspectRatio = naturalW / naturalH;
-            let logoWidth = logoSize;
-            let logoHeight = logoSize;
-            if (aspectRatio > 1) {
-              // Landscape - limit by height
-              logoHeight = logoSize;
-              logoWidth = logoHeight * aspectRatio;
-            } else {
-              // Portrait or square - limit by width
-              logoWidth = logoSize;
-              logoHeight = logoWidth / aspectRatio;
-            }
-
-            const centerX = logoSection.x + (logoSection.width - logoWidth) / 2;
-            const centerY = logoSection.y + (logoSection.height - logoHeight) / 2;
-
-            const padding = 2;
-            doc.setFillColor(255, 255, 255);
-            doc.roundedRect(
-              centerX - padding,
-              centerY - padding,
-              logoWidth + (padding * 2),
-              logoHeight + (padding * 2),
-              2, 2, 'F'
-            );
-
-            doc.addImage(typeof dataUrl === 'string' ? dataUrl : String(dataUrl), 'PNG', centerX, centerY, logoWidth, logoHeight);
-          } catch (error) {
-            console.warn('Could not add KU logo:', error);
-            addFallbackLogo(doc, 15, 10, logoSize);
-          }
-          
-          // University name and header text - shifted right to avoid logo overlap
-          const textStartX = 42; // Start text after logo area
-          const textAreaWidth = pageWidth - textStartX - 15; // Available width for text
-          const textCenterX = textStartX + (textAreaWidth / 2); // Center of available text area
-          
-          doc.setTextColor(255, 255, 255);
-          doc.setFont('helvetica', 'bold');
-          doc.setFontSize(20);
-          doc.text('KHALIFA UNIVERSITY', textCenterX, 20, { align: 'center' });
-          
-          doc.setFontSize(14);
-          doc.text('Mathematics Department', textCenterX, 32, { align: 'center' });
-          
-          doc.setFontSize(12);
-          doc.text('Weekly Seminars Schedule', textCenterX, 44, { align: 'center' });
-          
-          // Week info with safe access
-          const week = weekData.week || {};
-          const isoWeek = week.isoWeek || 1;
-          const startDate = week.start || 'January 1, 2025';
-          const endDate = week.end || 'January 7, 2025';
-          
-          const weekRange = `Week ${isoWeek}: ${startDate} — ${endDate}`;
-          doc.setFontSize(10);
-          doc.setFont('helvetica', 'normal');
-          doc.text(weekRange, textCenterX, 56, { align: 'center' });
-          
-          let currentY = 80;
-          
-          // Safe access to seminars array
-          const seminars = Array.isArray(weekData.seminars) ? weekData.seminars : [];
-          const series = weekData.series || [];
-          
-          if (seminars.length === 0) {
-            // No seminars message
-            doc.setTextColor(107, 114, 128);
-            doc.setFont('helvetica', 'normal');
-            doc.setFontSize(14);
-            doc.text('No seminars scheduled for this week.', pageWidth / 2, currentY, { align: 'center' });
-          } else {
-            // PAGE 1: Create overview table
-            await createOverviewPage(doc, seminars, series, pageWidth, margin);
-            
-            // PAGES 2+: Create detailed pages for each seminar
-            for (let i = 0; i < seminars.length; i++) {
-              const seminar = seminars[i];
-              if (seminar) {
-                // Add new page for each seminar
-                doc.addPage();
-                await createSeminarDetailPage(doc, seminar, series, week, pageWidth, margin, i + 2);
-              }
-            }
-          }
-          
-          // Save PDF with safe filename generation
-          const safeIsoWeek = week.isoWeek || 1;
-          const currentYear = week.start ? new Date(week.start).getFullYear() : new Date().getFullYear();
-          const filename = `KU-Math-Seminars-Week-${safeIsoWeek}-${currentYear}.pdf`;
-          doc.save(filename);
+        try {
+          const { generateSeminarPoster } = await import('../scripts/pdf-export');
+          await generateSeminarPoster(weekData);
+        } catch (error) {
+          console.error('Error generating PDF:', error);
+          button.textContent = 'PDF failed, retry';
+          window.setTimeout(() => {
+            button.textContent = original;
+          }, 4000);
+        } finally {
+          button.disabled = false;
         }
       });
-    </script>
-
-    <!-- Data for client-side PDF generation -->
-    <script is:inline define:vars={{ weekData }}>
-      // Global variable approach - using define:vars
-      window.kuSeminarData = {
-        week: weekData.week || {},
-        seminars: Array.isArray(weekData.seminars) ? weekData.seminars : [],
-        series: weekData.series || []
-      };
-    </script>
-  </body>
-</html>
+    });
+  }
+</script>

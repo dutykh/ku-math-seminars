@@ -7,8 +7,6 @@
 import type { WeekData } from '../lib/types';
 import { formatWeekRange } from '../lib/time';
 import Button from './ui/Button.astro';
-import Moon from './icons/Moon.astro';
-import Sun from './icons/Sun.astro';
 import Printer from './icons/Printer.astro';
 
 export interface Props {
@@ -40,6 +38,9 @@ const headerTagline = week.status === 'standby'
             <img
               src="/assets/KUlogo.png"
               alt="Khalifa University"
+              width="487"
+              height="144"
+              decoding="async"
               class="h-12 w-auto"
             />
           </div>
@@ -56,6 +57,9 @@ const headerTagline = week.status === 'standby'
             <img
               src="/assets/KUMathLogo-transparent.png"
               alt="Mathematics Department"
+              width="256"
+              height="256"
+              decoding="async"
               class="h-12 w-auto"
             />
           </div>
@@ -64,7 +68,7 @@ const headerTagline = week.status === 'standby'
 
       <!-- Center content -->
       <div class="text-center mb-3">
-        <h1 class="text-3xl font-bold mb-1 drop-shadow-sm">
+        <p class="text-3xl font-bold mb-1 drop-shadow-xs">
           <a
             href="https://www.ku.ac.ae/"
             target="_blank"
@@ -73,8 +77,8 @@ const headerTagline = week.status === 'standby'
           >
             Khalifa University
           </a>
-        </h1>
-        <p class="text-base text-ku-primary font-bold mb-1 drop-shadow-sm">
+        </p>
+        <p class="text-base text-ku-primary font-bold mb-1 drop-shadow-xs">
           <a
             href="https://www.ku.ac.ae/academics/college-of-computing-and-mathematical-sciences/department/department-of-mathematics/"
             target="_blank"
@@ -91,17 +95,6 @@ const headerTagline = week.status === 'standby'
 
       <!-- Controls -->
       <div class="flex justify-center items-center gap-2 no-print">
-        <Button
-          variant="outline"
-          size="sm"
-          id="theme-toggle"
-          ariaLabel="Toggle theme"
-          class="theme-toggle"
-        >
-          <span class="dark:hidden"><Moon size={16} /></span>
-          <span class="hidden dark:block"><Sun size={16} /></span>
-        </Button>
-
         <Button
           variant="outline"
           size="sm"
@@ -129,6 +122,9 @@ const headerTagline = week.status === 'standby'
             <img
               src="/assets/KUlogo.png"
               alt="Khalifa University"
+              width="487"
+              height="144"
+              decoding="async"
               class="h-16 w-auto"
             />
           </div>
@@ -137,7 +133,7 @@ const headerTagline = week.status === 'standby'
 
       <!-- Center - University name and department -->
       <div class="text-center">
-        <h1 class="text-5xl font-bold mb-2 drop-shadow-sm">
+        <p class="text-5xl font-bold mb-2 drop-shadow-xs">
           <a
             href="https://www.ku.ac.ae/"
             target="_blank"
@@ -146,8 +142,8 @@ const headerTagline = week.status === 'standby'
           >
             Khalifa University
           </a>
-        </h1>
-        <p class="text-xl text-ku-primary font-bold mb-1 drop-shadow-sm">
+        </p>
+        <p class="text-xl text-ku-primary font-bold mb-1 drop-shadow-xs">
           <a
             href="https://www.ku.ac.ae/academics/college-of-computing-and-mathematical-sciences/department/department-of-mathematics/"
             target="_blank"
@@ -175,6 +171,9 @@ const headerTagline = week.status === 'standby'
             <img
               src="/assets/KUMathLogo-transparent.png"
               alt="Mathematics Department"
+              width="256"
+              height="256"
+              decoding="async"
               class="h-32 w-auto"
             />
           </div>
@@ -182,17 +181,6 @@ const headerTagline = week.status === 'standby'
 
         <!-- Controls -->
         <div class="flex justify-end items-center gap-2 no-print">
-          <Button
-            variant="outline"
-            size="sm"
-            id="theme-toggle-desktop"
-            ariaLabel="Toggle theme"
-            class="theme-toggle"
-          >
-            <span class="dark:hidden"><Moon size={16} /></span>
-            <span class="hidden dark:block"><Sun size={16} /></span>
-          </Button>
-
           <Button
             variant="outline"
             size="sm"
@@ -212,9 +200,9 @@ const headerTagline = week.status === 'standby'
   <div class="bg-background-subtle/80 border-t border-border-subtle relative">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 relative z-10">
       <div class="text-center">
-        <h2 class="text-lg font-semibold text-ku-primary mb-1">
+        <h1 class="text-lg font-semibold text-ku-primary mb-1">
           {weekRange}
-        </h2>
+        </h1>
         <div class="flex items-center justify-center gap-2 text-sm text-foreground-secondary">
           <span class="font-medium text-center">{headerTagline}</span>
         </div>
@@ -237,15 +225,3 @@ const headerTagline = week.status === 'standby'
   </div>
 </header>
 
-<script>
-  // Theme toggle functionality - handle both mobile and desktop buttons
-  const themeToggles = document.querySelectorAll('.theme-toggle');
-  themeToggles.forEach(toggle => {
-    toggle.addEventListener('click', () => {
-      const html = document.documentElement;
-      html.classList.toggle('dark');
-      const isDark = html.classList.contains('dark');
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    });
-  });
-</script>

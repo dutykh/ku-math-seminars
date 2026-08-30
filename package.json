@@ -1,38 +1,55 @@
 {
   "name": "ku-math-seminars",
   "type": "module",
-  "version": "0.0.1",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "scripts": {
     "dev": "astro dev",
-    "prebuild": "node scripts/gen-og.js",
+    "prebuild": "node scripts/build-assets.js",
     "build": "astro build",
     "preview": "astro preview",
-    "start": "astro preview --host 0.0.0.0 --port 3004 --allowed-hosts events.denys-dutykh.com,www.events.denys-dutykh.com",
+    "start": "node server.js",
     "check": "astro check",
     "astro": "astro",
-    "prepare-og": "node scripts/gen-og.js"
+    "build:assets": "node scripts/build-assets.js"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.4",
-    "astro": "^5.13.3",
-    "dompurify": "^3.2.6",
-    "express": "^5.1.0",
-    "jsdom": "^26.1.0",
-    "jspdf": "^3.0.1",
-    "marked": "^16.2.0",
-    "sharp": "^0.33.4",
-    "yaml": "^2.8.1"
+    "astro": "^7.2.9",
+    "dompurify": "^3.4.14",
+    "express": "^5.2.1",
+    "jsdom": "^30.0.1",
+    "jspdf": "^4.2.1",
+    "marked": "^18.0.11",
+    "sharp": "^0.35.4",
+    "yaml": "^2.9.0"
   },
   "devDependencies": {
-    "@astrojs/tailwind": "^6.0.2",
-    "@tailwindcss/typography": "^0.5.16",
-    "@types/jsdom": "^28.0.0",
-    "@types/node": "^24.3.0",
-    "autoprefixer": "^10.4.21",
-    "postcss": "^8.5.6",
-    "tailwindcss": "^3.4.17",
-    "tailwindcss-animate": "^1.0.7",
-    "typescript": "^5.9.2"
+    "@astrojs/check": "^0.9.10",
+    "@astrojs/sitemap": "^3.7.3",
+    "@fontsource-variable/inter": "^5.3.0",
+    "@tailwindcss/typography": "^0.5.20",
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/jsdom": "^30.0.0",
+    "@types/node": "^26.4.0",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^6.0.3"
   },
-  "packageManager": "pnpm@10.18.1+sha512.77a884a165cbba2d8d1c19e3b4880eee6d2fcabd0d879121e282196b80042351d5eb3ca0935fa599da1dc51265cc68816ad2bddd2a2de5ea9fdf92adbec7cd34"
+  "packageManager": "pnpm@10.18.1+sha512.77a884a165cbba2d8d1c19e3b4880eee6d2fcabd0d879121e282196b80042351d5eb3ca0935fa599da1dc51265cc68816ad2bddd2a2de5ea9fdf92adbec7cd34",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "sharp"
+    ],
+    "overrides": {
+      "mdast-util-to-hast": ">=13.2.1",
+      "qs": ">=6.15.2",
+      "ajv": ">=8.18.0",
+      "picomatch": ">=2.3.2",
+      "path-to-regexp": ">=8.4.0",
+      "fast-uri": ">=3.1.5"
+    }
+  }
 }

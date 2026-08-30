@@ -1,0 +1,38 @@
+# KU Math Seminars - Traefik route for the GitHub deployment webhook
+# Author: Dr. Denys Dutykh (Khalifa University of Science and Technology, Abu Dhabi, UAE)
+#
+# OPTIONAL. Only needed if GitHub delivers push events over the public
+# internet. If deployments are triggered manually (`bash scripts/deploy.sh`)
+# or over SSH, do not install this; leave the webhook on loopback only.
+#
+# The webhook verifies GitHub's HMAC-SHA256 signature and fails closed when
+# GITHUB_WEBHOOK_SECRET is unset, so the path itself need not be secret. The
+# route is still scoped to /webhook so nothing else on :3005 is exposed.
+
+http:
+  routers:
+    events-webhook-router:
+      rule: "Host(`www.events.denys-dutykh.com`) && PathPrefix(`/webhook`)"
+      entryPoints:
+        - websecure
+      service: events-webhook-service
+      # Priority must exceed the site router's, or the static site would match
+      # first and return its 404 page.
+      priority: 100
+      middlewares:
+        - events-webhook-ratelimit
+      tls:
+        certResolver: letsencrypt
+
+  middlewares:
+    events-webhook-ratelimit:
+      rateLimit:
+        average: 6
+        burst: 12
+        period: 1m
+
+  services:
+    events-webhook-service:
+      loadBalancer:
+        servers:
+          - url: "http://127.0.0.1:3005"

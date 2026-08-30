@@ -1,0 +1,64 @@
+# KU Math Seminars - Traefik dynamic configuration
+# Author: Dr. Denys Dutykh (Khalifa University of Science and Technology, Abu Dhabi, UAE)
+#
+# Drop-in block for /etc/traefik/dynamic/routes.yml (or install as its own file
+# in the dynamic directory). Adjust `certResolver` and the entryPoint names to
+# match the static configuration in /etc/traefik/traefik.yml before applying.
+#
+# The site's Content-Security-Policy is emitted by Astro as a <meta> element in
+# each page, because only the build knows the hashes of the inline scripts.
+# server.js sends HSTS, nosniff, Referrer-Policy, X-Frame-Options and
+# Permissions-Policy. The middleware below therefore only needs to handle the
+# HTTP -> HTTPS redirect and the www canonicalisation; it deliberately does not
+# set security headers, so there is exactly one source of truth for each.
+
+http:
+  routers:
+    # Canonical host.
+    events-router:
+      rule: "Host(`www.events.denys-dutykh.com`)"
+      entryPoints:
+        - websecure
+      service: events-service
+      middlewares:
+        - events-compress
+      tls:
+        certResolver: letsencrypt
+
+    # Apex host redirects to www so there is a single indexed origin.
+    events-apex-router:
+      rule: "Host(`events.denys-dutykh.com`)"
+      entryPoints:
+        - websecure
+      service: events-service
+      middlewares:
+        - events-redirect-to-www
+        - events-compress
+      tls:
+        certResolver: letsencrypt
+
+  middlewares:
+    # server.js does not compress; Traefik does it at the edge. This matters:
+    # the archive page is ~590 KB of HTML uncompressed and ~57 KB gzipped.
+    events-compress:
+      compress:
+        # Do not waste CPU on already-compressed formats.
+        excludedContentTypes:
+          - image/png
+          - image/jpeg
+          - image/webp
+          - font/woff2
+        minResponseBodyBytes: 1024
+
+    events-redirect-to-www:
+      redirectRegex:
+        regex: "^https://events\\.denys-dutykh\\.com/(.*)"
+        replacement: "https://www.events.denys-dutykh.com/${1}"
+        permanent: true
+
+  services:
+    events-service:
+      loadBalancer:
+        servers:
+          - url: "http://127.0.0.1:3004"
+        passHostHeader: true

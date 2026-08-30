@@ -38,13 +38,13 @@ pnpm-debug.log*
 .vercel
 .netlify/
 
-# VPS deployment artifacts
-/deploy/
+# VPS deployment artifacts (deploy/ holds tracked Traefik config, not artifacts)
 *.tar.gz
 
 # typescript
 *.tsbuildinfo
 .env.webhook
 
-# Runtime logs
-logs/
+# Runtime logs (the directory itself is tracked via logs/.gitkeep)
+logs/*
+!logs/.gitkeep

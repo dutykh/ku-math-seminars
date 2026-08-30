@@ -1,0 +1,53 @@
+---
+/**
+ * 404 page for KU Math Seminars.
+ * Author: Dr. Denys Dutykh (Khalifa University of Science and Technology, Abu Dhabi, UAE)
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import Calendar from '../components/icons/Calendar.astro';
+import ChevronRight from '../components/icons/ChevronRight.astro';
+
+const SITE = 'https://www.events.denys-dutykh.com';
+---
+
+<BaseLayout
+  title="Page not found | KU Mathematics Seminars"
+  description="The requested page could not be found on the KU Mathematics Seminars site."
+  canonical={`${SITE}/404`}
+  noindex
+>
+  <main id="main-content" class="container max-w-2xl mx-auto px-6 py-24 md:px-8">
+    <div class="card-elevated rounded-2xl p-10 text-center">
+      <div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-ku-primary/10 text-ku-primary">
+        <Calendar size={32} class="stroke-current" />
+      </div>
+
+      <p class="text-sm font-semibold uppercase tracking-[0.3em] text-ku-secondary">Error 404</p>
+      <h1 class="mt-3 text-3xl font-bold text-foreground">This page does not exist</h1>
+      <p class="mt-4 text-foreground-secondary">
+        The address may be out of date, or the seminar week you are looking for has moved to the
+        archive.
+      </p>
+
+      <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+        <a
+          href="/"
+          class="inline-flex items-center gap-2 rounded-xl bg-ku-primary px-6 py-3 text-sm font-semibold text-white shadow-medium hover:bg-ku-accent transition-colors duration-300"
+        >
+          This week's seminars
+          <ChevronRight size={16} />
+        </a>
+        <a
+          href="/archive"
+          class="inline-flex items-center gap-2 rounded-xl border border-ku-primary/25 px-6 py-3 text-sm font-semibold text-ku-primary hover:border-ku-primary/50 transition-colors duration-300"
+        >
+          Browse the archive
+          <ChevronRight size={16} />
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <SiteFooter />
+</BaseLayout>

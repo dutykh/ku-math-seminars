@@ -1,0 +1,127 @@
+---
+/**
+ * Site footer for KU Math Seminars.
+ * Author: Dr. Denys Dutykh (Khalifa University of Science and Technology, Abu Dhabi, UAE)
+ */
+import Globe from './icons/Globe.astro';
+import Mail from './icons/Mail.astro';
+import Calendar from './icons/Calendar.astro';
+import AstroLogo from './icons/AstroLogo.astro';
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="mt-16 bg-gradient-to-r from-ku-primary/5 via-background-subtle/80 to-ku-accent/5 border-t-2 border-ku-primary/20 backdrop-blur-xs">
+  <div class="container max-w-4xl mx-auto px-6 py-12 md:px-8 lg:px-12">
+    <div class="flex flex-col items-center text-center space-y-8">
+      <div class="space-y-6">
+        <h2 class="text-xl font-bold bg-gradient-to-r from-ku-primary to-ku-accent bg-clip-text text-transparent">
+          Website Created by
+        </h2>
+
+        <div class="flex flex-col items-center space-y-4">
+          <div class="flex items-center justify-center gap-3">
+            <a
+              href="https://www.denys-dutykh.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 text-foreground font-bold text-lg hover:text-ku-primary transition-colors duration-300 group"
+            >
+              <Globe size={20} class="text-ku-accent group-hover:text-ku-primary transition-colors duration-300" />
+              Dr. Denys Dutykh
+            </a>
+          </div>
+
+          <p class="text-foreground-secondary font-semibold">
+            <a
+              href="https://www.ku.ac.ae/academics/college-of-computing-and-mathematical-sciences/department/department-of-mathematics/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hover:text-ku-primary transition-colors duration-300"
+            >
+              Mathematics Department
+            </a>
+          </p>
+
+          <div class="flex items-center justify-center gap-2">
+            <span class="text-foreground-secondary text-sm">Contact:</span>
+            <a
+              href="mailto:denys.dutykh@ku.ac.ae"
+              class="inline-flex items-center gap-2 text-ku-primary hover:text-ku-accent transition-colors duration-300 font-medium group"
+            >
+              <Mail size={16} class="text-ku-primary group-hover:text-ku-accent transition-colors duration-300" />
+              denys.dutykh@ku.ac.ae
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <nav class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm" aria-label="Site">
+        <a href="/" class="text-ku-primary hover:text-ku-accent transition-colors duration-300 font-medium">
+          This week
+        </a>
+        <a href="/archive" class="text-ku-primary hover:text-ku-accent transition-colors duration-300 font-medium">
+          Seminar archive
+        </a>
+        <a
+          href="/seminars.ics"
+          class="inline-flex items-center gap-1.5 text-ku-primary hover:text-ku-accent transition-colors duration-300 font-medium"
+        >
+          <Calendar size={14} />
+          Subscribe (iCal)
+        </a>
+      </nav>
+
+      <div class="flex items-center justify-center w-full" aria-hidden="true">
+        <div class="h-px bg-gradient-to-r from-transparent via-ku-secondary/50 to-transparent w-32"></div>
+        <div class="mx-4 w-2 h-2 rounded-full bg-ku-accent/30"></div>
+        <div class="h-px bg-gradient-to-r from-transparent via-ku-secondary/50 to-transparent w-32"></div>
+      </div>
+
+      <div class="flex flex-col items-center space-y-3">
+        <div class="flex items-center justify-center gap-2 text-sm text-muted">
+          <span>© {currentYear}</span>
+          <a
+            href="https://www.ku.ac.ae/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-ku-primary hover:text-ku-accent transition-colors duration-300 font-medium"
+          >
+            Khalifa University
+          </a>
+          <span class="text-muted-foreground">•</span>
+          <span class="text-muted-foreground">Abu Dhabi, UAE</span>
+        </div>
+
+        <div class="flex items-center justify-center gap-4 text-xs text-muted-foreground">
+          <div class="flex items-center gap-2">
+            <span>Built with</span>
+            <a
+              href="https://astro.build/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-1.5 text-ku-accent hover:text-ku-primary transition-colors duration-300 font-medium group"
+            >
+              <AstroLogo size={16} class="group-hover:scale-110 transition-transform duration-300" />
+              Astro
+            </a>
+          </div>
+
+          <span>•</span>
+
+          <div class="flex items-center gap-1">
+            <span>Licensed under</span>
+            <a
+              href="https://www.gnu.org/licenses/gpl-3.0.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-ku-primary hover:text-ku-accent transition-colors duration-300 font-medium"
+            >
+              GPL v3.0
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

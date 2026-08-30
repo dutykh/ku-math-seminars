@@ -1,20 +1,38 @@
-import express from 'express';
-import crypto from 'crypto';
-import { spawn } from 'child_process';
-import path from 'path';
-import { fileURLToPath } from 'url';
+/*
+ * KU Math Seminars - GitHub deployment webhook
+ * Author: Dr. Denys Dutykh (Khalifa University of Science and Technology, Abu Dhabi, UAE)
+ * License: GNU General Public License v3.0
+ *
+ * Listens for GitHub push events on main/master and runs scripts/deploy.sh.
+ * Fails closed: without GITHUB_WEBHOOK_SECRET every request is rejected.
+ *
+ * Environment:
+ *   WEBHOOK_PORT            listening port  (default 3005)
+ *   WEBHOOK_HOST            bind address    (default 127.0.0.1)
+ *   GITHUB_WEBHOOK_SECRET   required; shared secret configured in GitHub
+ */
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import express from 'express';
+import crypto from 'node:crypto';
+import { spawn } from 'node:child_process';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const app = express();
-const PORT = process.env.WEBHOOK_PORT || 3005;
+const PORT = Number(process.env.WEBHOOK_PORT) || 3005;
+// Bind loopback by default: GitHub should reach this through Traefik, never by
+// connecting to the port directly.
+const HOST = process.env.WEBHOOK_HOST || '127.0.0.1';
 const SECRET = process.env.GITHUB_WEBHOOK_SECRET;
 const hasSecret = Boolean(SECRET);
 
-// Middleware to capture raw body for signature verification
-app.use('/webhook', express.raw({ type: 'application/json' }));
-app.use(express.json());
+app.disable('x-powered-by');
+
+// Raw body is required to verify the signature over the exact bytes GitHub
+// signed. A push payload is small; cap it so a large body cannot tie up memory.
+app.use('/webhook', express.raw({ type: 'application/json', limit: '1mb' }));
 
 // Function to verify GitHub webhook signature
 function verifySignature(payload, signature) {
@@ -37,6 +55,10 @@ function verifySignature(payload, signature) {
 
   return crypto.timingSafeEqual(received, expected);
 }
+
+// Only one deployment may run at a time; a burst of pushes must not start
+// overlapping builds in the same working tree.
+let deploymentInFlight = false;
 
 // Function to run deployment script
 function runDeployment() {
@@ -88,8 +110,14 @@ app.post('/webhook', async (req, res) => {
     
     // Check if this is a push event to the main branch
     if (eventType === 'push' && (event.ref === 'refs/heads/main' || event.ref === 'refs/heads/master')) {
+      if (deploymentInFlight) {
+        console.log(`Push to ${event.ref} ignored: a deployment is already running.`);
+        return res.status(409).send('Deployment already in progress');
+      }
+
       console.log(`Received push to ${event.ref}, starting deployment...`);
-      
+      deploymentInFlight = true;
+
       // Run deployment asynchronously
       runDeployment()
         .then((result) => {
@@ -97,8 +125,11 @@ app.post('/webhook', async (req, res) => {
         })
         .catch((error) => {
           console.error('Deployment error:', error);
+        })
+        .finally(() => {
+          deploymentInFlight = false;
         });
-      
+
       res.status(200).send('Deployment started');
     } else {
       console.log(`Ignoring webhook event ${eventType || 'unknown'} on ${event.ref || 'unknown ref'}`);
@@ -116,8 +147,18 @@ app.get('/health', (_req, res) => {
   res.status(200).send('Webhook server is running');
 });
 
-app.listen(PORT, () => {
-  console.log(`Webhook server listening on port ${PORT}`);
-  console.log(`Health check: http://localhost:${PORT}/health`);
-  console.log(`Webhook endpoint: http://localhost:${PORT}/webhook`);
+const server = app.listen(PORT, HOST, () => {
+  console.log(`Webhook server listening on http://${HOST}:${PORT}`);
+  console.log(`Health check:     http://${HOST}:${PORT}/health`);
+  console.log(`Webhook endpoint: http://${HOST}:${PORT}/webhook`);
+  if (!hasSecret) {
+    console.warn('GITHUB_WEBHOOK_SECRET is not set; every webhook request will be rejected.');
+  }
 });
+
+for (const signal of ['SIGTERM', 'SIGINT']) {
+  process.on(signal, () => {
+    console.log(`${signal} received, shutting down.`);
+    server.close(() => process.exit(0));
+  });
+}

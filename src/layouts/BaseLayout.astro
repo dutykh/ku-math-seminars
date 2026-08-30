@@ -1,0 +1,130 @@
+---
+/**
+ * Shared document shell for KU Math Seminars.
+ * Author: Dr. Denys Dutykh (Khalifa University of Science and Technology, Abu Dhabi, UAE)
+ * License: GNU General Public License v3.0
+ */
+import '../index.css';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  keywords?: string;
+  ogImage?: string;
+  structuredData?: unknown;
+  noindex?: boolean;
+}
+
+const SITE = 'https://www.events.denys-dutykh.com';
+
+const {
+  title,
+  description,
+  canonical,
+  keywords,
+  ogImage = `${SITE}/assets/og-image.png`,
+  structuredData,
+  noindex = false
+} = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content="Mathematics Department, Khalifa University" />
+    {keywords && <meta name="keywords" content={keywords} />}
+    <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow'} />
+    <link rel="canonical" href={canonical} />
+
+
+    <!-- Google tag (gtag.js) -->
+    <script async is:inline src="https://www.googletagmanager.com/gtag/js?id=G-6ZT85XGX9R"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { window.dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', 'G-6ZT85XGX9R');
+    </script>
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:alt" content="KU Mathematics Seminars weekly overview" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:site_name" content="KU Mathematics Seminars" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@KhalifaUni" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content="KU Mathematics Seminars weekly overview" />
+
+    <!-- Dublin Core (used by some academic indexers) -->
+    <meta name="DC.title" content={title} />
+    <meta name="DC.description" content={description} />
+    <meta name="DC.creator" content="Mathematics Department, Khalifa University" />
+    <meta name="DC.subject" content="Mathematics, Seminars, Research, Academic Events" />
+    <meta name="DC.type" content="Event" />
+    <meta name="DC.language" content="en" />
+    <meta name="DC.coverage" content="Abu Dhabi, UAE" />
+    <meta name="DC.rights" content="© Khalifa University" />
+
+    <!-- Geo -->
+    <meta name="geo.region" content="AE-AZ" />
+    <meta name="geo.placename" content="Abu Dhabi, UAE" />
+    <meta name="geo.position" content="24.4539;54.3773" />
+    <meta name="ICBM" content="24.4539, 54.3773" />
+
+    <!-- Icons -->
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/icon-16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/icon-32.png" />
+    <link rel="icon" type="image/png" sizes="64x64" href="/assets/icon-64.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="image_src" href={ogImage} />
+    <meta name="theme-color" content="#1e3a8a" />
+
+    <!-- Subscribable calendar feed for the current week -->
+    <link
+      rel="alternate"
+      type="text/calendar"
+      href="/seminars.ics"
+      title="KU Mathematics Seminars, this week"
+    />
+
+    <link rel="preload" href="/assets/KUlogo.png" as="image" />
+    <link rel="stylesheet" href="/styles/print.css" media="print" />
+
+    {structuredData && (
+      <script
+        type="application/ld+json"
+        is:inline
+        set:html={JSON.stringify(structuredData)}
+      />
+    )}
+
+    <slot name="head" />
+  </head>
+  <body class="min-h-screen bg-background text-foreground font-sans antialiased">
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-100 bg-ku-primary text-white px-4 py-2 rounded"
+    >
+      Skip to main content
+    </a>
+    <slot />
+  </body>
+</html>
