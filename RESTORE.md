@@ -19,7 +19,7 @@ The site is down when both of these are true:
 ## 0. Prerequisites
 
 ```bash
-node -v            # must be >= 22.12.0 (Astro 7 requirement)
+node -v            # must be 22.12.0 or newer (Astro 7 requirement)
 pnpm -v
 pm2 -v
 ```
@@ -30,7 +30,7 @@ continuing; nothing else in this guide will work around it.
 ## 1. Build
 
 ```bash
-cd /path/to/ku-math-seminars      # e.g. /home/dds/www/ku-math-seminars
+cd /path/to/ku-math-seminars      # e.g. ~/www/ku-math-seminars
 git pull --ff-only origin main
 pnpm install --frozen-lockfile
 ASTRO_TELEMETRY_DISABLED=1 pnpm build
@@ -45,7 +45,9 @@ schema validation doing its job: fix the field it names and rebuild.
 
 ## 2. Webhook secret
 
-Only needed if GitHub delivers push events to this VPS.
+Not needed: GitHub no longer delivers push events (the webhook of the repository
+was removed in November 2026, and deployment is manual). Only if the former
+webhook is ever brought back:
 
 ```bash
 echo "GITHUB_WEBHOOK_SECRET=<the secret configured in the GitHub repo>" > .env.webhook
@@ -54,22 +56,23 @@ chmod 600 .env.webhook
 
 The webhook rejects every request when this is missing, by design.
 
-## 3. Start both processes
+## 3. Start the website process
 
 ```bash
-pm2 start ecosystem.config.cjs
+pm2 start ecosystem.config.cjs --only events-website
 pm2 save
 ```
 
-This starts `events-website` (port 3004) and `ku-math-seminars-webhook`
-(port 3005). Both bind `127.0.0.1` only.
+This starts `events-website` (port 3004), bound to `127.0.0.1` only. The second
+entry of `ecosystem.config.cjs`, the former webhook `ku-math-seminars-webhook`
+(port 3005), is not in use and stays stopped; that port may be taken by another
+application on the server.
 
 Verify locally, before touching Traefik:
 
 ```bash
 pm2 list
 curl -sSI http://127.0.0.1:3004/ | head -5
-curl -fsS http://127.0.0.1:3005/health      # "Webhook server is running"
 ```
 
 `curl -sSI http://127.0.0.1:3004/` must show `strict-transport-security`,
@@ -93,9 +96,12 @@ needed. Confirm it loaded:
 sudo journalctl -u traefik -n 50 --no-pager
 ```
 
-Install `deploy/traefik-webhook.yml` as well **only** if GitHub must reach the
-webhook over the internet. If deployments are run by hand
-(`bash scripts/deploy.sh`), leave it out and keep port 3005 unreachable.
+The two host names, `www.events.denys-dutykh.com` and `events.denys-dutykh.com`,
+must resolve to the server before the route goes in, since Traefik requests
+their certificates when its routes change.
+
+Leave `deploy/traefik-webhook.yml` out: deployments are run by hand
+(`bash scripts/deploy.sh`), and port 3005 stays unreachable from outside.
 
 ## 5. Verify the live site
 
@@ -118,19 +124,22 @@ Then open the site and check that `/archive` lists the past weeks and that
 
 ## Routine updates
 
-Once running, publishing a new week is just:
+Once running, publishing a new week takes two steps. On the machine where the
+programme is edited:
 
 ```bash
 # edit data/week.yml, then
 git commit -am "Week NN programme" && git push
 ```
 
-The webhook runs `scripts/deploy.sh`, which pulls, installs from the lockfile,
-rebuilds and restarts both PM2 processes. To deploy by hand instead:
+Then on the server, in the clone, since a push alone deploys nothing:
 
 ```bash
 bash scripts/deploy.sh
 ```
+
+The script pulls, installs from the lockfile, rebuilds and restarts
+`events-website`.
 
 ## Troubleshooting
 
